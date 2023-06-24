@@ -1,0 +1,7 @@
+*.ipynb
+*.sh
+phuego/__pycache__/
+phuego/temp/
+
+err_ph.txt
+log_ph.txt
