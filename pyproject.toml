@@ -13,7 +13,7 @@ maintainers = [
     "Haoqi Chen <haoqichen20@gmail.com>",
     "Girolamo Giudice <Girolamo.Giudice@gmail.com>",
 ]
-repository = "https://github.com/haoqichen20/phuego_dev"
+repository = "https://github.com/haoqichen20/phuego"
 keywords = ["Phosphoproteomics", "network propagation"]
 packages = [{include = "phuego"},]
 include = [{path = "phuego/data/*.txt"}]

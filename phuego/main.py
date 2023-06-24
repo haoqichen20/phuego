@@ -100,7 +100,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               use_existing_rwr=use_existing_rwr,
               )
     elif(test_path):
-           print("Run phuego with user input dataset, whose first few lines are: \n", test_df.head())
+           print("Run phuego with user input dataset")
            number_of_nodes, number_of_genes = phuego(
               support_data_folder=support_data_folder,
               res_folder=res_folder,
