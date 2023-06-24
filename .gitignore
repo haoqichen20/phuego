@@ -2,6 +2,7 @@
 *.sh
 phuego/__pycache__/
 phuego/temp/
+/history_dist
 
 err_ph.txt
 log_ph.txt
