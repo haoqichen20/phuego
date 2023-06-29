@@ -44,6 +44,8 @@ This is the CLI tool for phuego.
        required=False, help="Abbreviation of genesets to be tested when annotating modules of propagation. Can be a single string or a list of strings. Refer to documents to learn what each abbreviation stands for.")
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float, 
        required=False, help="Threshold of significance of geneset enrichment analysis") 
+@click.option("--fisher_background", "-fb", default="intact", type=str, 
+       required=False, help="Geneset background of geneset enrichment analysis") 
 
 @click.option("--kde_cutoff", "-k", default=[0.85, 0.9], type=float, multiple=True,
        required=False, help="KDE cutoff value for removing less similar nodes in ego network. Can be a single float number ranging 0-1, or a list of number. Refer to documents for reasonble value to choose from.")
@@ -56,7 +58,7 @@ This is the CLI tool for phuego.
 
 def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test, run_mock, 
          need_fisher, need_gic_sim, need_networks, remove_zip_file,
-         damping, fisher_geneset, fisher_threshold, kde_cutoff, ini_pos, ini_neg, version) -> None:
+         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_pos, ini_neg, version) -> None:
        
     # Print the version number.
     if version:
@@ -89,6 +91,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               test_path=test_path,
               fisher_geneset=fisher_geneset,
               fisher_threshold=fisher_threshold,
+              fisher_background=fisher_background,
               ini_pos=ini_pos,
               ini_neg=ini_neg,
               damping=damping,
@@ -104,6 +107,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               test_path=test_path,
               fisher_geneset=fisher_geneset,
               fisher_threshold=fisher_threshold,
+              fisher_background=fisher_background,
               ini_pos=ini_pos,
               ini_neg=ini_neg,
               damping=damping,
@@ -118,6 +122,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               test_path=test_path,
               fisher_geneset=fisher_geneset,
               fisher_threshold=fisher_threshold,
+              fisher_background=fisher_background,
               ini_pos=ini_pos,
               ini_neg=ini_neg,
               damping=damping,
