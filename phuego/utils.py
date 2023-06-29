@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import math
+import os
 import numpy as np
 from sklearn.neighbors import KernelDensity
 
@@ -50,3 +51,9 @@ def calc_kde(vector):
 		return onevec,onevec
 
 	return cdf,grid
+
+# Check if folder path end with forward slash, if not, add it.
+def add_trailing_slash(folder_path):
+    if not folder_path.endswith('/'):
+        folder_path = folder_path + '/'
+    return folder_path

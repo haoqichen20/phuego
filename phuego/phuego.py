@@ -1,18 +1,36 @@
 # -*- coding: utf-8 -*-
 
 import igraph as ig
+import sys
 from .utils import load_gene_names
+from .utils import add_trailing_slash
 from .load_seeds import load_seeds
 from .rwr_values import rwr_values
 from .pvalue_splitting import pvalue_split
 from .ego import ego_filtering
 from .ego2module import test_function
 
+
+
 # one liner function of phuego package.
 def phuego(support_data_folder, res_folder, test_path, 
-           fisher_geneset, fisher_threshold,
+           fisher_geneset, fisher_threshold, fisher_background,
            ini_pos, ini_neg, damping, kde_cutoff,
            use_existing_rwr = False):
+       
+    """
+    Formatting user input.
+    """
+    # Force kde_cutoff input to be list.
+    if(type(kde_cutoff) is not list):
+           kde_cutoff = [ kde_cutoff ]
+    # Force the fisher_geneset input to be list.
+    if(type(fisher_geneset) is not list):
+           fisher_geneset = [ fisher_geneset ]
+    # Force the folder paths to end with /.
+    support_data_folder = add_trailing_slash(support_data_folder)
+    res_folder = add_trailing_slash(res_folder)    
+    
     """
     Create support data paths.
     """       
@@ -27,19 +45,12 @@ def phuego(support_data_folder, res_folder, test_path,
     sim_mean_std_path = support_data_folder + "gic_mean_std.txt"
     sim_all_folder_path = support_data_folder + "gic_sim/"
     # Genesets.
-    geneset_path = support_data_folder + "proteome/"
-    
-    """
-    Formatting user input.
-    """
-    # Force kde_cutoff input to be list.
-    if(type(kde_cutoff) is not list):
-           kde_cutoff = [ kde_cutoff ]
-    # Force the fisher_geneset input to be list.
-    if(type(fisher_geneset) is not list):
-           fisher_geneset = [ fisher_geneset ]
-    # ToDo: check if all folders end with /.
-    # ToDo: check if folders/paths are compatible with windows.
+    if(fisher_background == "proteome"):
+       geneset_path = support_data_folder + "proteome/"
+    elif(fisher_background == "intact"):
+       geneset_path = support_data_folder + "intact/"
+    else:
+       sys.exit("Please provide a valid fisher background, either proteome or intact.")
 
     """
     load network.
