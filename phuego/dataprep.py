@@ -10,8 +10,8 @@ def dataprep(support_data_folder, need_fisher=True, need_gic_sim=True, need_netw
              remove_zip_file = False):
     
     # Input retrieved from Zenodo. Should be static unless files are changed by developer.
-    project_url = "https://zenodo.org/api/records/8040791"
-    fisher_md5 = "d9f871680c2cc07bbaf35a2b42083522"
+    project_url = "https://zenodo.org/api/records/8094690"
+    fisher_md5 = "eb68bd6fd16ae340afccef390787ca90"
     gic_sim_md5 = "fa608665e4e6ce2241f5b5dcf105c552"
     networks_md5 = "6c249ac5c049815eb7a3fadcbb5c149c"
     
