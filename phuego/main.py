@@ -60,7 +60,8 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
        
     # Print the version number.
     if version:
-        click.echo(f"phuego: ({__version__})")
+        bold_package_name = click.style("phuego", bold=True)
+        click.echo(f"{bold_package_name} ({__version__})")
         return
 
     # Download support dataset.
