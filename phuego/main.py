@@ -5,19 +5,9 @@ from .dataprep import dataprep
 from .phuego import phuego
 from .phuego_mock import phuego_mock
 import click
-import toml
 import os
 
-# Determine the path to the pyproject.toml file
-pyproject_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "pyproject.toml"))
-
-# Load the contents of pyproject.toml
-with open(pyproject_path, "r") as f:
-    pyproject_contents = f.read()
-    
-# Parse pyproject.toml and extract the version number
-pyproject_data = toml.loads(pyproject_contents)
-version = pyproject_data["tool"]["poetry"]["version"]
+__version__ = "0.1.0.dev4"
 
 '''
 This is the CLI tool for phuego.
@@ -63,13 +53,14 @@ This is the CLI tool for phuego.
        required=False, help="List of nodes to be removed from network for the propagation of downregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_pos. If no node to be removed, leave as ['False'] (yes that's a string)]")
 
 @click.option('--version', is_flag=True, help='Print version to stdout')
+
 def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test, run_mock, 
          need_fisher, need_gic_sim, need_networks, remove_zip_file,
          damping, fisher_geneset, fisher_threshold, kde_cutoff, ini_pos, ini_neg, version) -> None:
        
     # Print the version number.
     if version:
-        click.echo(f"Version: {version}")
+        click.echo(f"Version: {__version__}")
         return
 
     # Download support dataset.
