@@ -85,7 +85,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
     if(run_mock):
            test_path, test_df = load_test_example()
            print("Run phuego_mock with test dataset, whose first few lines are: \n",test_df.head())
-           number_of_nodes, number_of_genes = phuego_mock(
+           phuego_mock(
               support_data_folder=support_data_folder,
               res_folder=res_folder,
               test_path=test_path,
@@ -101,7 +101,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
     elif(run_test):
            test_path, test_df = load_test_example()
            print("Run phuego with test dataset, whose first few lines are: \n",test_df.head())
-           number_of_nodes, number_of_genes = phuego(
+           phuego(
               support_data_folder=support_data_folder,
               res_folder=res_folder,
               test_path=test_path,
@@ -116,7 +116,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               )
     elif(test_path):
            print("Run phuego with user input dataset")
-           number_of_nodes, number_of_genes = phuego(
+           phuego(
               support_data_folder=support_data_folder,
               res_folder=res_folder,
               test_path=test_path,

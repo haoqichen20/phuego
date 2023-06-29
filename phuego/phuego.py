@@ -171,6 +171,3 @@ def phuego(support_data_folder, res_folder, test_path,
     """
     Output CytoScape compatible network files.
     """
-    number_of_nodes=network.vcount()
-    number_of_genes = len(list(uniprot_to_gene.keys()))
-    return(number_of_nodes, number_of_genes)

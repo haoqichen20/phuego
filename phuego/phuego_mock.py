@@ -166,9 +166,9 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     """
     Output CytoScape compatible network files.
     """
-    number_of_nodes=network.vcount()
-    number_of_genes = len(list(uniprot_to_gene.keys()))
-    return(number_of_nodes, number_of_genes)
+
+
+
 
 def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos, 
                seeds_neg, network_path, network_random_path, damping, res_folder):
@@ -383,4 +383,3 @@ def pvalue_split_mock(res_folder, damping, seeds, graph_nodes):
     pvalues_neg=list(set(pvalues_neg).intersection(graph_nodes))
     
     return(pvalues_pos, pvalues_neg)
-    
