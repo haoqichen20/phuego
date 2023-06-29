@@ -13,11 +13,11 @@ __version__ = "0.1.0.dev4"
 This is the CLI tool for phuego.
 '''
 @click.command()
-@click.option("--support_data_folder", "-sf", type=str, required=True, 
+@click.option("--support_data_folder", "-sf", type=str, required=False, 
               help="Folder that stored support data, end with /")
-@click.option("--res_folder", "-rf", type=str, required=True, 
+@click.option("--res_folder", "-rf", type=str, required=False, 
               help="Folder that stored output result, end with /")
-@click.option("--use_existing_rwr", "-ru", type=bool, required=True, 
+@click.option("--use_existing_rwr", "-ru", type=bool, required=False, 
               help="Should phuego reuse existing rwr results?")
 
 #One of the following three options need to be True or non-empty.
