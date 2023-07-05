@@ -4,14 +4,16 @@
 
 phuego is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
 
-To run phuego, the user can either integrate the python functions into their own script, or directly calls the CLI application from command line. Both methods work equivalently, and it's up to the user to decide which method suits their work.
+To run phuego, the user can either directly calls the CLI application from command line, or integrate the python functions into their own script. Both methods work equivalently, and it's up to the user to decide which method suits their work.
 
 ## Installation
 
 ```bash
 # Install phuego in your python environment with python > 3.9
 pip install phuego
+# Check version to ensure successful installation.
 phuego --version
+# Check all parameters of CLI application.
 phuego --help
 ```
 
@@ -20,7 +22,7 @@ phuego --help
 The CLI application is an easy way to run phuego on single or a whole batch of dataset directly from the command line. 
 
 ### 1. Downloading supporting dataset.
-When using phuego for the **first time**, a support dataset that contains three files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuego. To download using the CLI application, the user could run the following. Make sure the target disk has at least **20 gb** of free space. 
+When using phuego **for the first time**, a support dataset that contains three files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuego. To download using the CLI application, the user could run the following. Make sure the target disk has at least **20 gb** of free space. 
 
 ```bash
 # Download all three dataset, compare md5 checksum, unzip and removed zip files.
@@ -105,7 +107,6 @@ The functions in the phuego package can be imported and used in your own python 
 ```python
 from phuego import dataprep
 
-# Do not omit the forward slash at the end.
 support_data_folder = "path/to/support_data_folder/"
 
 # Download support dataset. If the user wish the keep the zip files for easier 
@@ -162,11 +163,16 @@ number_of_nodes, number_of_genes = phuego(
 ```
 
 
-## III. Documentation for parameters.
--ru False: do not reuse network propagation result -- it's the first time that phuego is run, so no previous result exists.
--d 0.85: set damping factor of random walk with restart to be 0.85. Damping factor value is 0~1. A smaller value will diffuse the signal further, while a larger value will constrain the signal around the seed node. Each 
--k 0.85: kde cutoff for propagated nodes in ego network set to be 0.85. 
--fg "B": use Bioplanet geneset for gene set enrichment 
+## III. Further documentations.
+### 1. ini_pos and ini_neg.
+
+### 2. Damping factors.
+
+### 3. KDE cutoffs.
+
+### 4. Genesets.
+
+### 5. Output.
 
 
 ## Development
@@ -185,6 +191,3 @@ Please cite phuego if you use it in your analysis.
 The algorithm and python functions of phuego is developed by Girolamo Giudice ([@girolamogiudice](https://github.com/girolamogiudice)) and Evangelia Petsalaki at [EMBL-EBI] (https://www.ebi.ac.uk/).
 
 The Python package and CLI application is developed by Haoqi Chen ([@haoqichen20] (https://github.com/haoqichen20) at [EMBL-EBI] (https://www.ebi.ac.uk/)).
-
-
-
