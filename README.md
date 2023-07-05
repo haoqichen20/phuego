@@ -3,7 +3,9 @@
 ### phuEGO: a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets
 ---
 
-A general description of phuego.
+phuego is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
+
+This package contains the functions and a CLI application for running the phuego method. The two methods work equivalently, and it's up to the user to decide which method suits their work.
 
 ## Installation
 
@@ -11,10 +13,24 @@ A general description of phuego.
 pip install phuego
 ```
 
-## Usage
+## Using the CLI
+
+The CLI application is an easy way to run phuego on single or a whole batch of dataset directly from the command line. 
+
+### Downloading supporting dataset.
+
+### Performing a test/mock run with the phuego test dataset.
+
+### Running your own dataset. 
+
+### Submitting batch job to a lsf server.
+
 
 When using phuego for the first time, a support dataset that include semantic similarity, randomized Omnipath networks and multiple genesets need to be downloaded. The support dataset are hosted on (https://zenodo.org/), and the package provided a function for downloading the dataset.
 
+
+
+## Using the python package.
 
 
 ```python
@@ -76,7 +92,6 @@ number_of_nodes, number_of_genes = phuego(
 ```
 
 
-
 ## Development
 
 phuego can be integrated into any phosphoproteomics analysis pipeline. It will soon become available through NF-core/Nextflow for easier pipeline integration.
@@ -92,7 +107,7 @@ Please cite phuego if you use it in your analysis.
 
 The algorithm and python functions of phuego is developed by Girolamo Giudice ([@girolamogiudice](https://github.com/girolamogiudice)) and Evangelia Petsalaki at [EMBL-EBI] (https://www.ebi.ac.uk/).
 
-The Python package and application is developed by Haoqi Chen ([@haoqichen20] (https://github.com/haoqichen20) at [EMBL-EBI] (https://www.ebi.ac.uk/)).
+The Python package and CLI application is developed by Haoqi Chen ([@haoqichen20] (https://github.com/haoqichen20) at [EMBL-EBI] (https://www.ebi.ac.uk/)).
 
 
 
