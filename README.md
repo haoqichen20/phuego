@@ -5,28 +5,40 @@
 
 phuego is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
 
-This package contains the functions and a CLI application for running the phuego method. The two methods work equivalently, and it's up to the user to decide which method suits their work.
+To run phuego, the user can either integrate the python functions into their own script, or directly calls the CLI application from command line. Both methods work equivalently, and it's up to the user to decide which method suits their work.
 
 ## Installation
 
 ```bash
+# Install phuego in your python environment with python > 3.9
 pip install phuego
+phuego --version
+phuego --help
 ```
 
 ## Using the CLI
 
 The CLI application is an easy way to run phuego on single or a whole batch of dataset directly from the command line. 
 
-### Downloading supporting dataset.
+### 1. Downloading supporting dataset.
+When using phuego for the **first time**, a support dataset that contains three files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuego. To download using the CLI application, the user could run the following. Make sure the target disk has at least **20 gb** of free space. 
 
-### Performing a test/mock run with the phuego test dataset.
+```bash
+# Download all three dataset, compare md5 checksum, unzip and removed zip files.
+phuego -sf "path/to/desired/folder/" --need_fisher True --need_gic_sim True --need_networks True --remove_zip_file True
+# If one of the file does not successfully download, for example the network file, then rerun above with only the missing file.
+phuego -sf "path/to/desired/folder/" --need_networks True --remove_zip_file True
+```
 
+
+### 2. Performing a test/mock run with the phuego test dataset.
+To test whether 
 ### Running your own dataset. 
 
 ### Submitting batch job to a lsf server.
 
 
-When using phuego for the first time, a support dataset that include semantic similarity, randomized Omnipath networks and multiple genesets need to be downloaded. The support dataset are hosted on (https://zenodo.org/), and the package provided a function for downloading the dataset.
+
 
 
 
