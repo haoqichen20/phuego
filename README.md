@@ -49,7 +49,7 @@ phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -
 ### 3. Running your own protein list.
 To run phuego using your own list of protein, the data should be formatted in the same way as the test dataset. For detailed explanation of parameters, see section III.
 
-The most time consuming step of phuego is network propagation, which yields three output files: pvalues.txt, rwr_scores.txt, start_seeds.txt. Network propagation needs to be performed for each protein list x damping factor combination. After this, the user can reuse the resulted files (so make sure you don't delete them!) to test different KDE cutoff and perform gene set enrichment analysis with various geneset. 
+**Important:** the network propagation step (rwr, random walk with restart) is the most time consuming step of phuego. For each protein list and each damping factor, a separate propagation would be run and the result will be stored in the provided result folder (pvalues.txt, rwr_scores.txt, start_seeds.txt). After this, the user can reuse the results (so make sure you don't delete them!) to test different KDE cutoff and perform gene set enrichment analysis with various geneset by setting **-ru True**.
 
 ```bash
 # Performing a run for the first time with example parameters. 
@@ -96,8 +96,6 @@ done
 
 
 
-
-
 ## II. Using the python package.
 
 The functions in the phuego package can be imported and used in your own python scripts. This makes it easier for integrating phuego into your own workflow.
@@ -119,49 +117,98 @@ dataprep(support_data_folder=support_data_folder,
             remove_zip_file=True)
 ```
 
-
-### 2. Performing a test/mock run with the phuego test dataset.
-
+### 2. Understanding the input data.
 ```python
+from phuego import load_test_example
+
+# The function return the absolute path of the test dataset, and the dataset itself as a dataframe.
+test_path, test_df = load_test_example()
+print(test_df)
 ```
 
-### 3. Running your own protein list.
-To run phuego on a single dataset, use the following code by changing the settings. Network propagation (using random walk with restart algorithm, rwr) is the most time consuming step of phuego. Therefore, when this step is finished, phuego stored the results in res_folder. User can set | use_existing_rwr = True | to reuse the network propagation results, and explore different settings of kde_cutoff or fisher genesets.
+### 3. Performing a test/mock run with the phuego test dataset.
 
-Note that for each damping factor, phuego would run a separate network propagation process.
+Performing a mock run.
+
+```python
+from phuego import phuego_mock
+
+# User input: paths.
+support_data_folder = "path/to/support_data_folder/"
+res_folder = "path/to/desired_result_folder/"
+
+# Loading the test dataset.
+test_path, test_df = load_test_example()
+
+# When calling the functions, the user need to manually set all parameters.
+fisher_geneset = ["C","F","D","P","R","K","RT","B"]
+fisher_threshold = 0.05
+fisher_background = "intact"
+ini_pos = ["False"]
+ini_neg = ["False"]
+damping = 0.85
+kde_cutoff = [0.85]
+use_existing_rwr = False
+
+# Run phuego mock.
+print("Run phuego_mock with test dataset, whose first few lines are: \n",test_df.head())
+phuego_mock(
+    support_data_folder=support_data_folder,
+    res_folder=res_folder,
+    test_path=test_path,
+    fisher_geneset=fisher_geneset,
+    fisher_threshold=fisher_threshold,
+    fisher_background=fisher_background,
+    ini_pos=ini_pos,
+    ini_neg=ini_neg,
+    damping=damping,
+    kde_cutoff=kde_cutoff,
+    use_existing_rwr=use_existing_rwr,
+    )
+```
+
+Performing a full test run.
 
 ```python
 from phuego import phuego
 
 # User input: paths.
-support_data_folder = "/nfs/research/petsalaki/users/hchen/ph_phuego_test/support_data/"
-res_folder = "/nfs/research/petsalaki/users/hchen/ph_phuego_test/result_10/package/"
-test_path = "/nfs/research/petsalaki/users/hchen/pypi_phuego/phuego/data/EGF_vs_untreated_short.txt"
+support_data_folder = "path/to/support_data_folder/"
+res_folder = "path/to/desired_result_folder/"
 
-# User input: algorithm setting.
-ini_pos = 'False'
-ini_neg = 'False'
-damping = 0.85
-fisher_geneset = ["C","F","D","P","R","K","RT","B"]
+# Loading the test dataset.
+test_path, test_df = load_test_example()
+
+# When calling the functions, the user need to manually set all parameters.
+fisher_geneset = ["B"]
 fisher_threshold = 0.05
+fisher_background = "intact"
+ini_pos = ["False"]
+ini_neg = ["False"]
+damping = 0.85
+kde_cutoff = [0.85]
 use_existing_rwr = False
-kde_cutoff = [0.85, 0.9]
 
-# Run phuego.
-number_of_nodes, number_of_genes = phuego(
-        support_data_folder=support_data_folder,
-        res_folder=res_folder,
-        test_path=test_path,
-        fisher_geneset=fisher_geneset,
-        fisher_threshold=fisher_threshold,
-        ini_pos=ini_pos,
-        ini_neg=ini_neg,
-        damping=damping,
-        kde_cutoff=kde_cutoff,
-        use_existing_rwr=use_existing_rwr,
-        )
+# Run phuego with test dataset..
+print("Run phuego with test dataset, whose first few lines are: \n",test_df.head())
+phuego(
+    support_data_folder=support_data_folder,
+    res_folder=res_folder,
+    test_path=test_path,
+    fisher_geneset=fisher_geneset,
+    fisher_threshold=fisher_threshold,
+    fisher_background=fisher_background,
+    ini_pos=ini_pos,
+    ini_neg=ini_neg,
+    damping=damping,
+    kde_cutoff=kde_cutoff,
+    use_existing_rwr=use_existing_rwr,
+    )
 ```
 
+### 4. Running your own protein list.
+To run phuego on your own protein list, simply provide the **test_path** to the above code, and remove the **load_test_example()** line. 
+To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
 
 ## III. Further documentations.
 ### 1. ini_pos and ini_neg.
