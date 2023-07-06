@@ -9,7 +9,7 @@ To run phuego, the user can either directly calls the CLI application from comma
 ## Installation
 
 ```bash
-# Install phuego in your python environment with python > 3.9
+# Install phuego in your python environment with 3.13 > python > 3.9
 pip install phuego
 # Check version to ensure successful installation.
 phuego --version
