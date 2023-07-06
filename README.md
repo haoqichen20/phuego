@@ -17,7 +17,7 @@ phuego --version
 phuego --help
 ```
 
-## I. Using the CLI
+## Using the CLI
 
 The CLI application is an easy way to run phuego on single or a whole batch of dataset directly from the command line. 
 
@@ -33,9 +33,11 @@ phuego -sf "path/to/desired/folder/" --need_networks True --remove_zip_file True
 ```
 
 ### 2. Performing a test/mock run with the phuego test dataset.
-phuego contains a test dataset, which is a list of differentially phosphorylated proteins between untreated cells and those treated with epidermal growth factor (PMID: 19651622). To view the dataset, see next section. 
+phuego contains a test dataset, which is a list of differentially phosphorylated proteins between untreated cells and those treated with epidermal growth factor (EGF) (PMID: 19651622). 
 
-To understand the input and output of phuego, the user could perform a test run or a mock run using the test dataset. A test run is a complete run with 1000 propagation on randomized networks, and typically takes > 1hr to finish. A mock run performs 10 propagations and thus isn't sufficient for statistical testing, but it typically finish within a few minutes and is sufficient for understanding the format of input and output. Both will print the head of the test dataset to stdout.
+To understand the input and output of phuego, the user could perform a test run or a mock run using the test dataset. A test run is a complete run with 1000 propagation on randomized networks, and typically takes > 1hr to finish. A mock run performs 10 propagations and thus isn't sufficient for reliable statistical testing, but it typically finish within a few minutes and can help understand the format of input and output. 
+
+Both test will print the head of the test dataset to standard output (e.g., your screen). To view the full test dataset, see next session "Using the python package: understanding the input data."
 
 ```bash
 # Performing a mock run.
@@ -44,7 +46,6 @@ phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -
 # Performing a test run.
 phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -test True
 ```
-
 
 ### 3. Running your own protein list.
 To run phuego using your own list of protein, the data should be formatted in the same way as the test dataset. For detailed explanation of parameters, see section III.
@@ -96,7 +97,7 @@ done
 
 
 
-## II. Using the python package.
+## Using the python package.
 
 The functions in the phuego package can be imported and used in your own python scripts. This makes it easier for integrating phuego into your own workflow.
 
@@ -208,6 +209,7 @@ phuego(
 
 ### 4. Running your own protein list.
 To run phuego on your own protein list, simply provide the **test_path** to the above code, and remove the **load_test_example()** line. 
+
 To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
 
 ## III. Further documentations.
