@@ -4,6 +4,7 @@ import igraph as ig
 import numpy as np
 import sys
 from .utils import load_gene_names
+from .utils import add_trailing_slash
 from .load_seeds import load_seeds
 from .ego import ego_filtering
 from .ego2module import test_function
