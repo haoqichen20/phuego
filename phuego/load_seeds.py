@@ -37,11 +37,11 @@ def load_seeds(pfam_domain_path, sim_mean_std_path, sim_all_folder_path,
     seeds_neg={}
     while(seq!=""):
         seq= seq.strip().split("\t")
-        seq[0]=float(seq[0])
-        if seq[0]>0.0:
-            seeds_pos[seq[1]]=seq[0]
-        if seq[0]<-0.0:
-            seeds_neg[seq[1]]=-seq[0]
+        seq[1]=float(seq[1])
+        if seq[1]>0.0:
+            seeds_pos[seq[0]]=seq[1]
+        if seq[1]<-0.0:
+            seeds_neg[seq[0]]=-seq[1]
         seq=f1.readline()
     
     '''
