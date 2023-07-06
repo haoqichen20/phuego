@@ -48,7 +48,7 @@ phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -
 ```
 
 ### 3. Running your own protein list.
-To run phuego using your own list of protein, the data should be formatted in the same way as the test dataset. For detailed explanation of parameters, see section III.
+To run phuego using your own list of protein, the data should be formatted in the same way as the test dataset. For detailed explanation of parameters, see section "Further documentations".
 
 **Important:** the network propagation step (rwr, random walk with restart) is the most time consuming step of phuego. For each protein list and each damping factor, a separate propagation would be run and the result will be stored in the provided result folder (pvalues.txt, rwr_scores.txt, start_seeds.txt). After this, the user can reuse the results (so make sure you don't delete them!) to test different KDE cutoff and perform gene set enrichment analysis with various geneset by setting **-ru True**.
 
@@ -212,7 +212,7 @@ To run phuego on your own protein list, simply provide the **test_path** to the 
 
 To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
 
-## III. Further documentations.
+## Further documentations.
 ### 1. ini_pos and ini_neg.
 
 ### 2. Damping factors.
