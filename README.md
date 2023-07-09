@@ -1,4 +1,4 @@
-# ![phuego](docs/images/logo.png){:width="200px"}
+<img src="https://github.com/haoqichen20/phuego/blob/master/docs/images/logo.png" width="48">
 
 ### phuEGO: a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets
 ---
