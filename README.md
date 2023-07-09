@@ -1,3 +1,4 @@
+# ![phuego](docs/images/logo.png)
 
 ### phuEGO: a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets
 ---
