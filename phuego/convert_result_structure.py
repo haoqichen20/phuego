@@ -6,7 +6,7 @@ import shutil
 import glob
 
 # Reorganizing output files into the folder structure of the original version.
-def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
+def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
     """
     DOWN - making folders.
     """
@@ -27,15 +27,15 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
     os.mkdir(down_modules)
 
     # Creating the kde-level folder.
-    for kde_cutoff in kde_cutoffs:
-        os.mkdir(down_cluster+str(kde_cutoff))
-        os.mkdir(down_networks+str(kde_cutoff))
+    for kde in kde_cutoff:
+        os.mkdir(down_cluster+str(kde))
+        os.mkdir(down_networks+str(kde))
 
     # Fisher folder has extra levels.
-    for fisher_bg in fisher_backgrounds:
+    for fisher_bg in fisher_background:
         os.mkdir(down_fisher+fisher_bg+"/")
-        for kde_cutoff in kde_cutoffs:
-            os.mkdir(down_fisher+fisher_bg+"/"+str(kde_cutoff))
+        for kde in kde_cutoff:
+            os.mkdir(down_fisher+fisher_bg+"/"+str(kde))
 
 
     # Module folder has extra levels for each module. First get number of modules.
@@ -44,7 +44,7 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
     down_files = [file_name for file_name in files if "downregulated_" in file_name]
 
     down_module_names = dict()
-    for kde in kde_cutoffs:
+    for kde in kde_cutoff:
         down_module_names[kde] = set()
         for file_name in down_files:
             if("module_" in file_name and str(kde) in file_name):
@@ -82,7 +82,7 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
             
     # Move into third level.
     # Signatures.
-    for kde in kde_cutoffs:
+    for kde in kde_cutoff:
         shutil.move(src=down_cluster+str(kde)+".txt", 
                     dst=down_cluster+str(kde)+"/"+test_name)
         
@@ -91,9 +91,9 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
     # Fishers.
     # Need to provide fisher_background to filename and use the commented line instead.
     files = os.listdir(down_fisher)
-    for fisher_bg in fisher_backgrounds:
+    for fisher_bg in fisher_background:
         bg_folder = down_fisher+fisher_bg+"/"
-        for kde in kde_cutoffs:
+        for kde in kde_cutoff:
             kde_folder = bg_folder+str(kde)+"/"
             srcf = [file_name for file_name in files if str(kde) in file_name]
             # srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
@@ -104,7 +104,7 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
 
     # Modules.
     files = os.listdir(down_modules)
-    for kde in kde_cutoffs:
+    for kde in kde_cutoff:
         for module in down_module_names[kde]:
             shutil.move(src=down_modules+module+"_cluster_"+str(kde)+".txt",
                         dst=down_modules+str(kde)+"/"+module+"/"+"cluster.txt")
@@ -136,15 +136,15 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
     os.mkdir(up_modules)
 
     # Creating the kde-level folder.
-    for kde_cutoff in kde_cutoffs:
-        os.mkdir(up_cluster+str(kde_cutoff))
-        os.mkdir(up_networks+str(kde_cutoff))
+    for kde in kde_cutoff:
+        os.mkdir(up_cluster+str(kde))
+        os.mkdir(up_networks+str(kde))
 
     # Fisher folder has extra levels.
-    for fisher_bg in fisher_backgrounds:
+    for fisher_bg in fisher_background:
         os.mkdir(up_fisher+fisher_bg+"/")
-        for kde_cutoff in kde_cutoffs:
-            os.mkdir(up_fisher+fisher_bg+"/"+str(kde_cutoff))
+        for kde in kde_cutoff:
+            os.mkdir(up_fisher+fisher_bg+"/"+str(kde))
 
 
     # Module folder has extra levels for each module. First get number of modules.
@@ -153,7 +153,7 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
     up_files = [file_name for file_name in files if "upregulated_" in file_name]
 
     up_module_names = dict()
-    for kde in kde_cutoffs:
+    for kde in kde_cutoff:
         up_module_names[kde] = set()
         for file_name in up_files:
             if("module_" in file_name and str(kde) in file_name):
@@ -191,7 +191,7 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
             
     # Move into third level.
     # Signatures.
-    for kde in kde_cutoffs:
+    for kde in kde_cutoff:
         shutil.move(src=up_cluster+str(kde)+".txt", 
                     dst=up_cluster+str(kde)+"/"+test_name)
         
@@ -200,9 +200,9 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
     # Fishers.
     # Need to provide fisher_background to filename and use the commented line instead.
     files = os.listdir(up_fisher)
-    for fisher_bg in fisher_backgrounds:
+    for fisher_bg in fisher_background:
         bg_folder = up_fisher+fisher_bg+"/"
-        for kde in kde_cutoffs:
+        for kde in kde_cutoff:
             kde_folder = bg_folder+str(kde)+"/"
             srcf = [file_name for file_name in files if str(kde) in file_name]
             # srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
@@ -213,7 +213,7 @@ def convert_result(res_folder, kde_cutoffs, fisher_backgrounds, test_name):
 
     # Modules.
     files = os.listdir(up_modules)
-    for kde in kde_cutoffs:
+    for kde in kde_cutoff:
         for module in up_module_names[kde]:
             shutil.move(src=up_modules+module+"_cluster_"+str(kde)+".txt",
                         dst=up_modules+str(kde)+"/"+module+"/"+"cluster.txt")
