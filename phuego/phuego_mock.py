@@ -8,12 +8,13 @@ from .utils import add_trailing_slash
 from .load_seeds import load_seeds
 from .ego import ego_filtering
 from .ego2module import test_function
+from .convert_result_structure import convert_result
 
 # one liner function of phuego package.
 def phuego_mock(support_data_folder, res_folder, test_path, 
            fisher_geneset, fisher_threshold, fisher_background,
            ini_pos, ini_neg, damping, kde_cutoff,
-           use_existing_rwr = False):
+           use_existing_rwr = False, convert2folder=False):
     """
     Formatting user input.
     """
@@ -168,6 +169,15 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     Output CytoScape compatible network files.
     """
 
+    """
+    Convert results if required.
+    """
+    test_name = test_path.split("/")[-1]
+    if(convert2folder):
+           convert_result(res_folder=res_folder,
+                          kde_cutoff=kde_cutoff,
+                          fisher_background=fisher_background,
+                          test_name=test_name)
 
 
 

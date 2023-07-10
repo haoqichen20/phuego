@@ -19,6 +19,8 @@ This is the CLI tool for phuego.
               help="Folder that stored output result, end with /")
 @click.option("--use_existing_rwr", "-ru", type=bool, required=False, 
               help="Should phuego reuse existing rwr results?")
+@click.option("--convert2folder", default=False, type=bool, 
+              required=False, help="Should phuego organize result files in a folder structure?")
 
 #One of the following three options need to be True or non-empty.
 @click.option("--run_mock", "-mock", default=False, type=bool, 
@@ -56,7 +58,7 @@ This is the CLI tool for phuego.
 
 @click.option('--version', is_flag=True, help='Print version to stdout')
 
-def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test, run_mock, 
+def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
          need_fisher, need_gic_sim, need_networks, remove_zip_file,
          damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_pos, ini_neg, version) -> None:
        
@@ -97,6 +99,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               damping=damping,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
+              convert2folder=convert2folder,
               )
     elif(run_test):
            test_path, test_df = load_test_example()
@@ -113,6 +116,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               damping=damping,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
+              convert2folder=convert2folder,
               )
     elif(test_path):
            print("Run phuego with user input dataset")
@@ -128,6 +132,7 @@ def main(support_data_folder, res_folder, test_path, use_existing_rwr, run_test,
               damping=damping,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
+              convert2folder=convert2folder,
               )
     else:
            print("Nothing is provided for running phuego.")
