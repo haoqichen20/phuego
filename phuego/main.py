@@ -40,7 +40,7 @@ This is the CLI tool for phuego.
        required=False, help="Should phuego remove the zip files after downloading? In a shared folder system it's recommended to do so.")
 
 @click.option("--damping", "-d", default=0.85, type=float, 
-       required=False, help="Damping factor for random walk with restart algorithm")
+       required=False, help="Damping factor for random walk with restart algorithm. Should be within range [0.5, 0.95]")
 
 @click.option("--fisher_geneset", "-fg", default=["C","F","D","P","R","K","RT","B"], type=str, multiple=True,
        required=False, help="Abbreviation of genesets to be tested when annotating modules of propagation. Can be a single string or a list of strings. Refer to documents to learn what each abbreviation stands for.")
@@ -50,11 +50,11 @@ This is the CLI tool for phuego.
        required=False, help="Geneset background of geneset enrichment analysis") 
 
 @click.option("--kde_cutoff", "-k", default=[0.85, 0.9], type=float, multiple=True,
-       required=False, help="KDE cutoff value for removing less similar nodes in ego network. Can be a single float number ranging 0-1, or a list of number. Refer to documents for reasonble value to choose from.")
+       required=False, help="KDE cutoff value for removing less similar nodes in ego network. A float number within range [0.5, 0.95]. Multiple numbers can be provided at the same time by reusing the arguments.")
 @click.option("--ini_pos", "-ip", default=['False'], type=str, multiple=True,
-       required=False, help="List of nodes to be removed from network for the propagation of upregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_neg. If no node to be removed, leave as ['False'] (yes that's a string)")
+       required=False, help="List of nodes to be removed from network for the propagation of upregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_neg. If no node to be removed, leave as default.")
 @click.option("--ini_neg", "-in", default=['False'], type=str, multiple=True,
-       required=False, help="List of nodes to be removed from network for the propagation of downregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_pos. If no node to be removed, leave as ['False'] (yes that's a string)]")
+       required=False, help="List of nodes to be removed from network for the propagation of downregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_pos. If no node to be removed, leave as default.")
 
 @click.option('--version', is_flag=True, help='Print version to stdout')
 
