@@ -32,8 +32,10 @@ def phuego(support_data_folder, res_folder, test_path,
     support_data_folder = add_trailing_slash(support_data_folder)
     res_folder = add_trailing_slash(res_folder)    
     # Force damping to be [0.5, 0.95]
+    if type(damping) != float:
+           sys.exit("damping should be a float number within range [0.5, 0.95]")
     if damping < 0.5 or damping > 0.95:
-           sys.exit("damping should be within range [0.5, 0.95]")
+           sys.exit("damping should be a float number within range [0.5, 0.95]")
     # Force kde_cutoff to be [0.5, 0.95]
     for kde in kde_cutoff:
            if kde < 0.5 or kde > 0.95:

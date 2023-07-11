@@ -14,21 +14,21 @@ This is the CLI tool for phuego.
 '''
 @click.command()
 @click.option("--support_data_folder", "-sf", type=str, required=False, 
-              help="Folder that stored support data, end with /")
+              help="Folder that stored support data. Directories separated by /")
 @click.option("--res_folder", "-rf", type=str, required=False, 
-              help="Folder that stored output result, end with /")
+              help="Folder that stored output result. Directories separated by /")
 @click.option("--use_existing_rwr", "-ru", type=bool, required=False, 
-              help="Should phuego reuse existing rwr results?")
+              help="Should phuego reuse existing network propagation results?")
 @click.option("--convert2folder", default=False, type=bool, 
               required=False, help="Should phuego organize result files in a folder structure?")
 
 #One of the following three options need to be True or non-empty.
 @click.option("--run_mock", "-mock", default=False, type=bool, 
-       required=False, help="Should phuego perform a mock test run using test data?")
+       required=False, help="Should phuego perform a mock test run using test data? If defined, -test and -tpath would be ignored.")
 @click.option("--run_test", "-test", default=False, type=bool, 
-       required=False, help="Should phuego perform a full test run using test data?")
+       required=False, help="Should phuego perform a full test run using test data? If defined, -tpath would be ignored.")
 @click.option("--test_path", "-tpath", default="", type=str, 
-       required=False, help="The path of user input test file. If defined, run_mock and run_test should be left as False")
+       required=False, help="The path of user input test file. If defined, -mock and -test should not be used.")
 
 @click.option("--need_fisher", default=False, type=bool, 
        required=False, help="Should phuego download the fisher geneset from zenodo?")
@@ -40,10 +40,10 @@ This is the CLI tool for phuego.
        required=False, help="Should phuego remove the zip files after downloading? In a shared folder system it's recommended to do so.")
 
 @click.option("--damping", "-d", default=0.85, type=float, 
-       required=False, help="Damping factor for random walk with restart algorithm. Should be within range [0.5, 0.95]")
+       required=False, help="Damping factor for random walk with restart algorithm. Float number within range [0.5, 0.95]")
 
 @click.option("--fisher_geneset", "-fg", default=["C","F","D","P","R","K","RT","B"], type=str, multiple=True,
-       required=False, help="Abbreviation of genesets to be tested when annotating modules of propagation. Can be a single string or a list of strings. Refer to documents to learn what each abbreviation stands for.")
+       required=False, help="Abbreviation of genesets to be tested when annotating modules of propagation, can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the arguments. Refer to documents to learn what each abbreviation stands for.")
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float, 
        required=False, help="Threshold of significance of geneset enrichment analysis") 
 @click.option("--fisher_background", "-fb", default="intact", type=str, 
