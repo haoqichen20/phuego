@@ -53,12 +53,12 @@ This is the CLI tool for phuego.
               help="List of nodes to be removed from network for the propagation of downregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_pos. If no node to be removed, leave as default.")
 
 # ego propagation and fisher test.
-@click.option("--kde_cutoff", "-k", default=[0.85, 0.9], type=float, multiple=True,
+@click.option("--kde_cutoff", "-k", default=0.85, type=float, multiple=True,
               required=False, 
-              help="KDE cutoff value for removing less similar nodes in ego network. A float number within range [0.5, 0.95]. Multiple numbers can be provided at the same time by reusing the arguments.")
-@click.option("--fisher_geneset", "-fg", default=["C","F","D","P","R","K","RT","B"], type=str, multiple=True,
+              help="KDE cutoff value for removing less similar nodes in ego network. A float number within range [0.5, 0.95]. Multiple numbers can be provided at the same time by reusing the argument flag.")
+@click.option("--fisher_geneset", "-fg", default="B", type=str, multiple=True,
               required=False, 
-              help="Abbreviation of genesets to be tested when annotating modules of propagation, can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the arguments. Refer to documents to learn what each abbreviation stands for.")
+              help="Abbreviation of genesets to be tested when annotating modules of propagation, can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the argument flag. Refer to documents to learn what each abbreviation stands for.")
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float, 
               required=False, 
               help="Threshold of significance of geneset enrichment analysis") 
