@@ -131,6 +131,7 @@ def phuego(support_data_folder, res_folder, test_path,
                                    geneset_path=geneset_path,
                                    fisher_geneset=fisher_geneset,
                                    fisher_threshold=fisher_threshold,
+                                   fisher_background = fisher_background,
                                    )
     if pvalues_neg:
            nodes_kde_neg, all_nodes_neg = ego_filtering(network=network,
@@ -145,6 +146,7 @@ def phuego(support_data_folder, res_folder, test_path,
                                    geneset_path=geneset_path,
                                    fisher_geneset=fisher_geneset,
                                    fisher_threshold=fisher_threshold,
+                                   fisher_background = fisher_background,
                                    )
     
     """
@@ -162,6 +164,7 @@ def phuego(support_data_folder, res_folder, test_path,
                          geneset_path=geneset_path,
                          fisher_geneset=fisher_geneset,
                          fisher_threshold=fisher_threshold,
+                         fisher_background = fisher_background,
                          )
            
     if all_nodes_neg:
@@ -176,6 +179,7 @@ def phuego(support_data_folder, res_folder, test_path,
                          geneset_path=geneset_path,
                          fisher_geneset=fisher_geneset,
                          fisher_threshold=fisher_threshold,
+                         fisher_background = fisher_background,
                          )
 
     """
