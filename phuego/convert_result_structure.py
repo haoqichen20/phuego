@@ -7,6 +7,11 @@ import glob
 
 # Reorganizing output files into the folder structure of the original version.
 def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
+    # The phuego() function and main() CLI only accept fisher_background as a 
+    # str. Convert to list to be compatible.
+    if(type(fisher_background)!=list):
+        fisher_background = [fisher_background]
+    
     """
     DOWN - making folders.
     """
@@ -95,11 +100,11 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
         bg_folder = down_fisher+fisher_bg+"/"
         for kde in kde_cutoff:
             kde_folder = bg_folder+str(kde)+"/"
-            srcf = [file_name for file_name in files if str(kde) in file_name]
-            # srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
+            # srcf = [file_name for file_name in files if str(kde) in file_name]
+            srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
             for file in srcf:
-                # newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
-                newfile = file.replace(str(kde)+"__", "")
+                newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
+                # newfile = file.replace(str(kde)+"__", "")
                 shutil.move(src=down_fisher+file, dst=kde_folder+newfile)
 
     # Modules.
@@ -204,11 +209,11 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
         bg_folder = up_fisher+fisher_bg+"/"
         for kde in kde_cutoff:
             kde_folder = bg_folder+str(kde)+"/"
-            srcf = [file_name for file_name in files if str(kde) in file_name]
-            # srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
+            # srcf = [file_name for file_name in files if str(kde) in file_name]
+            srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
             for file in srcf:
-                # newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
-                newfile = file.replace(str(kde)+"__", "")
+                newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
+                # newfile = file.replace(str(kde)+"__", "")
                 shutil.move(src=up_fisher+file, dst=kde_folder+newfile)
 
     # Modules.
