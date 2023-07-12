@@ -105,7 +105,7 @@ def write_modules(clustering,nodes, kde, direction, uniprot_to_gene, res_folder,
         # fisher_folder=base_folder+"/module_"+str(j[0])+"/fisher/"
         # if not os.path.exists(fisher_folder):
         #     os.makedirs(fisher_folder)
-        fname = direction+"_module_"+str(j[0])+"_fisher_"+str(kde)+"_"
+        fname = direction+"_module_"+str(j[0])+"_fisher_"+str(kde)
         fisher_test(protein_list=fisher_proteins,
                     starting_proteins=j[1],
                     threshold=fisher_threshold,

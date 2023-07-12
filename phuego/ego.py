@@ -162,7 +162,7 @@ def write_results(nodes_kde, seed_nodes, kde_cutoff, direction, uniprot_to_gene,
 
         if fisher_proteins:
             # Create filename for fisher output.
-            fname = direction+"_sig_fisher_"+str(j)+"_"
+            fname = direction+"_sig_fisher_"+str(j)
             fisher_test(protein_list=fisher_proteins,
                         starting_proteins=seed_nodes,
                         fname=fname,
