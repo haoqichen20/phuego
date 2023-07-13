@@ -108,8 +108,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     Split the pvalues.
     """
     # pvalues is imported from file in res_folder.
-    pvalues_pos, pvalues_neg = pvalue_split_mock(res_folder, damping, seeds, 
-              graph_nodes)
+    pvalues_pos, pvalues_neg = pvalue_split_mock(res_folder, seeds, graph_nodes)
     
     """
     EGO.

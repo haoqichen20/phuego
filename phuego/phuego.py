@@ -112,8 +112,7 @@ def phuego(support_data_folder, res_folder, test_path,
     Split the pvalues.
     """
     # pvalues is imported from file in res_folder.
-    pvalues_pos, pvalues_neg = pvalue_split(res_folder, damping, seeds, 
-              graph_nodes)
+    pvalues_pos, pvalues_neg = pvalue_split(res_folder, seeds, graph_nodes)
     
     """
     EGO.

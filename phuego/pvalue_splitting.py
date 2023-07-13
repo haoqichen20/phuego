@@ -2,14 +2,14 @@
 
 import numpy as np
 
-def pvalue_split(res_folder, damping, seeds, graph_nodes):
+def pvalue_split(res_folder, seeds, graph_nodes):
     '''
     Separate the pvalues for upregulated/downregulated nodes.
     '''
     pvalues_pos=[]
     pvalues_neg=[]
  
-    f1=open(res_folder+str(damping)+"_pvalues.txt")
+    f1=open(res_folder+"pvalues.txt")
     seq=f1.readline()
     while(seq!=""):
         seq=seq.strip().split("\t")
@@ -26,7 +26,7 @@ def pvalue_split(res_folder, damping, seeds, graph_nodes):
     '''
     Separate the rwr_scores for upregulated/downregulated nodes.
     '''
-    f1=open(res_folder+str(damping)+"_rwr_scores.txt")
+    f1=open(res_folder+"rwr_scores.txt")
     rwr_pos={}
     rwr_neg={}
     seq=f1.readline()
