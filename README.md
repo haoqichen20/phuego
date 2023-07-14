@@ -214,15 +214,25 @@ To run phuego on your own protein list, simply provide the **test_path** to the 
 To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
 
 ## Further documentations.
-### 1. ini_pos and ini_neg.
+### Supporting dataset. 
+#### iteam A
+#### iteam B
 
-### 2. Damping factors.
+### phuego function variables
+#### iteam A
+#### iteam B
 
-### 3. KDE cutoffs.
+### Additional phuego CLI variables
+#### iteam A
+#### iteam B
 
-### 4. Genesets.
+### Input
+#### iteam A
+#### iteam B
 
-### 5. Output.
+### Output
+#### iteam A
+#### iteam B
 
 
 ## Development
@@ -238,6 +248,6 @@ Please cite phuego if you use it in your analysis.
 
 ## Contributors
 
-The algorithm and python functions of phuego is developed by Girolamo Giudice ([@girolamogiudice](https://github.com/girolamogiudice)) and Evangelia Petsalaki at [EMBL-EBI] (https://www.ebi.ac.uk/).
+The algorithm and initial scripts of phuego are developed by Girolamo Giudice ([@girolamogiudice](https://github.com/girolamogiudice)) and Evangelia Petsalaki at [@EMBL-EBI] (https://www.ebi.ac.uk/).
 
-The Python package and CLI application is developed by Haoqi Chen ([@haoqichen20] (https://github.com/haoqichen20) at [EMBL-EBI] (https://www.ebi.ac.uk/)).
+The Python package and CLI application are developed by Haoqi Chen ([@haoqichen20] (https://github.com/haoqichen20) at [@EMBL-EBI] (https://www.ebi.ac.uk/)).
