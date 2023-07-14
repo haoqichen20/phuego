@@ -101,7 +101,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
         for kde in kde_cutoff:
             kde_folder = bg_folder+str(kde)+"/"
             # srcf = [file_name for file_name in files if str(kde) in file_name]
-            srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
+            srcf = [file_name for file_name in files if fisher_bg in file_name and ("_"+str(kde)+"_") in file_name]
             for file in srcf:
                 newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
                 # newfile = file.replace(str(kde)+"__", "")
@@ -115,7 +115,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
                         dst=down_modules+str(kde)+"/"+module+"/"+"cluster.txt")
             # The cluster files are already moved.
             # Fisher_background need to be added here when package is updated.
-            srcf = [file_name for file_name in files if (module in file_name) and (str(kde) in file_name) and ("fisher" in file_name)]
+            srcf = [file_name for file_name in files if (module in file_name) and (("_"+str(kde)+"_") in file_name) and ("fisher" in file_name)]
             for file in srcf:
                 newfile = file.split("_")[-1]
                 shutil.move(src=down_modules+file,
@@ -210,7 +210,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
         for kde in kde_cutoff:
             kde_folder = bg_folder+str(kde)+"/"
             # srcf = [file_name for file_name in files if str(kde) in file_name]
-            srcf = [file_name for file_name in files if fisher_bg in file_name and str(kde) in file_name]
+            srcf = [file_name for file_name in files if fisher_bg in file_name and ("_"+str(kde)+"_") in file_name]
             for file in srcf:
                 newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
                 # newfile = file.replace(str(kde)+"__", "")
@@ -224,7 +224,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
                         dst=up_modules+str(kde)+"/"+module+"/"+"cluster.txt")
             # The cluster files are already moved.
             # Fisher_background need to be added here when package is updated.
-            srcf = [file_name for file_name in files if (module in file_name) and (str(kde) in file_name) and ("fisher" in file_name)]
+            srcf = [file_name for file_name in files if (module in file_name) and (("_"+str(kde)+"_") in file_name) and ("fisher" in file_name)]
             for file in srcf:
                 newfile = file.split("_")[-1]
                 shutil.move(src=up_modules+file,
