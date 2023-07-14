@@ -213,10 +213,18 @@ To run phuego on your own protein list, simply provide the **test_path** to the 
 
 To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
 
-## Further documentations.
+## Detailed documentations.
 ### Supporting dataset. 
-#### iteam A
-#### iteam B
+#### gic_sim folder, gic_sim_std.txt
+some text
+#### networks folder
+some text
+#### proteome and intact
+some text
+#### uniprot_to_gene.tab
+some text
+#### pfam_domains.txt
+some text
 
 ### phuego function variables
 #### iteam A
