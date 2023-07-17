@@ -10,3 +10,4 @@ from .rwr_values import rwr_values
 from .pvalue_splitting import pvalue_split
 from .ego2module import test_function
 from .ego import ego_filtering
+from .generate_net import generate_nets

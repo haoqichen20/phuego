@@ -10,6 +10,7 @@ from .pvalue_splitting import pvalue_split
 from .ego import ego_filtering
 from .ego2module import test_function
 from .convert_result_structure import convert_result
+from .generate_net import generate_nets
 
 
 
@@ -184,6 +185,13 @@ def phuego(support_data_folder, res_folder, test_path,
     """
     Output CytoScape compatible network files.
     """
+    generate_nets(res_folder=res_folder,
+                  network=network_raw,
+                  uniprot_to_gene=uniprot_to_gene,
+                  kde_cutoff=kde_cutoff,
+                  include_isolated_egos_in_KDE_net=False,
+                  net_format="ncol",
+                  )
     
     """
     Convert results if required.
