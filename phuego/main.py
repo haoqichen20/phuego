@@ -18,30 +18,30 @@ This is the CLI tool for phuego.
               help="Folder that stored support data. Directories separated by /")
 @click.option("--res_folder", "-rf", type=str, required=False, 
               help="Folder that stored output result. Directories separated by /")
-@click.option("--convert2folder", "-c2f", default=False, type=bool, 
-              required=False, help="Should phuego organize result files into a folder structure?")
+@click.option("--convert2folder", "-c2f", is_flag=True, required=False, 
+              help="Should phuego organize result files into a folder structure?")
 @click.option("--test_path", "-tpath", default="", type=str, required=False, 
               help="The path of user input test file. If defined, -mock and -test should not be used.")
 
 # Support dataset download.
-@click.option("--need_fisher", default=False, type=bool, required=False, 
+@click.option("--need_fisher", is_flag=True, required=False,
               help="Should phuego download the fisher geneset from zenodo?")
-@click.option("--need_gic_sim", default=False, type=bool, required=False, 
+@click.option("--need_gic_sim", is_flag=True, required=False, 
               help="Should phuego download the semantic similarity from zenodo?")
-@click.option("--need_networks", default=False, type=bool, required=False, 
+@click.option("--need_networks", is_flag=True, required=False, 
               help="Should phuego download the networks from zenodo?")
-@click.option("--remove_zip_file", default=False, type=bool, required=False, 
-              help="Should phuego remove the zip files after downloading? In a shared folder system it's recommended to do so.")
+@click.option("--remove_zip_file", is_flag=True, required=False, 
+              help="Should phuego remove the zip files after downloading?")
 
 # Mock/test.
-@click.option("--run_mock", "-mock", default=False, type=bool, required=False, 
+@click.option("--run_mock", "-mock", is_flag=True, required=False, 
               help="Should phuego perform a mock test run using test data? If defined, -test and -tpath would be ignored.")
-@click.option("--run_test", "-test", default=False, type=bool, required=False, 
+@click.option("--run_test", "-test", is_flag=True, required=False, 
               help="Should phuego perform a full test run using test data? If defined, -tpath would be ignored.")
 
 
 # network propagation parameters.
-@click.option("--use_existing_rwr", "-ru", type=bool, required=False, 
+@click.option("--use_existing_rwr", "-ru", is_flag=True, required=False, 
               help="Should phuego reuse existing network propagation results?")
 @click.option("--damping", "-d", default=0.85, type=float, required=False, 
               help="Damping factor for random walk with restart algorithm. Float number within range [0.5, 0.95]")
@@ -67,11 +67,9 @@ This is the CLI tool for phuego.
               help="Geneset background of geneset enrichment analysis") 
 
 # network output
-@click.option("--include_isolated_egos_in_KDE_net", "-ie", default=False, type=bool, 
-              required=False, 
+@click.option("--include_isolated_egos_in_KDE_net", "-ie", is_flag=True, required=False, 
               help="Should we include isolated egos in the output network?") 
-@click.option("--net_format", "-nf", default="ncol", type=str, 
-              required=False, 
+@click.option("--net_format", "-nf", default="ncol", type=str, required=False, 
               help="file format of output network")
 
 # Versioning.
