@@ -15,7 +15,9 @@ from .generate_net import generate_nets
 def phuego_mock(support_data_folder, res_folder, test_path, 
            fisher_geneset, fisher_threshold, fisher_background,
            ini_pos, ini_neg, damping, kde_cutoff,
-           use_existing_rwr = False, convert2folder=False):
+           use_existing_rwr = False, convert2folder=False,
+           include_isolated_egos_in_KDE_net=False,
+           net_format="ncol",):
     """
     Formatting user input.
     """
@@ -181,8 +183,8 @@ def phuego_mock(support_data_folder, res_folder, test_path,
                   network=network_raw,
                   uniprot_to_gene=uniprot_to_gene,
                   kde_cutoff=kde_cutoff,
-                  include_isolated_egos_in_KDE_net=False,
-                  net_format="ncol",
+                  include_isolated_egos_in_KDE_net=include_isolated_egos_in_KDE_net,
+                  net_format=net_format,
                   )
     """
     Convert results if required.

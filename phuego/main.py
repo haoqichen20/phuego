@@ -66,13 +66,22 @@ This is the CLI tool for phuego.
               required=False, 
               help="Geneset background of geneset enrichment analysis") 
 
+# network output
+@click.option("--include_isolated_egos_in_KDE_net", "-ie", default=False, type=bool, 
+              required=False, 
+              help="Should we include isolated egos in the output network?") 
+@click.option("--net_format", "-nf", default="ncol", type=str, 
+              required=False, 
+              help="file format of output network")
+
 # Versioning.
 @click.option('--version', '-v', is_flag=True, 
               help='Print version to stdout')
 
 def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
          need_fisher, need_gic_sim, need_networks, remove_zip_file,
-         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_pos, ini_neg, version) -> None:
+         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_pos, ini_neg, 
+         include_isolated_egos_in_KDE_net, net_format, version) -> None:
        
     # Print the version number.
     if version:
@@ -112,6 +121,8 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
               convert2folder=convert2folder,
+              include_isolated_egos_in_KDE_net=include_isolated_egos_in_KDE_net,
+              net_format=net_format,
               )
     elif(run_test):
            test_path, test_df = load_test_example()
@@ -129,6 +140,8 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
               convert2folder=convert2folder,
+              include_isolated_egos_in_KDE_net=include_isolated_egos_in_KDE_net,
+              net_format=net_format,
               )
     elif(test_path):
            print("Run phuego with user input dataset")
@@ -145,6 +158,8 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
               convert2folder=convert2folder,
+              include_isolated_egos_in_KDE_net=include_isolated_egos_in_KDE_net,
+              net_format=net_format,
               )
     else:
            print("Nothing is provided for running phuego.")
