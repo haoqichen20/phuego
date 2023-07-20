@@ -15,7 +15,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
     """
     DOWN - making folders.
     """
-    down_rf = res_folder+"downregulated/" 
+    down_rf = res_folder+"decreased/" 
     if os.path.exists(down_rf):
         print("Folder already exists from previous run, will be deleted now (along with files)")
         shutil.rmtree(down_rf)
@@ -46,7 +46,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
     # Module folder has extra levels for each module. First get number of modules.
     # Note that number of modules is dependent on the kde cutoff.
     files = os.listdir(res_folder)
-    down_files = [file_name for file_name in files if "downregulated_" in file_name]
+    down_files = [file_name for file_name in files if "decreased_" in file_name]
 
     down_module_names = dict()
     for kde in kde_cutoff:
@@ -68,9 +68,9 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
     """
     # Move into first level.
     files = os.listdir(res_folder)
-    srcf = [file_name for file_name in files if "downregulated_" in file_name]
+    srcf = [file_name for file_name in files if "decreased_" in file_name]
     for file in srcf:
-        newfile = file.replace("downregulated_", "")
+        newfile = file.replace("decreased_", "")
         shutil.move(src=res_folder+file, 
                     dst=down_rf+newfile)
 
@@ -124,7 +124,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
     """
     UP - making folders.
     """
-    up_rf = res_folder+"upregulated/" 
+    up_rf = res_folder+"increased/" 
     if os.path.exists(up_rf):
         print("Folder already exists from previous run, will be deleted now (along with files)")
         shutil.rmtree(up_rf)
@@ -155,7 +155,7 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
     # Module folder has extra levels for each module. First get number of modules.
     # Note that number of modules is dependent on the kde cutoff.
     files = os.listdir(res_folder)
-    up_files = [file_name for file_name in files if "upregulated_" in file_name]
+    up_files = [file_name for file_name in files if "increased_" in file_name]
 
     up_module_names = dict()
     for kde in kde_cutoff:
@@ -177,9 +177,9 @@ def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
     """
     # Move into first level.
     files = os.listdir(res_folder)
-    srcf = [file_name for file_name in files if "upregulated_" in file_name]
+    srcf = [file_name for file_name in files if "increased_" in file_name]
     for file in srcf:
-        newfile = file.replace("upregulated_", "")
+        newfile = file.replace("increased_", "")
         shutil.move(src=res_folder+file, 
                     dst=up_rf+newfile)
 
