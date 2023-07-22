@@ -69,7 +69,7 @@ def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gen
                 modules.append(nodes)
         #print (modules)
         
-        fname = "/supernodes_net_"+str(kde)+".txt"
+        fname = direction+"_supernodes_net_"+str(kde)+".txt"
         supernodes_net.write(f=res_folder+fname,format="ncol")
         write_modules(clustering=modules,
                       nodes=supernodes[kde],
