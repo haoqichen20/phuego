@@ -121,6 +121,8 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
                     seq=seq.strip().split("\t")
                     nodes_module.update(seq)
                     seq=f1.readline()
+                # Label the KDE_increased vertices attribute with module name.
+                # This vertice attribute will be inherited to module_net when subgraph is induced.
                 KDE_increased.vs[module]=np.in1d(KDE_increased.vs["name"], list(nodes_module))
                 all_nodes.update(nodes_module)
             #write the net
