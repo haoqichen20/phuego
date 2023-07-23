@@ -3,229 +3,91 @@
 import os
 import sys
 import shutil
-import glob
 
-# Reorganizing output files into the folder structure of the original version.
-def convert_result(res_folder, kde_cutoff, fisher_background, test_name):
-    # The phuego() function and main() CLI only accept fisher_background as a 
-    # str. Convert to list to be compatible.
-    if(type(fisher_background)!=list):
-        fisher_background = [fisher_background]
-    
-    """
-    DOWN - making folders.
-    """
-    down_rf = res_folder+"decreased/" 
-    if os.path.exists(down_rf):
-        print("Folder already exists from previous run, will be deleted now (along with files)")
-        shutil.rmtree(down_rf)
-    os.mkdir(down_rf)
-        
-    # Creating next level folder.
-    down_cluster = down_rf+"cluster/"
-    down_fisher = down_rf+"fisher/"
-    down_networks = down_rf+"networks/"
-    down_modules = down_rf+"results_modules/"
-    os.mkdir(down_cluster)
-    os.mkdir(down_fisher)
-    os.mkdir(down_networks)
-    os.mkdir(down_modules)
-
-    # Creating the kde-level folder.
-    for kde in kde_cutoff:
-        os.mkdir(down_cluster+str(kde))
-        os.mkdir(down_networks+str(kde))
-
-    # Fisher folder has extra levels.
-    for fisher_bg in fisher_background:
-        os.mkdir(down_fisher+fisher_bg+"/")
-        for kde in kde_cutoff:
-            os.mkdir(down_fisher+fisher_bg+"/"+str(kde))
-
-
-    # Module folder has extra levels for each module. First get number of modules.
-    # Note that number of modules is dependent on the kde cutoff.
+def convert_result(res_folder, kde_cutoff, net_format):
+    # Create direction folder and move files.
     files = os.listdir(res_folder)
-    down_files = [file_name for file_name in files if "decreased_" in file_name]
-
-    down_module_names = dict()
-    for kde in kde_cutoff:
-        down_module_names[kde] = set()
-        for file_name in down_files:
-            if("module_" in file_name and str(kde) in file_name):
-                module = file_name.split("_")[2]
-                module = "module_" + module
-                down_module_names[kde].add(module)
-        # Make first layer folder.
-        os.mkdir(down_modules+str(kde))
-        for module in down_module_names[kde]:
-            # Make second/third layer folder.
-            os.mkdir(down_modules+str(kde)+"/"+module)
-            os.mkdir(down_modules+str(kde)+"/"+module+"/fisher/")
-            
-    """
-    DOWN - moving files.
-    """
-    # Move into first level.
-    files = os.listdir(res_folder)
-    srcf = [file_name for file_name in files if "decreased_" in file_name]
-    for file in srcf:
-        newfile = file.replace("decreased_", "")
-        shutil.move(src=res_folder+file, 
-                    dst=down_rf+newfile)
-
-    # Move into second level.
-    files = os.listdir(down_rf)
-    labels = ["sig_cluster_", "sig_fisher_", "module_"]
-    dst_folders = [down_cluster, down_fisher, down_modules]
-    rep_labels = ["","","module_"]
-    for label, dst_folder, rep_label in zip(labels, dst_folders, rep_labels):
-        srcf = [file_name for file_name in files if label in file_name]
-        for file in srcf:
-            newfile = file.replace(label, rep_label)
-            shutil.move(src=down_rf+file, dst=dst_folder+newfile)
-            
-    # Move into third level.
-    # Signatures.
-    for kde in kde_cutoff:
-        shutil.move(src=down_cluster+str(kde)+".txt", 
-                    dst=down_cluster+str(kde)+"/"+test_name)
+    for direction in ["decreased", "increased"]:
+        # Get file names with direction flag.
+        # # rwr result files without direction flag will remain in res_folder.
+        direction_files = [file_name for file_name in files if direction in file_name]
+        # Direction master folder.
+        direction_rf = res_folder+direction+"/"
+        if os.path.exists(direction_rf):
+            print(f"Result sub-folder {direction} already exists from previous run, will be deleted now (along with files)")
+            shutil.rmtree(direction_rf)
+        os.mkdir(direction_rf)
+        # Move rwr network file.
+        shutil.move(src=res_folder+"rwr_"+direction+"."+net_format, 
+                    dst=direction_rf+"rwr_net."+net_format)
         
-    # Networks.
-
-    # Fishers.
-    # Need to provide fisher_background to filename and use the commented line instead.
-    files = os.listdir(down_fisher)
-    for fisher_bg in fisher_background:
-        bg_folder = down_fisher+fisher_bg+"/"
+        # Create subfolders and move files.
         for kde in kde_cutoff:
-            kde_folder = bg_folder+str(kde)+"/"
-            # srcf = [file_name for file_name in files if str(kde) in file_name]
-            srcf = [file_name for file_name in files if fisher_bg in file_name and ("_"+str(kde)+"_") in file_name]
+            ######## Create the kde-level folder ########
+            direction_KDE_rf = direction_rf+"KDE_"+str(kde)+"/"
+            os.mkdir(direction_KDE_rf)
+            # Move KDE_egos.txt.
+            srcf = [file_name for file_name in direction_files if "_sig_cluster_" in file_name and str(kde) in file_name]
+            # there should only be one _sig_cluster_ file per kde x direction.
+            if(len(srcf)>1):
+                sys.exit(f"More than one _sig_cluster_ file is present for '{direction}'. KDE is {kde}")
             for file in srcf:
-                newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
-                # newfile = file.replace(str(kde)+"__", "")
-                shutil.move(src=down_fisher+file, dst=kde_folder+newfile)
-
-    # Modules.
-    files = os.listdir(down_modules)
-    for kde in kde_cutoff:
-        for module in down_module_names[kde]:
-            shutil.move(src=down_modules+module+"_cluster_"+str(kde)+".txt",
-                        dst=down_modules+str(kde)+"/"+module+"/"+"cluster.txt")
-            # The cluster files are already moved.
-            # Fisher_background need to be added here when package is updated.
-            srcf = [file_name for file_name in files if (module in file_name) and (("_"+str(kde)+"_") in file_name) and ("fisher" in file_name)]
-            for file in srcf:
-                newfile = file.split("_")[-1]
-                shutil.move(src=down_modules+file,
-                            dst=down_modules+str(kde)+"/"+module+"/fisher/"+newfile)
-    
-    """
-    UP - making folders.
-    """
-    up_rf = res_folder+"increased/" 
-    if os.path.exists(up_rf):
-        print("Folder already exists from previous run, will be deleted now (along with files)")
-        shutil.rmtree(up_rf)
-    os.mkdir(up_rf)
-        
-    # Creating next level folder.
-    up_cluster = up_rf+"cluster/"
-    up_fisher = up_rf+"fisher/"
-    up_networks = up_rf+"networks/"
-    up_modules = up_rf+"results_modules/"
-    os.mkdir(up_cluster)
-    os.mkdir(up_fisher)
-    os.mkdir(up_networks)
-    os.mkdir(up_modules)
-
-    # Creating the kde-level folder.
-    for kde in kde_cutoff:
-        os.mkdir(up_cluster+str(kde))
-        os.mkdir(up_networks+str(kde))
-
-    # Fisher folder has extra levels.
-    for fisher_bg in fisher_background:
-        os.mkdir(up_fisher+fisher_bg+"/")
-        for kde in kde_cutoff:
-            os.mkdir(up_fisher+fisher_bg+"/"+str(kde))
-
-
-    # Module folder has extra levels for each module. First get number of modules.
-    # Note that number of modules is dependent on the kde cutoff.
-    files = os.listdir(res_folder)
-    up_files = [file_name for file_name in files if "increased_" in file_name]
-
-    up_module_names = dict()
-    for kde in kde_cutoff:
-        up_module_names[kde] = set()
-        for file_name in up_files:
-            if("module_" in file_name and str(kde) in file_name):
-                module = file_name.split("_")[2]
-                module = "module_" + module
-                up_module_names[kde].add(module)
-        # Make first layer folder.
-        os.mkdir(up_modules+str(kde))
-        for module in up_module_names[kde]:
-            # Make second/third layer folder.
-            os.mkdir(up_modules+str(kde)+"/"+module)
-            os.mkdir(up_modules+str(kde)+"/"+module+"/fisher/")
+                new_file = "KDE_egos.txt"
+                shutil.move(src=res_folder+file, dst=direction_KDE_rf+new_file)
             
-    """
-    UP - moving files.
-    """
-    # Move into first level.
-    files = os.listdir(res_folder)
-    srcf = [file_name for file_name in files if "increased_" in file_name]
-    for file in srcf:
-        newfile = file.replace("increased_", "")
-        shutil.move(src=res_folder+file, 
-                    dst=up_rf+newfile)
-
-    # Move into second level.
-    files = os.listdir(up_rf)
-    labels = ["sig_cluster_", "sig_fisher_", "module_"]
-    dst_folders = [up_cluster, up_fisher, up_modules]
-    rep_labels = ["","","module_"]
-    for label, dst_folder, rep_label in zip(labels, dst_folders, rep_labels):
-        srcf = [file_name for file_name in files if label in file_name]
-        for file in srcf:
-            newfile = file.replace(label, rep_label)
-            shutil.move(src=up_rf+file, dst=dst_folder+newfile)
+            ######## Create fisher folder ########
+            direction_KDE_fisher_rf = direction_KDE_rf + "fisher/"
+            os.mkdir(direction_KDE_fisher_rf)
+            # Move all fisher files for signature.
+            srcf = [file_name for file_name in direction_files if "_sig_fisher_" in file_name and str(kde) in file_name]
+            for file in srcf:
+                new_file = file.split("_")[-1]
+                shutil.move(src=res_folder+file, dst=direction_KDE_fisher_rf+new_file)
+                
+            ######## Create network folder ########
+            direction_KDE_networks_rf = direction_KDE_rf + "networks/"
+            os.mkdir(direction_KDE_networks_rf)
+            # Move supernodes_net.
+            srcf = [file_name for file_name in direction_files if "_supernodes_net_" in file_name and str(kde) in file_name]
+            # There should only be one supernodes_net per kde x direction.
+            if(len(srcf)>1):
+                sys.exit(f"More than one supernodes_net is present for '{direction}'. KDE is {kde}")
+            for file in srcf:
+                new_file = "supernodes_net.txt"
+                shutil.move(src=res_folder+file, dst=direction_KDE_networks_rf+new_file)
+            # Move sig_net and module_net
+            srcf = [file_name for file_name in direction_files if net_format in file_name and str(kde) in file_name]
+            for file in srcf:
+                new_file = file.replace("_"+direction+"_"+str(kde), "")
+                shutil.move(src=res_folder+file, dst=direction_KDE_networks_rf+new_file)
             
-    # Move into third level.
-    # Signatures.
-    for kde in kde_cutoff:
-        shutil.move(src=up_cluster+str(kde)+".txt", 
-                    dst=up_cluster+str(kde)+"/"+test_name)
-        
-    # Networks.
-
-    # Fishers.
-    # Need to provide fisher_background to filename and use the commented line instead.
-    files = os.listdir(up_fisher)
-    for fisher_bg in fisher_background:
-        bg_folder = up_fisher+fisher_bg+"/"
-        for kde in kde_cutoff:
-            kde_folder = bg_folder+str(kde)+"/"
-            # srcf = [file_name for file_name in files if str(kde) in file_name]
-            srcf = [file_name for file_name in files if fisher_bg in file_name and ("_"+str(kde)+"_") in file_name]
-            for file in srcf:
-                newfile = file.replace(fisher_bg+"_"+str(kde)+"_", "")
-                # newfile = file.replace(str(kde)+"__", "")
-                shutil.move(src=up_fisher+file, dst=kde_folder+newfile)
-
-    # Modules.
-    files = os.listdir(up_modules)
-    for kde in kde_cutoff:
-        for module in up_module_names[kde]:
-            shutil.move(src=up_modules+module+"_cluster_"+str(kde)+".txt",
-                        dst=up_modules+str(kde)+"/"+module+"/"+"cluster.txt")
-            # The cluster files are already moved.
-            # Fisher_background need to be added here when package is updated.
-            srcf = [file_name for file_name in files if (module in file_name) and (("_"+str(kde)+"_") in file_name) and ("fisher" in file_name)]
-            for file in srcf:
-                newfile = file.split("_")[-1]
-                shutil.move(src=up_modules+file,
-                            dst=up_modules+str(kde)+"/"+module+"/fisher/"+newfile)
+            ######## Create module folders ########
+            direction_KDE_modules_rf = direction_KDE_rf + "modules/"
+            os.mkdir(direction_KDE_modules_rf)
+            # Collect the module names for the regulation direction.
+            direction_module_names = set()
+            for file_name in direction_files:
+                if("module_" in file_name and str(kde) in file_name):
+                    module = file_name.split("_")[2]
+                    module = "module_" + module
+                    direction_module_names.add(module)
+            
+            # Module folder has extra levels for each module. 
+            for module in direction_module_names:
+                # Module folder.
+                direction_KDE_modules_module_rf = direction_KDE_modules_rf+module+"/"
+                os.mkdir(direction_KDE_modules_module_rf)
+                # Move module_egos file.
+                srcf = [file_name for file_name in direction_files if module in file_name and "_cluster_" in file_name and str(kde) in file_name]
+                for file in srcf:
+                    new_file = "module_egos.txt"
+                    shutil.move(res_folder+file, direction_KDE_modules_module_rf+new_file)
+                
+                # Module fisher folder.
+                direction_KDE_modules_module_fisher_rf = direction_KDE_modules_rf+module+"/fisher/"
+                os.mkdir(direction_KDE_modules_module_fisher_rf)
+                # Move module fisher files.
+                srcf = [file_name for file_name in direction_files if module in file_name and "_fisher_" in file_name and str(kde) in file_name]
+                for file in srcf:
+                    new_file = file.split("_")[-1]
+                    shutil.move(res_folder+file, direction_KDE_modules_module_fisher_rf+new_file)
