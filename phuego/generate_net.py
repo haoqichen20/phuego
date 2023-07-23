@@ -79,7 +79,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
             """
             # The kde is a float. Convert to string for using in path.
             i = str(i)
-            f1=open(res_folder+"upregulated_sig_cluster_"+i+".txt")
+            f1=open(res_folder+"increased_sig_cluster_"+i+".txt")
             seq=f1.readline()
             nodes=set()
             while(seq!=""):
@@ -102,7 +102,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
             """
             files = os.listdir(res_folder)
             module_files = [file_name for file_name in files 
-                             if ("upregulated_module_" in file_name) and 
+                             if ("increased_module_" in file_name) and 
                                 (("_cluster_"+i+".txt") in file_name)]
             # Get the module name, such as "module_0".
             modules = []
@@ -138,7 +138,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
             """
             # The kde is a float. Convert to string for using in path.
             i = str(i)
-            f1=open(res_folder+"downregulated_sig_cluster_"+i+".txt")
+            f1=open(res_folder+"decreased_sig_cluster_"+i+".txt")
             seq=f1.readline()
             nodes=set()
             while(seq!=""):
@@ -162,7 +162,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
             # Get the module file names (for downregulated and a specific kde_cutoff)
             files = os.listdir(res_folder)
             module_files = [file_name for file_name in files 
-                             if ("downregulated_module_" in file_name) and 
+                             if ("decreased_module_" in file_name) and 
                                 (("_cluster_"+i+".txt") in file_name)]
             # Get the module name, such as "module_0".
             modules = []
