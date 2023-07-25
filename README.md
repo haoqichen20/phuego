@@ -226,6 +226,49 @@ some text
 #### pfam_domains.txt
 some text
 
+### Input
+phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column.
+
+### Output
+#### pvalues.txt
+This file contains the pvalues for each node of the network. It is divided in seven columns, the first column refers to the uniprot ids.
+Columns from 2,3,and 4 refers to the pvalues associated with the increased phosphorylation nodes pvalues, of which:
+    -second column refers to the pvalues when increased phosphorilated tyrosine are used as seed nodes 
+    -third column refers to the pvalues when all the other increased phosphorilated kinases are used as seed nodes, 
+    -fourth column refers to the pvalues when the increased phosphorilated substrates are used as seed nodes.
+
+Columns from 5,6 and 7 refers to the pvalues associated with the decreased phosphorylated nodes pvalues, of which:
+    -fifth column refers to the pvalues when decreased phosphorilated tyrosine are used as seed nodes 
+    -sixt column refers to the pvalues when all the other decreased phosphorilated kinases are used as seed nodes, 
+    -seventh column refers to the pvalues when the decreased phosphorilated substrates are used as seed nodes.
+
+A value greater than 950 indicates a pvalues<0.05 as well as a values greater than 990 indicates a pvalues<0.01
+#### rwr_scores.txt
+This file has the same format of pvalues.txt with the difference that values indicates rwr scores 
+
+#### start_seeds.txt 
+First column is uniprot id, second column is phosphorylation LFC (is it exactly the same as the user input?)
+
+#### KDE_egos.txt
+First column is a seed node, the remaining column are the neighbors associated with the seed nodes. 
+
+#### module_egos.txt
+Has the same format of KDE_egos.txt but refers to the module specific nodes associated to the seed nodes.
+
+#### Fisher test
+Inside the fishers folder 8 files are can be found:
+Pfisher.txt refers to the enriched terms against Gene Ontology biological process
+Ffisher.txt refers to the enriched terms against Gene Ontology functional 
+Cfisher.txt refers to the enriched terms against Gene Ontology cellular component
+Kfisher.txt refers to the enriched terms against KEGG
+Rfisher.txt refers to the enriched terms against Reactome when only the leaves are consider as annotation
+RTfisher.txt refers to the enriched terms against Reactome when all the hierarchy is considered
+Dfisher.txt refers to the enriched terms against DisGenenet
+Bfisher.txt refers to the enriched terms against Bioplanet
+
+#### Networks
+The most interesting results that the user should be looking at is: 
+
 ### phuego function variables
 #### iteam A
 #### iteam B
@@ -233,15 +276,6 @@ some text
 ### Additional phuego CLI variables
 #### iteam A
 #### iteam B
-
-### Input
-#### iteam A
-#### iteam B
-
-### Output
-#### iteam A
-#### iteam B
-
 
 ## Development
 
