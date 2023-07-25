@@ -70,47 +70,21 @@ def fisher_test(protein_list,threshold,component,path_def,starting_proteins,
             fisher[i]=fisher_exact(table,alternative ="greater")[1]
             if fisher[i]<(threshold/lenfisherset):
                 if fisher[i] in fisher_value:
-                    #fisher_value_ic[ic[i]].append(i)
                     fisher_value[fisher[i]].append(i)
                 else:
-                    #fisher_value_ic[ic[i]]=[]
                     fisher_value[fisher[i]]=[]
-                    #fisher_value_ic[ic[i]].append(i)
                     fisher_value[fisher[i]].append(i)
-            """
-            else:
-                if fisher[i] in fisher_value_no:
-                    fisher_value_no[fisher[i]].append(i)
-                else:
-                    fisher_value_no[fisher[i]]=[]
-                    fisher_value_no[fisher[i]].append(i)
-            """
+
         
         # Allow input name.
         f2=open(path_def+fname+"_"+ii+"fisher.txt","w")
         
         # Add a header to the fisher output.
-        f2.write("Geneset"+"\t"+"adjusted_p"+"\t"+"Geneset_size"+"\t"+"N_nodes"+"\t"
-        +"Description"+"\t"+"Nodes"+"\n")
+        f2.write("DB id"+"\t"+"adjusted_p"+"\t"+"nodes_in_the_network"+"\t"+"N_of_seed_nodes"+"\t"+"Description"+"\t"+"gene_names"+"\n")
         
         for i in sorted(fisher_value):
             for j in fisher_value[i]:
                 temp_gene=[]
-                summation=0.0
                 for k in list(set(protein_list).intersection(set(protein_annotation[j]))):
-                    #summation+=pagerank.get(k,0.0)
                     temp_gene.append(uniprot_to_gene.get(k,k))
-                #summation=summation/float(len(temp_gene))
                 f2.write(j+"\t"+str(i)+"\t"+str(fisherset[j])+"\t"+str(len(list(set(starting_proteins).intersection(set(protein_annotation[j])))))+"\t"+descr[j]+"\t"+"\t".join(temp_gene)+"\n")
-"""
-        for i in sorted(fisher_value_no):
-            for j in fisher_value_no[i]:
-                temp_gene=[]
-                summation=0.0
-                for k in list(set(protein_list).intersection(set(protein_annotation[j]))):
-                    temp_gene.append(uniprot_to_gene.get(k,k))
-                    summation+=pagerank[k]
-                summation=summation/float(len(temp_gene))
-                f2.write("*"+"\t"+str(summation)+"\t"+j+"\t"+str(i)+"\t"+str(fisherset[j])+"\t"+str(len(list(set(starting_proteins).intersection(set(protein_annotation[j])))))+"\t"+descr[j]+"\t"+"\t".join(temp_gene)+"\n")
-
-"""
