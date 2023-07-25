@@ -53,7 +53,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
         for i in rwr_net_increased.vs:
             if i["name"] in seeds_increase:
                 rwr_net_increased.vs[i.index]["Is_seed"]=True
-          # Output the increased network.
+        # Output the increased network.
         fname = res_folder+"rwr_increased."+net_format
         ig.write(rwr_net_increased,fname,format=net_format)
 
@@ -70,12 +70,10 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
         fname = res_folder+"rwr_decreased."+net_format
         ig.write(rwr_net_decreased,fname,format=net_format)
 
-        """
-        UPREGULATED
-        """
+
         for i in kde_cutoff:
             """
-            SIGNATURE NETWORK.
+            UPREGULATED -- SIGNATURE NETWORK.
             """
             # The kde is a float. Convert to string for using in path.
             i = str(i)
@@ -98,8 +96,8 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
             ig.write(KDE_increased,fname,format=net_format)
    
             """
-            MODULE NETWORKS
-            """
+            UPREGULATED -- MODULE NETWORKS
+            """ 
             files = os.listdir(res_folder)
             module_files = [file_name for file_name in files 
                              if ("increased_module_" in file_name) and 
@@ -131,12 +129,8 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
             fname = res_folder+"module_net_increased_"+i+"."+net_format
             ig.write(module_net,fname,format=net_format)
 
-        """
-        DOWNREGULATED
-        """
-        for i in kde_cutoff:
             """
-            SIGNATURE NETWORK
+            DOWNREGULATED -- SIGNATURE NETWORK
             """
             # The kde is a float. Convert to string for using in path.
             i = str(i)
@@ -159,8 +153,8 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
             ig.write(KDE_decreased,fname,format=net_format)
 
             """
-            MODULE NETWORKS
-            """
+            DOWNREGULATED -- MODULE NETWORKS
+            """ 
             # Get the module file names (for downregulated and a specific kde_cutoff)
             files = os.listdir(res_folder)
             module_files = [file_name for file_name in files 
