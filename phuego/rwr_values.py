@@ -144,13 +144,15 @@ def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
 	for i in empirical_values:
 		f1.write(i+"\t"+"\t".join(map(str,empirical_values[i]))+"\n")
 	f1.close()
-	f1.write('uniprotid\tincreased_tyr\tincreased_kinases\tincreased_substrates\tdecreased_tyr\tdecreased_kinases\tdecreased_substrates\n')
+	
 	f1=open(res_folder+"pvalues.txt","w")
+ 	f1.write('uniprotid\tincreased_tyr\tincreased_kinases\tincreased_substrates\tdecreased_tyr\tdecreased_kinases\tdecreased_substrates\n')
 	for i in pvalues:
 		f1.write(i+"\t"+"\t".join(map(str,pvalues[i]))+"\n")
 	f1.close()
-	f1.write('uniprotid\tLFC_value\n')
+	
 	f1=open(res_folder+"start_seeds.txt","w")
+ 	f1.write('uniprotid\tLFC_value\n')
 	for i in seeds[0]+seeds[1]+seeds[2]:
 		f1.write(i+"\t"+str(seeds_pos[i])+"\n")
 
