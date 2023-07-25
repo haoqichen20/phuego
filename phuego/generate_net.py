@@ -2,8 +2,35 @@
 import igraph as ig
 from os import path
 import numpy as np
+import pandas as pd
 import sys,os
 import os.path
+
+def graph_to_df(G, seed, nodes_modules):
+    edges = []
+    for e in G.es:
+        ProteinA = G.vs[e.source]["name"]
+        ProteinB = G.vs[e.target]["name"]
+        edge_dict = {
+            "ProteinA": ProteinA,
+            "ProteinB": ProteinB,
+            "weight": e["weight"],
+            "A_is_seed": ProteinA in seed,
+            "B_is_seed": ProteinB in seed,
+            "all_modules": []
+        }
+        in_any_module = False
+        # Check if the edge is in the modules.
+        for module_name, node_list in nodes_modules.items():
+            in_module = (ProteinA in node_list) and (ProteinB in node_list)
+            edge_dict[f"is_{module_name}"] = in_module
+            if in_module:
+                in_any_module = True
+                edge_dict["all_modules"].append(module_name.split("_")[1])
+        edge_dict["inter_module"] = not in_any_module
+        edges.append(edge_dict)
+    df = pd.DataFrame(edges)
+    return df
 
 def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
                   include_isolated_egos_in_KDE_net,net_format,):
@@ -110,24 +137,30 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
                 modules.append(module)
 
             all_nodes=set()
+            nodes_module=dict()
             for module, module_file in zip(modules, module_files): 
                 KDE_increased.vs[module]=list(np.full(number_of_nodes, False))
                 f1 = open(res_folder+module_file)
                 seq=f1.readline()
-                nodes_module=set()
+                nodes_module[module]=set()
                 while(seq!=""):
                     seq=seq.strip().split("\t")
-                    nodes_module.update(seq)
+                    nodes_module[module].update(seq)
                     seq=f1.readline()
                 # Label the KDE_increased vertices attribute with module name.
                 # This vertice attribute will be inherited to module_net when subgraph is induced.
-                KDE_increased.vs[module]=np.in1d(KDE_increased.vs["name"], list(nodes_module))
-                all_nodes.update(nodes_module)
+                KDE_increased.vs[module]=np.in1d(KDE_increased.vs["name"], list(nodes_module[module]))
+                all_nodes.update(nodes_module[module])
             #write the net
             module_net=KDE_increased.induced_subgraph(all_nodes)
             module_net["title"] ="Module_increased_net"
             fname = res_folder+"module_net_increased_"+i+"."+net_format
             ig.write(module_net,fname,format=net_format)
+            
+            # Create the dataframe for annotated csv output of module network.
+            seed = seeds_increase + seeds_decrease
+            df_module_net = graph_to_df(module_net, seed, nodes_module)
+            df_module_net.to_csv("module_net_increased_"+i+".csv")
 
             """
             DOWNREGULATED -- SIGNATURE NETWORK
@@ -168,20 +201,26 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
                 modules.append(module)
             
             all_nodes=set()
+            nodes_module=dict()
             for module, module_file in zip(modules, module_files):
                 KDE_decreased.vs[module]=list(np.full(number_of_nodes, False))
                 f1=open(res_folder+module_file)
                 seq=f1.readline()
-                nodes_module=set()
+                nodes_module[module]=set()
                 while(seq!=""):
                     seq=seq.strip().split("\t")
-                    nodes_module.update(seq)
+                    nodes_module[module].update(seq)
                     seq=f1.readline()
-                all_nodes.update(nodes_module)
-                KDE_decreased.vs[module]=np.in1d(KDE_decreased.vs["name"], list(nodes_module))
+                all_nodes.update(nodes_module[module])
+                KDE_decreased.vs[module]=np.in1d(KDE_decreased.vs["name"], list(nodes_module[module]))
 
             #write the net
             module_net=KDE_decreased.induced_subgraph(all_nodes)
             module_net["title"] ="Module_decreased_net"
             fname = res_folder+"module_net_decreased_"+i+"."+net_format
             ig.write(module_net,fname,format=net_format)
+            
+            # Create the dataframe for annotated csv output of module network.
+            # seed = seeds_increase + seeds_decrease
+            df_module_net = graph_to_df(module_net, seed, nodes_module)
+            df_module_net.to_csv("module_net_decreased_"+i+".csv")
