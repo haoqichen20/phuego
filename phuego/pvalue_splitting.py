@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+from .fishertest import fisher_test
 
-def pvalue_split(res_folder, seeds, graph_nodes):
+def pvalue_split(res_folder, seeds, graph_nodes, 
+                 fisher_threshold, fisher_geneset, uniprot_to_gene, geneset_path):
     '''
     Separate the pvalues for upregulated/downregulated nodes.
     '''
@@ -25,6 +27,46 @@ def pvalue_split(res_folder, seeds, graph_nodes):
     pvalues_neg=pvalues_neg+seeds[3]+seeds[4]+seeds[5]
     #perfrom fishertest on the seeds and rwr nodes
     
+    fname = "increased_rwr_fisher_"
+    fisher_test(protein_list=pvalues_pos,
+                starting_proteins=list(set(seeds[0]+seeds[1]+seeds[2])),
+                fname=fname,
+                threshold=fisher_threshold,
+                component=fisher_geneset,
+                path_def=res_folder,
+                uniprot_to_gene=uniprot_to_gene,
+                geneset_path=geneset_path,
+                )
+    fname = "decreased_rwr_fisher_"
+    fisher_test(protein_list=pvalues_neg,
+            starting_proteins=list(set(seeds[3]+seeds[4]+seeds[5])),
+            fname=fname,
+            threshold=fisher_threshold,
+            component=fisher_geneset,
+            path_def=res_folder,
+            uniprot_to_gene=uniprot_to_gene,
+            geneset_path=geneset_path,
+            )
+    fname = "increased_seed_fisher_"
+    fisher_test(protein_list=seeds[0]+seeds[1]+seeds[2],
+            starting_proteins=list(set(seeds[0]+seeds[1]+seeds[2])),
+            fname=fname,
+            threshold=fisher_threshold,
+            component=fisher_geneset,
+            path_def=res_folder,
+            uniprot_to_gene=uniprot_to_gene,
+            geneset_path=geneset_path,
+        )
+    fname = "decreased_seed_fisher_"
+    fisher_test(protein_list=seeds[3]+seeds[4]+seeds[5],
+            starting_proteins=list(set(seeds[3]+seeds[4]+seeds[5])),
+            fname=fname,
+            threshold=fisher_threshold,
+            component=fisher_geneset,
+            path_def=res_folder,
+            uniprot_to_gene=uniprot_to_gene,
+            geneset_path=geneset_path,
+        )
 
     
     '''
