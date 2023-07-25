@@ -115,7 +115,14 @@ def phuego(support_data_folder, res_folder, test_path,
     Split the pvalues.
     """
     # pvalues is imported from file in res_folder.
-    pvalues_pos, pvalues_neg = pvalue_split(res_folder, seeds, graph_nodes)
+    pvalues_pos, pvalues_neg = pvalue_split(res_folder=res_folder,
+                                          seeds=seeds,
+                                          graph_nodes=graph_nodes,
+                                          fisher_threshold=fisher_threshold,
+                                          fisher_geneset=fisher_geneset,
+                                          uniprot_to_gene=uniprot_to_gene,
+                                          geneset_path=geneset_path,
+                                          )
     
     """
     EGO.
