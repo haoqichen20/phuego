@@ -9,7 +9,7 @@ from scipy.spatial.distance import jensenshannon
 
 def ego_filtering(network, pval, seeds, sim, zscores_global, kde_cutoff, 
                   direction, uniprot_to_gene, res_folder,
-                  geneset_path, fisher_geneset, fisher_threshold, fisher_background):
+                  geneset_path, fisher_geneset, fisher_threshold, ):
     # Below: only add kde_cutoff to ego_friends input.
     subnet = network.induced_subgraph(list(network.vs.select(name_in=pval)),implementation='create_from_scratch')
     subnet.vs.select(_degree=0).delete()
@@ -35,7 +35,6 @@ def ego_filtering(network, pval, seeds, sim, zscores_global, kde_cutoff,
                                        geneset_path=geneset_path, 
                                        fisher_geneset=fisher_geneset, 
                                        fisher_threshold=fisher_threshold,
-                                       fisher_background=fisher_background,
                                        )
     return supernodes,all_nodes
 
@@ -145,7 +144,7 @@ def ego_friends(subnet,position_nodes,seed_nodes,sim,zscores,kde_cutoff):
     return nodes_kde
 
 def write_results(nodes_kde, seed_nodes, kde_cutoff, direction, uniprot_to_gene, 
-                  res_folder, geneset_path, fisher_geneset, fisher_threshold, fisher_background,):
+                  res_folder, geneset_path, fisher_geneset, fisher_threshold, ):
     all_nodes={}
     supernodes={}
     for j in kde_cutoff:
@@ -166,7 +165,7 @@ def write_results(nodes_kde, seed_nodes, kde_cutoff, direction, uniprot_to_gene,
       ###########################################
         if fisher_proteins:
             # Create filename for fisher output.
-            fname = direction+"_sig_fisher_"+fisher_background+"_"+str(j)
+            fname = direction+"_sig_fisher_"+str(j)
             fisher_test(protein_list=fisher_proteins,
                         starting_proteins=seed_nodes,
                         fname=fname,

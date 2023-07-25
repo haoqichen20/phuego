@@ -22,7 +22,7 @@ from scipy.spatial.distance import jensenshannon
 
 def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gene,
                   supernodes,all_nodes,direction,geneset_path,fisher_geneset, 
-                  fisher_threshold,fisher_background,):
+                  fisher_threshold,):
     
     for kde in kde_cutoff:        
         kde_net=network.induced_subgraph(network.vs.select(name_in=all_nodes[kde]),implementation='copy_and_delete')
@@ -80,7 +80,6 @@ def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gen
                       geneset_path=geneset_path,
                       fisher_geneset=fisher_geneset,
                       fisher_threshold=fisher_threshold,
-                      fisher_background=fisher_background,
                      )
 
 
@@ -90,7 +89,7 @@ def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gen
 # the input is now a singular kde value, instead of kde_cutoff.
 
 def write_modules(clustering,nodes, kde, direction, uniprot_to_gene, res_folder, 
-                  geneset_path, fisher_geneset, fisher_threshold, fisher_background,):
+                  geneset_path, fisher_geneset, fisher_threshold, ):
     # base_folder=folder
     
     for j in enumerate(clustering):
@@ -107,7 +106,7 @@ def write_modules(clustering,nodes, kde, direction, uniprot_to_gene, res_folder,
         # fisher_folder=base_folder+"/module_"+str(j[0])+"/fisher/"
         # if not os.path.exists(fisher_folder):
         #     os.makedirs(fisher_folder)
-        fname = direction+"_module_"+str(j[0])+"_fisher_"+fisher_background+"_"+str(kde)
+        fname = direction+"_module_"+str(j[0])+"_fisher_"+str(kde)
         fisher_test(protein_list=fisher_proteins,
                     starting_proteins=j[1],
                     threshold=fisher_threshold,
