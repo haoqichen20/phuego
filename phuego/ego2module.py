@@ -10,23 +10,11 @@ from itertools import combinations
 from scipy.spatial.distance import jensenshannon
 
 
-# Import network from phuego(), note that it's gic_raw, not gic
-# Restructure output folders, removed the "test" variable.
-# Delete folder_res, will use the same res_folder for write_modules()
-# Damping in subnet.personalized_pagerank not touched.
-# Import all necessary packages.
-# Delete the commented code block.
-# Moved supernodes_net.write() to last of function, 
-
-
-
-def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gene,
+def test_function(network, kde_cutoff, res_folder, uniprot_to_gene,
                   supernodes,all_nodes,direction,geneset_path,fisher_geneset, 
                   fisher_threshold,):
-    
     for kde in kde_cutoff:        
         kde_net=network.induced_subgraph(network.vs.select(name_in=all_nodes[kde]),implementation='copy_and_delete')
-        kde_nodes=kde_net.vs["name"]
         supernodes_net=ig.Graph()
         temp=[]
         for i in combinations(supernodes[kde].keys(),2):
@@ -51,7 +39,6 @@ def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gen
                 if js_dist>0:
                     temp.append((i[0],i[1],js_dist))
         supernodes_net = ig.Graph.TupleList(temp,weights="weight",directed = False)
-        #supernodes_net=denoise_square(supernodes_net)
         components = supernodes_net.connected_components(mode="strong")
         modules=[]
         mod={}
@@ -67,7 +54,6 @@ def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gen
                 sm_net=supernodes_net.induced_subgraph(i[1],implementation='auto')
                 nodes=sm_net.vs["name"]
                 modules.append(nodes)
-        #print (modules)
         
         fname = direction+"_supernodes_net_"+str(kde)+".txt"
         supernodes_net.write(f=res_folder+fname,format="ncol")
@@ -82,30 +68,15 @@ def test_function(network, network_nodes, kde_cutoff, res_folder, uniprot_to_gen
                       fisher_threshold=fisher_threshold,
                      )
 
-
-# Remove the foldering structure here and replaced with names.
-# Make fisher_test() input compatible with new fisher_test() function.
-# Note that since this function is called within the for loop for kde_cutoff list, 
-# the input is now a singular kde value, instead of kde_cutoff.
-
 def write_modules(clustering,nodes, kde, direction, uniprot_to_gene, res_folder, 
                   geneset_path, fisher_geneset, fisher_threshold, ):
-    # base_folder=folder
-    
     for j in enumerate(clustering):
-        # if not os.path.exists(base_folder+"/module_"+str(j[0])):
-        #     os.makedirs(base_folder+"/module_"+str(j[0]))
-        # f1=open(base_folder+"/module_"+str(j[0])+"/cluster.txt","w")
-        
         f1=open(res_folder+direction+"_module_"+str(j[0])+"_cluster_"+str(kde)+".txt", "w")
         fisher_proteins=set()
         for k in j[1]:
             f1.write(k+"\t"+"\t".join(nodes[k])+"\n")
             fisher_proteins.update(nodes[k])
         
-        # fisher_folder=base_folder+"/module_"+str(j[0])+"/fisher/"
-        # if not os.path.exists(fisher_folder):
-        #     os.makedirs(fisher_folder)
         fname = direction+"_module_"+str(j[0])+"_fisher_"+str(kde)
         fisher_test(protein_list=fisher_proteins,
                     starting_proteins=j[1],
@@ -116,4 +87,3 @@ def write_modules(clustering,nodes, kde, direction, uniprot_to_gene, res_folder,
                     geneset_path=geneset_path,
                     fname=fname,
                     )
-            # fisher_proteins,0.05, ["P","C","F","R","K","RT","B","D"],fisher_folder,j[1],uniprot_to_gene,"intact")

@@ -157,7 +157,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     """
     if all_nodes_pos:
            test_function(network=network_raw,
-                         network_nodes=graph_nodes_raw,
+                     #     network_nodes=graph_nodes_raw,
                          kde_cutoff=kde_cutoff,
                          res_folder=res_folder,
                          uniprot_to_gene=uniprot_to_gene,
@@ -171,7 +171,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
            
     if all_nodes_neg:
            test_function(network=network_raw,
-                         network_nodes=graph_nodes_raw,
+                     #     network_nodes=graph_nodes_raw,
                          kde_cutoff=kde_cutoff,
                          res_folder=res_folder,
                          uniprot_to_gene=uniprot_to_gene,
