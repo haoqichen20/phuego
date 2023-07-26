@@ -22,6 +22,8 @@ This is the CLI tool for phuego.
               help="Should phuego organize result files into a folder structure?")
 @click.option("--test_path", "-tpath", default="", type=str, required=False, 
               help="The path of user input test file. If defined, -mock and -test should not be used.")
+@click.option("--ini_path", "-ipath", default="", type=str, required=False, 
+              help="The path of a csv file, that specify two sets of nodes to be removed from reference network during propagation.")
 
 # Support dataset download.
 @click.option("--need_fisher", is_flag=True, required=False,
@@ -47,12 +49,12 @@ This is the CLI tool for phuego.
               help="Damping factor for random walk with restart algorithm. Float number within range [0.5, 0.95]")
 @click.option("--rwr_threshold", "-rt", default=0.05, type=float, required=False, 
               help="Threshold of significance for propagated nodes. Float number within range [0.01, 0.1]")
-@click.option("--ini_pos", "-ip", default=['False'], type=str, multiple=True, 
-              required=False, 
-              help="List of nodes to be removed from network for the propagation of upregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_neg. If no node to be removed, leave as default.")
-@click.option("--ini_neg", "-in", default=['False'], type=str, multiple=True, 
-              required=False, 
-              help="List of nodes to be removed from network for the propagation of downregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_pos. If no node to be removed, leave as default.")
+# @click.option("--ini_pos", "-ip", default=['False'], type=str, multiple=True, 
+#               required=False, 
+#               help="List of nodes to be removed from network for the propagation of upregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_neg. If no node to be removed, leave as default.")
+# @click.option("--ini_neg", "-in", default=['False'], type=str, multiple=True, 
+#               required=False, 
+#               help="List of nodes to be removed from network for the propagation of downregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_pos. If no node to be removed, leave as default.")
 
 # ego propagation and fisher test.
 @click.option("--kde_cutoff", "-k", default=[0.85], type=float, multiple=True,
@@ -80,7 +82,7 @@ This is the CLI tool for phuego.
 
 def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
          need_fisher, need_gic_sim, need_networks, remove_zip_file,
-         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_pos, ini_neg, rwr_threshold, 
+         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_path, rwr_threshold, 
          include_isolated_egos_in_kde_net, net_format, version) -> None:
        
     # Print the version number.
@@ -101,8 +103,19 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
     # Click turns the multiple input into tuple. Make it as list now.
     fisher_geneset = list(fisher_geneset)
     kde_cutoff = list(kde_cutoff)
-    ini_pos = list(ini_pos)
-    ini_neg = list(ini_neg)
+    # ini_pos = list(ini_pos)
+    # ini_neg = list(ini_neg)
+        
+    # Create ini_pos and ini_neg, by default or by reading the ini_path file. 
+    if(ini_path == ""):
+       ini_pos = ["False"]
+       ini_neg = ["False"]
+    else:
+       f1=open(ini_path)
+       ini_pos = f1.readline().strip()
+       ini_pos = ini_pos.split(",")
+       ini_neg = f1.readline().strip()
+       ini_neg = ini_neg.split(",")
 
     # Run phuego.
     if(run_mock):
