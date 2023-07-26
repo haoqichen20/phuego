@@ -45,6 +45,8 @@ This is the CLI tool for phuego.
               help="Should phuego reuse existing network propagation results?")
 @click.option("--damping", "-d", default=0.85, type=float, required=False, 
               help="Damping factor for random walk with restart algorithm. Float number within range [0.5, 0.95]")
+@click.option("--rwr_threshold", "-rt", default=0.05, type=float, required=False, 
+              help="Threshold of significance for propagated nodes. Float number within range [0.01, 0.1]")
 @click.option("--ini_pos", "-ip", default=['False'], type=str, multiple=True, 
               required=False, 
               help="List of nodes to be removed from network for the propagation of upregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_neg. If no node to be removed, leave as default.")
@@ -78,7 +80,7 @@ This is the CLI tool for phuego.
 
 def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
          need_fisher, need_gic_sim, need_networks, remove_zip_file,
-         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_pos, ini_neg, 
+         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_pos, ini_neg, rwr_threshold, 
          include_isolated_egos_in_kde_net, net_format, version) -> None:
        
     # Print the version number.
@@ -135,6 +137,7 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               ini_pos=ini_pos,
               ini_neg=ini_neg,
               damping=damping,
+              rwr_threshold=rwr_threshold,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
               convert2folder=convert2folder,
@@ -153,6 +156,7 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               ini_pos=ini_pos,
               ini_neg=ini_neg,
               damping=damping,
+              rwr_threshold=rwr_threshold,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
               convert2folder=convert2folder,

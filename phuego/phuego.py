@@ -17,7 +17,7 @@ from .generate_net import generate_nets
 # one liner function of phuego package.
 def phuego(support_data_folder, res_folder, test_path, 
            fisher_geneset, fisher_threshold, fisher_background,
-           ini_pos, ini_neg, damping, kde_cutoff,
+           ini_pos, ini_neg, damping, kde_cutoff,rwr_threshold,
            use_existing_rwr = False, convert2folder = False, 
            include_isolated_egos_in_KDE_net=False,
            net_format="ncol",):
@@ -39,6 +39,8 @@ def phuego(support_data_folder, res_folder, test_path,
            sys.exit("damping should be a float number within range [0.5, 0.95]")
     if damping < 0.5 or damping > 0.95:
            sys.exit("damping should be a float number within range [0.5, 0.95]")
+    if rwr_threshold > 0.1 or rwr_threshold < 0.01:
+           sys.exit("rwr_threshold should be a float number within range [0.01, 0.1]")
     # Force kde_cutoff to be [0.5, 0.95]
     for kde in kde_cutoff:
            if kde < 0.5 or kde > 0.95:
@@ -122,6 +124,7 @@ def phuego(support_data_folder, res_folder, test_path,
                                           fisher_geneset=fisher_geneset,
                                           uniprot_to_gene=uniprot_to_gene,
                                           geneset_path=geneset_path,
+                                          rwr_threshold=rwr_threshold,
                                           )
     
     """

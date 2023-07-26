@@ -3,7 +3,7 @@
 import numpy as np
 from .fishertest import fisher_test
 
-def pvalue_split(res_folder, seeds, graph_nodes, 
+def pvalue_split(res_folder, seeds, graph_nodes, rwr_threshold,
                  fisher_threshold, fisher_geneset, uniprot_to_gene, geneset_path):
     '''
     Separate the pvalues for upregulated/downregulated nodes.
@@ -18,9 +18,9 @@ def pvalue_split(res_folder, seeds, graph_nodes,
     while(seq!=""):
         seq=seq.strip().split("\t")
         seq[1:]=np.array(seq[1:],float)
-        if max(seq[1:4])>950:
+        if max(seq[1:4]) > 1000 - rwr_threshold*1000:
             pvalues_pos.append(seq[0])
-        if max(seq[4:])>950:
+        if max(seq[4:]) > 1000 - rwr_threshold*1000:
             pvalues_neg.append(seq[0])
         seq=f1.readline()
 
