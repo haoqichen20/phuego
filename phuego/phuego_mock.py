@@ -21,25 +21,30 @@ def phuego_mock(support_data_folder, res_folder, test_path,
            net_format="ncol",):
     """
     Formatting user input.
-    """
-    # Force kde_cutoff input to be list.
-    if(type(kde_cutoff) is not list):
-           kde_cutoff = [ kde_cutoff ]
-    # Force the fisher_geneset input to be list.
-    if(type(fisher_geneset) is not list):
-           fisher_geneset = [ fisher_geneset ]
+    """               
     # Force the folder paths to end with /.
     support_data_folder = add_trailing_slash(support_data_folder)
-    res_folder = add_trailing_slash(res_folder)    
+    res_folder = add_trailing_slash(res_folder)
+        
     # Force damping to be [0.5, 0.95]
-    if type(damping) != float:
+    if type(damping) is not float:
            sys.exit("damping should be a float number within range [0.5, 0.95]")
     if damping < 0.5 or damping > 0.95:
            sys.exit("damping should be a float number within range [0.5, 0.95]")
-    # Force kde_cutoff to be [0.5, 0.95]
+    
+    # Force kde_cutoff input to be list and within [0.5, 0.95]
+    if type(kde_cutoff) is not list:
+           kde_cutoff = [ kde_cutoff ]
     for kde in kde_cutoff:
            if kde < 0.5 or kde > 0.95:
                   sys.exit("kde_cutoff should be within range [0.5, 0.95]")
+
+    # Force the fisher_geneset input to be list.
+    if type(fisher_geneset) is not list:
+           fisher_geneset = [ fisher_geneset ]
+    for geneset in fisher_geneset:
+           if geneset not in ["C","F","D","P","R","K","RT","B"]:
+                  sys.exit("fisher genesets should be chosen from C,F,D,P,R,K,RT,B")                  
                   
     """
     Create support data paths.
