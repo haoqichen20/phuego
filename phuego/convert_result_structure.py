@@ -9,9 +9,10 @@ def convert_result(res_folder, kde_cutoff, net_format):
     files = os.listdir(res_folder)
     for direction in ["decreased", "increased"]:
         # Get file names with direction flag.
-        # # rwr result files without direction flag will remain in res_folder.
+        # rwr result files without direction flag will remain in res_folder.
         direction_files = [file_name for file_name in files if direction in file_name]
-        # Direction master folder.
+        
+        # Create direction master folder.
         direction_rf = res_folder+direction+"/"
         if os.path.exists(direction_rf):
             print(f"Result sub-folder {direction} already exists from previous run, will be deleted now (along with files)")
@@ -20,6 +21,25 @@ def convert_result(res_folder, kde_cutoff, net_format):
         # Move rwr network file.
         shutil.move(src=res_folder+"rwr_"+direction+"."+net_format, 
                     dst=direction_rf+"rwr_net."+net_format)
+        
+        # Create seed fisher folder.
+        direction_seed_fisher_rf = direction_rf+"seed_fisher/"
+        os.mkdir(direction_seed_fisher_rf)
+        # Move all fisher files for seeds.
+        srcf = [file_name for file_name in direction_files if "_seed_fisher_" in file_name]
+        for file in srcf:
+            new_file = file.split("_")[-1]
+            shutil.move(src=res_folder+file, dst=direction_seed_fisher_rf+new_file)
+            
+        # Create rwr fisher folder.
+        direction_rwr_fisher_rf = direction_rf+"rwr_fisher/"
+        os.mkdir(direction_rwr_fisher_rf)
+        # Move all fisher files for rwr.
+        srcf = [file_name for file_name in direction_files if "_rwr_fisher_" in file_name]
+        for file in srcf:
+            new_file = file.split("_")[-1]
+            shutil.move(src=res_folder+file, dst=direction_rwr_fisher_rf+new_file)            
+        
         
         # Create subfolders and move files.
         for kde in kde_cutoff:
