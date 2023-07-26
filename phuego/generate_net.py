@@ -42,6 +42,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
 
         f1=open(res_folder+"start_seeds.txt")
         seq=f1.readline()
+        seq=f1.readline()
         seeds_increase=[]
         seeds_decrease=[]
         while(seq!=""):
@@ -57,6 +58,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
         f1=open(res_folder+"pvalues.txt")
         pvalues_pos=[]
         pvalues_neg=[]
+        seq=f1.readline()
         seq=f1.readline()
         while(seq!=""):
             seq=seq.strip().split("\t")

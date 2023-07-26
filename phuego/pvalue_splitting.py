@@ -13,6 +13,7 @@ def pvalue_split(res_folder, seeds, graph_nodes,
  
     f1=open(res_folder+"pvalues.txt")
     seq=f1.readline()
+    seq=f1.readline()
     #the pvalues need to be a parameter for the users  
     while(seq!=""):
         seq=seq.strip().split("\t")
@@ -75,6 +76,7 @@ def pvalue_split(res_folder, seeds, graph_nodes,
     f1=open(res_folder+"rwr_scores.txt")
     rwr_pos={}
     rwr_neg={}
+    seq=f1.readline()
     seq=f1.readline()
     while(seq!=""):
         seq=seq.strip().split("\t")
