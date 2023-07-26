@@ -56,7 +56,7 @@ This is the CLI tool for phuego.
 @click.option("--kde_cutoff", "-k", default=[0.85], type=float, multiple=True,
               required=False, 
               help="KDE cutoff value for removing less similar nodes in ego network. A float number within range [0.5, 0.95]. Multiple numbers can be provided at the same time by reusing the argument flag.")
-@click.option("--fisher_geneset", "-fg", default=["B"], type=str, multiple=True,
+@click.option("--fisher_geneset", "-fg", default=["K"], type=str, multiple=True,
               required=False, 
               help="Abbreviation of genesets to be tested when annotating modules of propagation, can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the argument flag. Refer to documents to learn what each abbreviation stands for.")
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float, 
