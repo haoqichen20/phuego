@@ -10,6 +10,7 @@ from .ego import ego_filtering
 from .ego2module import test_function
 from .convert_result_structure import convert_result
 from .generate_net import generate_nets
+from .fishertest import fisher_test
 
 # one liner function of phuego package.
 def phuego_mock(support_data_folder, res_folder, test_path, 
@@ -366,7 +367,8 @@ def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
        # return empirical_values,pvalues
 
 
-def pvalue_split_mock(res_folder, damping, seeds, graph_nodes):
+def pvalue_split_mock(res_folder, damping, seeds, graph_nodes, 
+                      fisher_threshold, fisher_geneset, uniprot_to_gene, geneset_path):
     '''
     Separate the pvalues for upregulated/downregulated nodes.
     '''
@@ -387,6 +389,48 @@ def pvalue_split_mock(res_folder, damping, seeds, graph_nodes):
 
     pvalues_pos=pvalues_pos+seeds[0]+seeds[1]+seeds[2]
     pvalues_neg=pvalues_neg+seeds[3]+seeds[4]+seeds[5]
+    
+    #perfrom fishertest on the seeds and rwr nodes
+    fname = "increased_rwr_fisher_"
+    fisher_test(protein_list=pvalues_pos,
+                starting_proteins=list(set(seeds[0]+seeds[1]+seeds[2])),
+                fname=fname,
+                threshold=fisher_threshold,
+                component=fisher_geneset,
+                path_def=res_folder,
+                uniprot_to_gene=uniprot_to_gene,
+                geneset_path=geneset_path,
+                )
+    fname = "decreased_rwr_fisher_"
+    fisher_test(protein_list=pvalues_neg,
+            starting_proteins=list(set(seeds[3]+seeds[4]+seeds[5])),
+            fname=fname,
+            threshold=fisher_threshold,
+            component=fisher_geneset,
+            path_def=res_folder,
+            uniprot_to_gene=uniprot_to_gene,
+            geneset_path=geneset_path,
+            )
+    fname = "increased_seed_fisher_"
+    fisher_test(protein_list=seeds[0]+seeds[1]+seeds[2],
+            starting_proteins=list(set(seeds[0]+seeds[1]+seeds[2])),
+            fname=fname,
+            threshold=fisher_threshold,
+            component=fisher_geneset,
+            path_def=res_folder,
+            uniprot_to_gene=uniprot_to_gene,
+            geneset_path=geneset_path,
+        )
+    fname = "decreased_seed_fisher_"
+    fisher_test(protein_list=seeds[3]+seeds[4]+seeds[5],
+            starting_proteins=list(set(seeds[3]+seeds[4]+seeds[5])),
+            fname=fname,
+            threshold=fisher_threshold,
+            component=fisher_geneset,
+            path_def=res_folder,
+            uniprot_to_gene=uniprot_to_gene,
+            geneset_path=geneset_path,
+        )
     
     '''
     Separate the rwr_scores for upregulated/downregulated nodes.
