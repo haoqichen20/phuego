@@ -372,7 +372,7 @@ def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
        # return empirical_values,pvalues
 
 
-def pvalue_split_mock(res_folder, damping, seeds, graph_nodes, 
+def pvalue_split_mock(res_folder, seeds, graph_nodes, 
                       fisher_threshold, fisher_geneset, uniprot_to_gene, geneset_path):
     '''
     Separate the pvalues for upregulated/downregulated nodes.
