@@ -32,7 +32,7 @@ def graph_to_df(G, seed, nodes_modules):
     df = pd.DataFrame(edges)
     return df
 
-def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
+def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshold,
                   include_isolated_egos_in_KDE_net,net_format,):
     if os.path.isdir(res_folder):
         gene_label=[]
@@ -63,9 +63,9 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff,
         while(seq!=""):
             seq=seq.strip().split("\t")
             seq[1:]=np.array(seq[1:],float)
-            if max(seq[1:4])>950:
+            if max(seq[1:4]) > 1000 - rwr_threshold*1000:
                 pvalues_pos.append(seq[0])
-            if max(seq[4:])>950:
+            if max(seq[4:]) > 1000 - rwr_threshold*1000:
                 pvalues_neg.append(seq[0])
             seq=f1.readline()
         f1.close()

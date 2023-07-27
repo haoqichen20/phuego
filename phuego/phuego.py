@@ -205,6 +205,7 @@ def phuego(support_data_folder, res_folder, test_path,
                   network=network_raw,
                   uniprot_to_gene=uniprot_to_gene,
                   kde_cutoff=kde_cutoff,
+                  rwr_threshold=rwr_threshold,
                   include_isolated_egos_in_KDE_net=include_isolated_egos_in_KDE_net,
                   net_format=net_format,
                   )
