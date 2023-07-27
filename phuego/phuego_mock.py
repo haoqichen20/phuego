@@ -2,15 +2,18 @@
 
 import igraph as ig
 import numpy as np
+import pandas as pd
 import sys
+import os.path
 from .utils import load_gene_names
 from .utils import add_trailing_slash
 from .load_seeds import load_seeds
 from .ego import ego_filtering
 from .ego2module import test_function
 from .convert_result_structure import convert_result
-from .generate_net import generate_nets
 from .fishertest import fisher_test
+from .generate_net import graph_to_df
+
 
 # one liner function of phuego package.
 def phuego_mock(support_data_folder, res_folder, test_path, 
@@ -192,13 +195,13 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     """
     Output CytoScape compatible network files.
     """
-    generate_nets(res_folder=res_folder,
-                  network=network_raw,
-                  uniprot_to_gene=uniprot_to_gene,
-                  kde_cutoff=kde_cutoff,
-                  include_isolated_egos_in_KDE_net=include_isolated_egos_in_KDE_net,
-                  net_format=net_format,
-                  )
+    generate_nets_mock(res_folder=res_folder,
+                       network=network_raw,
+                       uniprot_to_gene=uniprot_to_gene,
+                       kde_cutoff=kde_cutoff,
+                       include_isolated_egos_in_KDE_net=include_isolated_egos_in_KDE_net,
+                       net_format=net_format,
+                       )
     """
     Convert results if required.
     """
@@ -470,3 +473,199 @@ def pvalue_split_mock(res_folder, seeds, graph_nodes,
     pvalues_neg=list(set(pvalues_neg).intersection(graph_nodes))
     
     return(pvalues_pos, pvalues_neg)
+
+
+def generate_nets_mock(res_folder, network, uniprot_to_gene, kde_cutoff,
+                  include_isolated_egos_in_KDE_net,net_format,):
+    if os.path.isdir(res_folder):
+        gene_label=[]
+        for i in network.vs["name"]:
+            gene_label.append(uniprot_to_gene.get(i,"Not_available"))
+        network.vs["Gene_name"]=gene_label
+
+        f1=open(res_folder+"start_seeds.txt")
+        seq=f1.readline()
+        seq=f1.readline()
+        seeds_increase=[]
+        seeds_decrease=[]
+        while(seq!=""):
+            seq= seq.strip().split("\t")
+            seq[1]=float(seq[1])
+            if seq[1]>0.0:
+                seeds_increase.append(seq[0])
+            if seq[1]<-0.0:
+                seeds_decrease.append(seq[0])
+            seq=f1.readline()
+        f1.close()
+
+        f1=open(res_folder+"pvalues.txt")
+        pvalues_pos=[]
+        pvalues_neg=[]
+        seq=f1.readline()
+        seq=f1.readline()
+        while(seq!=""):
+            seq=seq.strip().split("\t")
+            seq[1:]=np.array(seq[1:],float)
+            if max(seq[1:4])>9:
+                pvalues_pos.append(seq[0])
+            if max(seq[4:])>9:
+                pvalues_neg.append(seq[0])
+            seq=f1.readline()
+        f1.close()
+  
+        """
+        RWR NETWORKS -- down/upregulated.
+        """
+        pvalues_pos=pvalues_pos+seeds_increase
+        pvalues_neg=pvalues_neg+seeds_decrease
+        rwr_net_increased=network.induced_subgraph(pvalues_pos)
+        rwr_net_increased["title"] ="RWR_increased_net"
+        number_of_nodes=rwr_net_increased.vcount()
+        rwr_net_increased.vs["Is_seed"]=list(np.full(number_of_nodes, False))
+        for i in rwr_net_increased.vs:
+            if i["name"] in seeds_increase:
+                rwr_net_increased.vs[i.index]["Is_seed"]=True
+        # Output the increased network.
+        fname = res_folder+"rwr_increased."+net_format
+        ig.write(rwr_net_increased,fname,format=net_format)
+
+
+        rwr_net_decreased=network.induced_subgraph(pvalues_neg)
+        rwr_net_decreased["title"] ="RWR_decreased_net"
+
+        number_of_nodes=rwr_net_decreased.vcount()
+        rwr_net_decreased.vs["Is_seed"]=list(np.full(number_of_nodes, False))
+        for i in rwr_net_decreased.vs:
+            if i["name"] in seeds_decrease:
+                rwr_net_decreased.vs[i.index]["Is_seed"]=True
+        # Output the decreased network.
+        fname = res_folder+"rwr_decreased."+net_format
+        ig.write(rwr_net_decreased,fname,format=net_format)
+
+
+        for i in kde_cutoff:
+            """
+            UPREGULATED -- SIGNATURE NETWORK.
+            """
+            # The kde is a float. Convert to string for using in path.
+            i = str(i)
+            f1=open(res_folder+"increased_sig_cluster_"+i+".txt")
+            seq=f1.readline()
+            nodes=set()
+            while(seq!=""):
+                seq=seq.strip().split("\t")
+                if include_isolated_egos_in_KDE_net==False:
+                    if len(seq)>2:
+                        nodes.update(seq)
+                else:
+                    nodes.update(seq)
+                seq=f1.readline()
+            KDE_increased=rwr_net_increased.induced_subgraph(nodes)
+            KDE_increased["title"] ="KDE_increased_net"
+            number_of_nodes=KDE_increased.vcount()
+            ##write the net
+            fname = res_folder+"KDE_increased_"+i+"."+net_format
+            ig.write(KDE_increased,fname,format=net_format)
+   
+            """
+            UPREGULATED -- MODULE NETWORKS
+            """ 
+            files = os.listdir(res_folder)
+            module_files = [file_name for file_name in files 
+                             if ("increased_module_" in file_name) and 
+                                (("_cluster_"+i+".txt") in file_name)]
+            # Get the module name, such as "module_0".
+            modules = []
+            for file_name in module_files:
+                module = file_name.split("_")[2]
+                module = "module_" + module
+                modules.append(module)
+
+            all_nodes=set()
+            nodes_module=dict()
+            for module, module_file in zip(modules, module_files): 
+                KDE_increased.vs[module]=list(np.full(number_of_nodes, False))
+                f1 = open(res_folder+module_file)
+                seq=f1.readline()
+                nodes_module[module]=set()
+                while(seq!=""):
+                    seq=seq.strip().split("\t")
+                    nodes_module[module].update(seq)
+                    seq=f1.readline()
+                # Label the KDE_increased vertices attribute with module name.
+                # This vertice attribute will be inherited to module_net when subgraph is induced.
+                KDE_increased.vs[module]=np.in1d(KDE_increased.vs["name"], list(nodes_module[module]))
+                all_nodes.update(nodes_module[module])
+            #write the net
+            module_net=KDE_increased.induced_subgraph(all_nodes)
+            module_net["title"] ="Module_increased_net"
+            fname = res_folder+"module_net_increased_"+i+"."+net_format
+            ig.write(module_net,fname,format=net_format)
+            
+            # Create the dataframe for annotated csv output of module network.
+            seed = seeds_increase + seeds_decrease
+            df_module_net = graph_to_df(module_net, seed, nodes_module)
+            df_module_net.to_csv("module_net_increased_"+i+".csv")
+
+            """
+            DOWNREGULATED -- SIGNATURE NETWORK
+            """
+            # The kde is a float. Convert to string for using in path.
+            i = str(i)
+            f1=open(res_folder+"decreased_sig_cluster_"+i+".txt")
+            seq=f1.readline()
+            nodes=set()
+            while(seq!=""):
+                seq=seq.strip().split("\t")
+                if include_isolated_egos_in_KDE_net==False:
+                    if len(seq)>2:
+                        nodes.update(seq)
+                else:
+                    nodes.update(seq)
+                seq=f1.readline()
+            KDE_decreased=rwr_net_decreased.induced_subgraph(nodes)
+            KDE_decreased["title"] ="KDE_decreased_net"
+            number_of_nodes=KDE_decreased.vcount()
+            ##write the net
+            fname = res_folder+"KDE_decreased_"+i+"."+net_format
+            ig.write(KDE_decreased,fname,format=net_format)
+
+            """
+            DOWNREGULATED -- MODULE NETWORKS
+            """ 
+            # Get the module file names (for downregulated and a specific kde_cutoff)
+            files = os.listdir(res_folder)
+            module_files = [file_name for file_name in files 
+                             if ("decreased_module_" in file_name) and 
+                                (("_cluster_"+i+".txt") in file_name)]
+            # Get the module name, such as "module_0".
+            modules = []
+            for file_name in module_files:
+                module = file_name.split("_")[2]
+                module = "module_" + module
+                modules.append(module)
+            
+            all_nodes=set()
+            nodes_module=dict()
+            for module, module_file in zip(modules, module_files):
+                KDE_decreased.vs[module]=list(np.full(number_of_nodes, False))
+                f1=open(res_folder+module_file)
+                seq=f1.readline()
+                nodes_module[module]=set()
+                while(seq!=""):
+                    seq=seq.strip().split("\t")
+                    nodes_module[module].update(seq)
+                    seq=f1.readline()
+                all_nodes.update(nodes_module[module])
+                KDE_decreased.vs[module]=np.in1d(KDE_decreased.vs["name"], list(nodes_module[module]))
+
+            #write the net
+            module_net=KDE_decreased.induced_subgraph(all_nodes)
+            module_net["title"] ="Module_decreased_net"
+            fname = res_folder+"module_net_decreased_"+i+"."+net_format
+            ig.write(module_net,fname,format=net_format)
+            
+            # Create the dataframe for annotated csv output of module network.
+            # seed = seeds_increase + seeds_decrease
+            df_module_net = graph_to_df(module_net, seed, nodes_module)
+            df_module_net.to_csv("module_net_decreased_"+i+".csv")
