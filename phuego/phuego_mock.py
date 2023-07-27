@@ -396,7 +396,7 @@ def pvalue_split_mock(res_folder, seeds, graph_nodes,
     pvalues_neg=pvalues_neg+seeds[3]+seeds[4]+seeds[5]
     
     #perfrom fishertest on the seeds and rwr nodes
-    fname = "increased_rwr_fisher_"
+    fname = "increased_rwr_fisher"
     fisher_test(protein_list=pvalues_pos,
                 starting_proteins=list(set(seeds[0]+seeds[1]+seeds[2])),
                 fname=fname,
@@ -406,7 +406,7 @@ def pvalue_split_mock(res_folder, seeds, graph_nodes,
                 uniprot_to_gene=uniprot_to_gene,
                 geneset_path=geneset_path,
                 )
-    fname = "decreased_rwr_fisher_"
+    fname = "decreased_rwr_fisher"
     fisher_test(protein_list=pvalues_neg,
             starting_proteins=list(set(seeds[3]+seeds[4]+seeds[5])),
             fname=fname,
@@ -416,7 +416,7 @@ def pvalue_split_mock(res_folder, seeds, graph_nodes,
             uniprot_to_gene=uniprot_to_gene,
             geneset_path=geneset_path,
             )
-    fname = "increased_seed_fisher_"
+    fname = "increased_seed_fisher"
     fisher_test(protein_list=seeds[0]+seeds[1]+seeds[2],
             starting_proteins=list(set(seeds[0]+seeds[1]+seeds[2])),
             fname=fname,
@@ -426,7 +426,7 @@ def pvalue_split_mock(res_folder, seeds, graph_nodes,
             uniprot_to_gene=uniprot_to_gene,
             geneset_path=geneset_path,
         )
-    fname = "decreased_seed_fisher_"
+    fname = "decreased_seed_fisher"
     fisher_test(protein_list=seeds[3]+seeds[4]+seeds[5],
             starting_proteins=list(set(seeds[3]+seeds[4]+seeds[5])),
             fname=fname,
