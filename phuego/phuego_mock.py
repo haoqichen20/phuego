@@ -209,7 +209,6 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     if(convert2folder):
            convert_result(res_folder=res_folder,
                           kde_cutoff=kde_cutoff,
-                          fisher_background=fisher_background,
                           test_name=test_name)
 
 
