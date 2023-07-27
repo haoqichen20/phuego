@@ -87,7 +87,7 @@ def convert_result(res_folder, kde_cutoff, net_format):
             # Collect the module names for the regulation direction.
             direction_module_names = set()
             for file_name in direction_files:
-                if("module_" in file_name and str(kde) in file_name):
+                if("module_" in file_name and "cluster_"+str(kde) in file_name):
                     module = file_name.split("_")[2]
                     module = "module_" + module
                     direction_module_names.add(module)
