@@ -213,9 +213,9 @@ def phuego(support_data_folder, res_folder, test_path,
     """
     Convert results if required.
     """
-    test_name = test_path.split("/")[-1]
+#     test_name = test_path.split("/")[-1]
     if(convert2folder):
            convert_result(res_folder=res_folder,
                           kde_cutoff=kde_cutoff,
-                          fisher_background=fisher_background,
-                          test_name=test_name)
+                          net_format=net_format,
+                          )
