@@ -18,12 +18,13 @@ This is the CLI tool for phuego.
               help="Folder that stored support data. Directories separated by /")
 @click.option("--res_folder", "-rf", type=str, required=False, 
               help="Folder that stored output result. Directories separated by /")
-@click.option("--convert2folder", "-c2f", is_flag=True, required=False, 
-              help="Should phuego organize result files into a folder structure?")
 @click.option("--test_path", "-tpath", default="", type=str, required=False, 
               help="The path of user input test file. If defined, -mock and -test should not be used.")
 @click.option("--ini_path", "-ipath", default="", type=str, required=False, 
               help="The path of a csv file, that specify two sets of nodes to be removed from reference network during propagation.")
+@click.option("--convert2folder/--dont_convert2folder", default=True, required=False, 
+              help="Should phuego organize result files into a folder structure?")
+
 
 # Support dataset download.
 @click.option("--need_fisher", is_flag=True, required=False,
@@ -36,9 +37,9 @@ This is the CLI tool for phuego.
               help="Should phuego remove the zip files after downloading?")
 
 # Mock/test.
-@click.option("--run_mock", "-mock", is_flag=True, required=False, 
+@click.option("--run_mock", is_flag=True, required=False, 
               help="Should phuego perform a mock test run using test data? If defined, -test and -tpath would be ignored.")
-@click.option("--run_test", "-test", is_flag=True, required=False, 
+@click.option("--run_test", is_flag=True, required=False, 
               help="Should phuego perform a full test run using test data? If defined, -tpath would be ignored.")
 
 
@@ -49,12 +50,6 @@ This is the CLI tool for phuego.
               help="Damping factor for random walk with restart algorithm. Float number within range [0.5, 0.95]")
 @click.option("--rwr_threshold", "-rt", default=0.05, type=float, required=False, 
               help="Threshold of significance for propagated nodes. Float number within range [0.01, 0.1]")
-# @click.option("--ini_pos", "-ip", default=['False'], type=str, multiple=True, 
-#               required=False, 
-#               help="List of nodes to be removed from network for the propagation of upregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_neg. If no node to be removed, leave as default.")
-# @click.option("--ini_neg", "-in", default=['False'], type=str, multiple=True, 
-#               required=False, 
-#               help="List of nodes to be removed from network for the propagation of downregulated seeds, such as targets of a drug in a drugging experiment. Normally the same as ini_pos. If no node to be removed, leave as default.")
 
 # ego propagation and fisher test.
 @click.option("--kde_cutoff", "-k", default=[0.85], type=float, multiple=True,
@@ -72,7 +67,7 @@ This is the CLI tool for phuego.
 
 # network output
 @click.option("--include_isolated_egos_in_kde_net", "-ie", is_flag=True, required=False, 
-              help="Should we include isolated egos in the output network?") 
+              help="Should we include isolated nodes in the output network?") 
 @click.option("--net_format", "-nf", default="ncol", type=str, required=False, 
               help="file format of output network. Can be one of 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'")
 
