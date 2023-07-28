@@ -166,31 +166,29 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     """
     if all_nodes_pos:
            merge_egos(network=network_raw,
-                     #     network_nodes=graph_nodes_raw,
-                         kde_cutoff=kde_cutoff,
-                         res_folder=res_folder,
-                         uniprot_to_gene=uniprot_to_gene,
-                         direction="increased",
-                         supernodes=nodes_kde_pos,
-                         all_nodes=all_nodes_pos,
-                         geneset_path=geneset_path,
-                         fisher_geneset=fisher_geneset,
-                         fisher_threshold=fisher_threshold,
-                         )
+                     kde_cutoff=kde_cutoff,
+                     res_folder=res_folder,
+                     uniprot_to_gene=uniprot_to_gene,
+                     direction="increased",
+                     supernodes=nodes_kde_pos,
+                     all_nodes=all_nodes_pos,
+                     geneset_path=geneset_path,
+                     fisher_geneset=fisher_geneset,
+                     fisher_threshold=fisher_threshold,
+                     )
            
     if all_nodes_neg:
            merge_egos(network=network_raw,
-                     #     network_nodes=graph_nodes_raw,
-                         kde_cutoff=kde_cutoff,
-                         res_folder=res_folder,
-                         uniprot_to_gene=uniprot_to_gene,
-                         direction="decreased",
-                         supernodes=nodes_kde_neg,
-                         all_nodes=all_nodes_neg,
-                         geneset_path=geneset_path,
-                         fisher_geneset=fisher_geneset,
-                         fisher_threshold=fisher_threshold,
-                         )
+                     kde_cutoff=kde_cutoff,
+                     res_folder=res_folder,
+                     uniprot_to_gene=uniprot_to_gene,
+                     direction="decreased",
+                     supernodes=nodes_kde_neg,
+                     all_nodes=all_nodes_neg,
+                     geneset_path=geneset_path,
+                     fisher_geneset=fisher_geneset,
+                     fisher_threshold=fisher_threshold,
+                     )
 
     """
     Output CytoScape compatible network files.
@@ -205,7 +203,6 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     """
     Convert results if required.
     """
-#     test_name = test_path.split("/")[-1]
     if(convert2folder):
            convert_result(res_folder=res_folder,
                           kde_cutoff=kde_cutoff,
@@ -298,7 +295,6 @@ def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
                      neg=True
               flag_pos=0
               flag_neg=0
-              #st = time.time()
 
               for jj in enumerate(seeds):
                      if len(jj[1])>0:
