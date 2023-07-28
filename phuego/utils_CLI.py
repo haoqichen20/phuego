@@ -5,6 +5,7 @@ import hashlib
 import tarfile
 import os
 import sys
+import pandas as pd
 
 def dataprep(support_data_folder, need_fisher=True, need_gic_sim=True, need_networks=True, 
              remove_zip_file = False):
@@ -31,6 +32,7 @@ def dataprep(support_data_folder, need_fisher=True, need_gic_sim=True, need_netw
         download_dataset(gic_sim_url, support_data_folder, gic_sim_md5, remove_zip_file)
     if(need_networks):
         download_dataset(networks_url, support_data_folder, networks_md5, remove_zip_file)
+
 
 def download_dataset(download_url, support_data_folder, file_md5, remove_zip_file):
     # Send a GET request to the download URL
@@ -71,4 +73,10 @@ def calculate_md5(file_path):
 
 def decompress_tar_gz(file_path, output_dir):
     with tarfile.open(file_path, "r:gz") as tar:
-        tar.extractall(path=output_dir)
+        tar.extractall(path=output_dir)       
+
+    
+def load_test_example():
+    test_path = os.path.join(os.path.dirname(__file__), 'data/EGF_vs_Untreated_@min_15_63_240.txt')
+    df = pd.read_csv(test_path, sep='\t', header=None)
+    return test_path, df

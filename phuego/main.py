@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .utils import load_test_example
-from .dataprep import dataprep
+from .utils_CLI import load_test_example
+from .utils_CLI import dataprep
 from .phuego import phuego
 from .phuego_mock import phuego_mock
 import click
