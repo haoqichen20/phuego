@@ -38,8 +38,6 @@ def ego_filtering(network, pval, seeds, sim, zscores_global, kde_cutoff,
                                        )
     return supernodes,all_nodes
 
-# Replaced [0.85, 0.9] with kde_cutoff, in two places.
-# Did not touch damping.
 def ego_friends(subnet,position_nodes,seed_nodes,sim,zscores,kde_cutoff):
 
     nodes_kde={}
@@ -112,7 +110,6 @@ def ego_friends(subnet,position_nodes,seed_nodes,sim,zscores,kde_cutoff):
                         dist.append(1.0)
                     else:
                         dist.append(1-jensenshannon(ego_node,ego_rwr))
-                        #print (1000*np.log2(1+dist),1000*np.log2(1+1-jsd)
                     ssim.append(sim[i[1]][j["name"]])
 
                 ssim=np.array(ssim)
@@ -150,9 +147,7 @@ def write_results(nodes_kde, seed_nodes, kde_cutoff, direction, uniprot_to_gene,
     for j in kde_cutoff:
         all_nodes[j]=set()
         supernodes[j]={}
-      ###########################################
-      #where the results are going to be written?
-      ###########################################        # Variable temp is removed. It's just fisher_proteins as a set not a list.
+
         f2=open(res_folder+direction+"_sig"+"_cluster_"+str(j)+".txt", "w")
         fisher_proteins=set()
         for k in nodes_kde[j]:
@@ -160,9 +155,7 @@ def write_results(nodes_kde, seed_nodes, kde_cutoff, direction, uniprot_to_gene,
             if len(nodes_kde[j][k])>=2:
                 supernodes[j][k]=nodes_kde[j][k]
                 fisher_proteins.update(nodes_kde[j][k])
-      ###########################################
-      #where the results are going to be written?
-      ###########################################
+                
         if fisher_proteins:
             # Create filename for fisher output.
             fname = direction+"_sig_fisher_"+str(j)
