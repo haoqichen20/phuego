@@ -37,8 +37,8 @@ def graph_to_df(G, seed, nodes_modules):
     df_edges = pd.DataFrame(edges)
     
     # Network node attribute file.
+    nodes = []
     for v in G.vs:
-        nodes = []
         Protein = v["name"]
         Protein_GeneName = v["Gene_name"]
         node_dict = {
