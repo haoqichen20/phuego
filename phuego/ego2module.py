@@ -4,7 +4,6 @@ from .utils import denoise_square
 from .utils import fisher_test
 import igraph as ig
 import numpy as np
-import os
 import leidenalg as la
 from itertools import combinations
 from scipy.spatial.distance import jensenshannon
