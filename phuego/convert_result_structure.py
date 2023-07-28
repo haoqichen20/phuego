@@ -83,7 +83,9 @@ def convert_result(res_folder, kde_cutoff, net_format):
             # Move module_net csv file.
             srcf = [file_name for file_name in direction_files if "module_net_" in file_name and ".csv" in file_name and str(kde) in file_name]
             for file in srcf:
-                new_file = "module_net_annotated_edgelist.csv"
+                # new_file = "module_net_annotated_edgelist.csv"
+                new_file = file.replace("_"+direction, "")
+                new_file = new_file.replace("_"+str(kde), "")
                 shutil.move(src=res_folder+file, dst=direction_KDE_networks_rf+new_file)
             
             ######## Create module folders ########

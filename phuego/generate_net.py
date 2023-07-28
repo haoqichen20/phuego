@@ -8,6 +8,7 @@ import os.path
 
 def graph_to_df(G, seed, nodes_modules):
     edges = []
+    # Network file as annotated edge list.
     for e in G.es:
         ProteinA = G.vs[e.source]["name"]
         ProteinA_GeneName = G.vs[e.source]["Gene_name"]
@@ -33,8 +34,24 @@ def graph_to_df(G, seed, nodes_modules):
                 edge_dict["all_modules"].append(module_name.split("_")[1])
         edge_dict["inter_module"] = not in_any_module
         edges.append(edge_dict)
-    df = pd.DataFrame(edges)
-    return df
+    df_edges = pd.DataFrame(edges)
+    
+    # Network node attribute file.
+    for v in G.vs:
+        nodes = []
+        Protein = v["name"]
+        Protein_GeneName = v["Gene_name"]
+        node_dict = {
+            "Protein": Protein,
+            "Protein_GeneName": Protein_GeneName,
+            "Protein_is_seed": Protein in seed,
+        }
+        for module_name, node_list in sorted(nodes_modules.items()):
+            in_module = (Protein in node_list)
+            node_dict[f"is_{module_name}"] = in_module
+        nodes.append(node_dict)
+    df_nodes = pd.DataFrame(nodes)
+    return df_edges, df_nodes
 
 def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshold,
                   include_isolated_egos_in_KDE_net,net_format,):
@@ -165,8 +182,9 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
             
             # Create the dataframe for annotated csv output of module network.
             seed = seeds_increase + seeds_decrease
-            df_module_net = graph_to_df(module_net, seed, nodes_module)
-            df_module_net.to_csv(res_folder+"module_net_increased_"+i+".csv")
+            df_module_net_edges, df_module_net_nodes = graph_to_df(module_net, seed, nodes_module)
+            df_module_net_edges.to_csv(res_folder+"module_net_increased_edgelist_"+i+".csv")
+            df_module_net_nodes.to_csv(res_folder+"module_net_increased_nodes_attribute_"+i+".csv")
 
             """
             DOWNREGULATED -- SIGNATURE NETWORK
@@ -227,6 +245,6 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
             ig.write(module_net,fname,format=net_format)
             
             # Create the dataframe for annotated csv output of module network.
-            # seed = seeds_increase + seeds_decrease
-            df_module_net = graph_to_df(module_net, seed, nodes_module)
-            df_module_net.to_csv(res_folder+"module_net_decreased_"+i+".csv")
+            df_module_net_edges, df_module_net_nodes = graph_to_df(module_net, seed, nodes_module)
+            df_module_net_edges.to_csv(res_folder+"module_net_decreased_edgelist_"+i+".csv")
+            df_module_net_nodes.to_csv(res_folder+"module_net_decreased_nodes_attribute_"+i+".csv")
