@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .load_example import load_test_example
+from .utils import load_test_example
 from .dataprep import dataprep
 from .phuego import phuego
 from .phuego_mock import phuego_mock

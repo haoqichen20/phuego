@@ -4,6 +4,7 @@ import os
 import sys
 import shutil
 import numpy as np
+import pandas as pd
 import math
 from sklearn.neighbors import KernelDensity
 
@@ -179,3 +180,9 @@ def convert_result(res_folder, kde_cutoff, net_format):
                 for file in srcf:
                     new_file = file.split("_")[-1]
                     shutil.move(res_folder+file, direction_KDE_modules_module_fisher_rf+new_file)
+
+
+def load_test_example():
+    test_path = os.path.join(os.path.dirname(__file__), 'data/EGF_vs_Untreated_@min_15_63_240.txt')
+    df = pd.read_csv(test_path, sep='\t', header=None)
+    return test_path, df
