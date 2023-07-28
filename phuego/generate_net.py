@@ -1,10 +1,8 @@
 
 import igraph as ig
-from os import path
 import numpy as np
 import pandas as pd
-import sys,os
-import os.path
+import os
 
 def graph_to_df(G, seed, nodes_modules):
     edges = []
