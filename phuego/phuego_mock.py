@@ -217,7 +217,6 @@ def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
                seeds_neg, network_path, network_random_path, damping, res_folder):
     
        number_of_nodes=network.vcount()
-       # rwr_random_values={}
        empirical_rwr=np.zeros((6,number_of_nodes),dtype=float)
 
        empirical_values={}
