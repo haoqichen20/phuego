@@ -6,8 +6,8 @@ from .utils import load_gene_names
 from .utils import add_trailing_slash
 from .utils import convert_result
 from .load_seeds import load_seeds
-from .rwr_values import rwr_values
-from .rwr_values import pvalue_split
+from .network_rwr import rwr_values
+from .network_rwr import pvalue_split
 from .ego import ego_filtering
 from .ego2module import merge_egos
 from .generate_net import generate_nets
