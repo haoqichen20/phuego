@@ -4,12 +4,12 @@ import igraph as ig
 import sys
 from .utils import load_gene_names
 from .utils import add_trailing_slash
+from .utils import convert_result
 from .load_seeds import load_seeds
 from .rwr_values import rwr_values
 from .pvalue_splitting import pvalue_split
 from .ego import ego_filtering
 from .ego2module import test_function
-from .convert_result_structure import convert_result
 from .generate_net import generate_nets
 
 

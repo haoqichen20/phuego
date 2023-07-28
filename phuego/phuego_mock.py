@@ -7,10 +7,10 @@ import sys
 import os.path
 from .utils import load_gene_names
 from .utils import add_trailing_slash
+from .utils import convert_result
 from .load_seeds import load_seeds
 from .ego import ego_filtering
 from .ego2module import test_function
-from .convert_result_structure import convert_result
 from .fishertest import fisher_test
 from .generate_net import graph_to_df
 
