@@ -10,7 +10,7 @@ from itertools import combinations
 from scipy.spatial.distance import jensenshannon
 
 
-def test_function(network, kde_cutoff, res_folder, uniprot_to_gene,
+def merge_egos(network, kde_cutoff, res_folder, uniprot_to_gene,
                   supernodes,all_nodes,direction,geneset_path,fisher_geneset, 
                   fisher_threshold,):
     for kde in kde_cutoff:        

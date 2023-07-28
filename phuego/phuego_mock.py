@@ -11,7 +11,7 @@ from .utils import convert_result
 from .utils import fisher_test
 from .load_seeds import load_seeds
 from .ego import ego_filtering
-from .ego2module import test_function
+from .ego2module import merge_egos
 from .generate_net import graph_to_df
 
 
@@ -165,7 +165,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     Module.
     """
     if all_nodes_pos:
-           test_function(network=network_raw,
+           merge_egos(network=network_raw,
                      #     network_nodes=graph_nodes_raw,
                          kde_cutoff=kde_cutoff,
                          res_folder=res_folder,
@@ -179,7 +179,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
                          )
            
     if all_nodes_neg:
-           test_function(network=network_raw,
+           merge_egos(network=network_raw,
                      #     network_nodes=graph_nodes_raw,
                          kde_cutoff=kde_cutoff,
                          res_folder=res_folder,
