@@ -2,7 +2,7 @@
 
 from .utils import denoise_square
 from .utils import calc_kde
-from .fishertest import fisher_test
+from .utils import fisher_test
 import numpy as np
 import igraph
 from scipy.spatial.distance import jensenshannon

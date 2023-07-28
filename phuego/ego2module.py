@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .utils import denoise_square
-from .fishertest import fisher_test
+from .utils import fisher_test
 import igraph as ig
 import numpy as np
 import os
