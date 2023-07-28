@@ -10,10 +10,14 @@ def graph_to_df(G, seed, nodes_modules):
     edges = []
     for e in G.es:
         ProteinA = G.vs[e.source]["name"]
+        ProteinA_GeneName = G.vs[e.source]["Gene_name"]
         ProteinB = G.vs[e.target]["name"]
+        ProteinB_GeneName = G.vs[e.target]["Gene_name"]
         edge_dict = {
             "ProteinA": ProteinA,
             "ProteinB": ProteinB,
+            "ProteinA_GeneName": ProteinA_GeneName,
+            "ProteinB_GeneName": ProteinB_GeneName,
             "weight": e["weight"],
             "A_is_seed": ProteinA in seed,
             "B_is_seed": ProteinB in seed,
@@ -21,7 +25,7 @@ def graph_to_df(G, seed, nodes_modules):
         }
         in_any_module = False
         # Check if the edge is in the modules.
-        for module_name, node_list in nodes_modules.items():
+        for module_name, node_list in sorted(nodes_modules.items()):
             in_module = (ProteinA in node_list) and (ProteinB in node_list)
             edge_dict[f"is_{module_name}"] = in_module
             if in_module:
