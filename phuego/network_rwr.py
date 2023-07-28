@@ -185,8 +185,8 @@ def pvalue_split(res_folder, seeds, graph_nodes, rwr_threshold,
             pvalues_neg.append(seq[0])
         seq=f1.readline()
 
-    pvalues_pos=pvalues_pos+seeds[0]+seeds[1]+seeds[2]
-    pvalues_neg=pvalues_neg+seeds[3]+seeds[4]+seeds[5]
+    pvalues_pos=list(set(pvalues_pos+seeds[0]+seeds[1]+seeds[2]))
+    pvalues_neg=list(set(pvalues_neg+seeds[3]+seeds[4]+seeds[5]))
     #perfrom fishertest on the seeds and rwr nodes
     
     fname = "increased_rwr_fisher"
@@ -210,7 +210,7 @@ def pvalue_split(res_folder, seeds, graph_nodes, rwr_threshold,
             geneset_path=geneset_path,
             )
     fname = "increased_seed_fisher"
-    fisher_test(protein_list=seeds[0]+seeds[1]+seeds[2],
+    fisher_test(protein_list=list(set(seeds[0]+seeds[1]+seeds[2])),
             starting_proteins=list(set(seeds[0]+seeds[1]+seeds[2])),
             fname=fname,
             threshold=fisher_threshold,
@@ -220,7 +220,7 @@ def pvalue_split(res_folder, seeds, graph_nodes, rwr_threshold,
             geneset_path=geneset_path,
         )
     fname = "decreased_seed_fisher"
-    fisher_test(protein_list=seeds[3]+seeds[4]+seeds[5],
+    fisher_test(protein_list=list(set(seeds[3]+seeds[4]+seeds[5])),
             starting_proteins=list(set(seeds[3]+seeds[4]+seeds[5])),
             fname=fname,
             threshold=fisher_threshold,
