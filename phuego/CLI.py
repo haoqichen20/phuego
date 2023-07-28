@@ -5,7 +5,6 @@ from .utils_CLI import dataprep
 from .phuego import phuego
 from .phuego_mock import phuego_mock
 import click
-import os
 
 __version__ = "0.1.0.dev8"
 
