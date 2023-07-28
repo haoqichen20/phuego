@@ -18,8 +18,6 @@ def add_trailing_slash(folder_path):
 
 def load_gene_names(uniprot_to_gene_path):
 	uniprot_to_gene={}
-	gene_to_uniprot={}
-	localization={}
 	f1=open(uniprot_to_gene_path,"r")
 	seq=f1.readline()
 	while(seq!=""):
