@@ -68,7 +68,7 @@ This is the CLI tool for phuego.
 # network output
 @click.option("--include_isolated_egos_in_kde_net", "-ie", is_flag=True, required=False, 
               help="Should we include isolated nodes in the output network?") 
-@click.option("--net_format", "-nf", default="ncol", type=str, required=False, 
+@click.option("--net_format", "-nf", default="graphml", type=str, required=False, 
               help="file format of output network. Can be one of 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'")
 
 # Versioning.
