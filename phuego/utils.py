@@ -129,6 +129,23 @@ def fisher_test(protein_list,threshold,component,path_def,starting_proteins,
             c=fisher_count[i]-a
             d=totalfisher-a-b-c
             table=[[a,b],[c,d]]
+            
+            # Debugging code in case the negative value bug happen again.
+            if a<0 or b<0 or c<0 or d<0:                
+                print(f"Current geneset database is:\t{ii}")
+                print(f"Current fisherset/geneset is:\t{i}")
+                print(f"A:\t{a}")
+                print(f"B:\t{b}")
+                print(f"C:\t{c}")
+                print(f"D:\t{d}")
+                print(f"totalfisher:\t{totalfisher}")
+                print(f"fisher_count:\t{fisher_count}")
+                print(f"fisherset_count:\t{fisherset_count}")
+                print(f"numberofproteins:\t{numberofproteins}")
+                AAA = len(protein)
+                print(f"len(protein):\t{AAA}")
+                sys.exit("All values in `table` must be nonnegative.")
+    
             fisher[i]=fisher_exact(table,alternative ="greater")[1]
             if fisher[i]<(threshold/lenfisherset):
                 if fisher[i] in fisher_value:
