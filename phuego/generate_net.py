@@ -120,129 +120,135 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
 
 
         for i in kde_cutoff:
-            """
-            UPREGULATED -- SIGNATURE NETWORK.
-            """
             # The kde is a float. Convert to string for using in path.
             i = str(i)
-            f1=open(res_folder+"increased_sig_cluster_"+i+".txt")
-            seq=f1.readline()
-            nodes=set()
-            while(seq!=""):
-                seq=seq.strip().split("\t")
-                if include_isolated_egos_in_KDE_net==False:
-                    if len(seq)>2:
-                        nodes.update(seq)
-                else:
-                    nodes.update(seq)
+            # Depending on the input, the sig_cluster file might not exist for increased seed nodes.
+            if os.path.isfile(res_folder+"increased_sig_cluster_"+i+".txt"):
+                """
+                UPREGULATED -- SIGNATURE NETWORK.
+                """
+                f1=open(res_folder+"increased_sig_cluster_"+i+".txt")
                 seq=f1.readline()
-            KDE_increased=rwr_net_increased.induced_subgraph(nodes)
-            KDE_increased["title"] ="KDE_increased_net"
-            number_of_nodes=KDE_increased.vcount()
-            ##write the net
-            fname = res_folder+"KDE_increased_"+i+"."+net_format
-            ig.write(KDE_increased,fname,format=net_format)
+                nodes=set()
+                while(seq!=""):
+                    seq=seq.strip().split("\t")
+                    if include_isolated_egos_in_KDE_net==False:
+                        if len(seq)>2:
+                            nodes.update(seq)
+                    else:
+                        nodes.update(seq)
+                    seq=f1.readline()
+                KDE_increased=rwr_net_increased.induced_subgraph(nodes)
+                KDE_increased["title"] ="KDE_increased_net"
+                number_of_nodes=KDE_increased.vcount()
+                ##write the net
+                fname = res_folder+"KDE_increased_"+i+"."+net_format
+                ig.write(KDE_increased,fname,format=net_format)
    
-            """
-            UPREGULATED -- MODULE NETWORKS
-            """ 
-            files = os.listdir(res_folder)
-            module_files = [file_name for file_name in files 
-                             if ("increased_module_" in file_name) and 
-                                (("_cluster_"+i+".txt") in file_name)]
-            # Get the module name, such as "module_0".
-            modules = []
-            for file_name in module_files:
-                module = file_name.split("_")[2]
-                module = "module_" + module
-                modules.append(module)
+                """
+                UPREGULATED -- MODULE NETWORKS
+                """ 
+                files = os.listdir(res_folder)
+                module_files = [file_name for file_name in files 
+                                if ("increased_module_" in file_name) and 
+                                    (("_cluster_"+i+".txt") in file_name)]
+                # Get the module name, such as "module_0".
+                modules = []
+                for file_name in module_files:
+                    module = file_name.split("_")[2]
+                    module = "module_" + module
+                    modules.append(module)
 
-            all_nodes=set()
-            nodes_module=dict()
-            for module, module_file in zip(modules, module_files): 
-                KDE_increased.vs[module]=list(np.full(number_of_nodes, False))
-                f1 = open(res_folder+module_file)
+                all_nodes=set()
+                nodes_module=dict()
+                for module, module_file in zip(modules, module_files): 
+                    KDE_increased.vs[module]=list(np.full(number_of_nodes, False))
+                    f1 = open(res_folder+module_file)
+                    seq=f1.readline()
+                    nodes_module[module]=set()
+                    while(seq!=""):
+                        seq=seq.strip().split("\t")
+                        nodes_module[module].update(seq)
+                        seq=f1.readline()
+                    # Label the KDE_increased vertices attribute with module name.
+                    # This vertice attribute will be inherited to module_net when subgraph is induced.
+                    KDE_increased.vs[module]=np.in1d(KDE_increased.vs["name"], list(nodes_module[module]))
+                    all_nodes.update(nodes_module[module])
+                #write the net
+                module_net=KDE_increased.induced_subgraph(all_nodes)
+                module_net["title"] ="Module_increased_net"
+                fname = res_folder+"module_net_increased_"+i+"."+net_format
+                ig.write(module_net,fname,format=net_format)
+                
+                # Create the dataframe for annotated csv output of module network.
+                seed = seeds_increase + seeds_decrease
+                df_module_net_edges, df_module_net_nodes = graph_to_df(module_net, seed, nodes_module)
+                df_module_net_edges.to_csv(res_folder+"module_net_increased_edgelist_"+i+".csv")
+                df_module_net_nodes.to_csv(res_folder+"module_net_increased_nodes_attribute_"+i+".csv")
+            else:
+                pass
+
+            # Depending on the input, the sig_cluster file might not exist for decreased seed nodes.
+            if os.path.isfile(res_folder+"decreased_sig_cluster_"+i+".txt"):
+                """
+                DOWNREGULATED -- SIGNATURE NETWORK
+                """
+                f1=open(res_folder+"decreased_sig_cluster_"+i+".txt")
                 seq=f1.readline()
-                nodes_module[module]=set()
+                nodes=set()
                 while(seq!=""):
                     seq=seq.strip().split("\t")
-                    nodes_module[module].update(seq)
-                    seq=f1.readline()
-                # Label the KDE_increased vertices attribute with module name.
-                # This vertice attribute will be inherited to module_net when subgraph is induced.
-                KDE_increased.vs[module]=np.in1d(KDE_increased.vs["name"], list(nodes_module[module]))
-                all_nodes.update(nodes_module[module])
-            #write the net
-            module_net=KDE_increased.induced_subgraph(all_nodes)
-            module_net["title"] ="Module_increased_net"
-            fname = res_folder+"module_net_increased_"+i+"."+net_format
-            ig.write(module_net,fname,format=net_format)
-            
-            # Create the dataframe for annotated csv output of module network.
-            seed = seeds_increase + seeds_decrease
-            df_module_net_edges, df_module_net_nodes = graph_to_df(module_net, seed, nodes_module)
-            df_module_net_edges.to_csv(res_folder+"module_net_increased_edgelist_"+i+".csv")
-            df_module_net_nodes.to_csv(res_folder+"module_net_increased_nodes_attribute_"+i+".csv")
-
-            """
-            DOWNREGULATED -- SIGNATURE NETWORK
-            """
-            # The kde is a float. Convert to string for using in path.
-            i = str(i)
-            f1=open(res_folder+"decreased_sig_cluster_"+i+".txt")
-            seq=f1.readline()
-            nodes=set()
-            while(seq!=""):
-                seq=seq.strip().split("\t")
-                if include_isolated_egos_in_KDE_net==False:
-                    if len(seq)>2:
+                    if include_isolated_egos_in_KDE_net==False:
+                        if len(seq)>2:
+                            nodes.update(seq)
+                    else:
                         nodes.update(seq)
-                else:
-                    nodes.update(seq)
-                seq=f1.readline()
-            KDE_decreased=rwr_net_decreased.induced_subgraph(nodes)
-            KDE_decreased["title"] ="KDE_decreased_net"
-            number_of_nodes=KDE_decreased.vcount()
-            ##write the net
-            fname = res_folder+"KDE_decreased_"+i+"."+net_format
-            ig.write(KDE_decreased,fname,format=net_format)
-
-            """
-            DOWNREGULATED -- MODULE NETWORKS
-            """ 
-            # Get the module file names (for downregulated and a specific kde_cutoff)
-            files = os.listdir(res_folder)
-            module_files = [file_name for file_name in files 
-                             if ("decreased_module_" in file_name) and 
-                                (("_cluster_"+i+".txt") in file_name)]
-            # Get the module name, such as "module_0".
-            modules = []
-            for file_name in module_files:
-                module = file_name.split("_")[2]
-                module = "module_" + module
-                modules.append(module)
-            
-            all_nodes=set()
-            nodes_module=dict()
-            for module, module_file in zip(modules, module_files):
-                KDE_decreased.vs[module]=list(np.full(number_of_nodes, False))
-                f1=open(res_folder+module_file)
-                seq=f1.readline()
-                nodes_module[module]=set()
-                while(seq!=""):
-                    seq=seq.strip().split("\t")
-                    nodes_module[module].update(seq)
                     seq=f1.readline()
-                all_nodes.update(nodes_module[module])
-                KDE_decreased.vs[module]=np.in1d(KDE_decreased.vs["name"], list(nodes_module[module]))
+                KDE_decreased=rwr_net_decreased.induced_subgraph(nodes)
+                KDE_decreased["title"] ="KDE_decreased_net"
+                number_of_nodes=KDE_decreased.vcount()
+                ##write the net
+                fname = res_folder+"KDE_decreased_"+i+"."+net_format
+                ig.write(KDE_decreased,fname,format=net_format)
 
-            #write the net
-            module_net=KDE_decreased.induced_subgraph(all_nodes)
-            module_net["title"] ="Module_decreased_net"
-            fname = res_folder+"module_net_decreased_"+i+"."+net_format
-            ig.write(module_net,fname,format=net_format)
-            
-            # Create the dataframe for annotated csv output of module network.
-            df_module_net_edges, df_module_net_nodes = graph_to_df(module_net, seed, nodes_module)
-            df_module_net_edges.to_csv(res_folder+"module_net_decreased_edgelist_"+i+".csv")
-            df_module_net_nodes.to_csv(res_folder+"module_net_decreased_nodes_attribute_"+i+".csv")
+                """
+                DOWNREGULATED -- MODULE NETWORKS
+                """ 
+                # Get the module file names (for downregulated and a specific kde_cutoff)
+                files = os.listdir(res_folder)
+                module_files = [file_name for file_name in files 
+                                if ("decreased_module_" in file_name) and 
+                                    (("_cluster_"+i+".txt") in file_name)]
+                # Get the module name, such as "module_0".
+                modules = []
+                for file_name in module_files:
+                    module = file_name.split("_")[2]
+                    module = "module_" + module
+                    modules.append(module)
+                
+                all_nodes=set()
+                nodes_module=dict()
+                for module, module_file in zip(modules, module_files):
+                    KDE_decreased.vs[module]=list(np.full(number_of_nodes, False))
+                    f1=open(res_folder+module_file)
+                    seq=f1.readline()
+                    nodes_module[module]=set()
+                    while(seq!=""):
+                        seq=seq.strip().split("\t")
+                        nodes_module[module].update(seq)
+                        seq=f1.readline()
+                    all_nodes.update(nodes_module[module])
+                    KDE_decreased.vs[module]=np.in1d(KDE_decreased.vs["name"], list(nodes_module[module]))
+
+                #write the net
+                module_net=KDE_decreased.induced_subgraph(all_nodes)
+                module_net["title"] ="Module_decreased_net"
+                fname = res_folder+"module_net_decreased_"+i+"."+net_format
+                ig.write(module_net,fname,format=net_format)
+                
+                # Create the dataframe for annotated csv output of module network.
+                df_module_net_edges, df_module_net_nodes = graph_to_df(module_net, seed, nodes_module)
+                df_module_net_edges.to_csv(res_folder+"module_net_decreased_edgelist_"+i+".csv")
+                df_module_net_nodes.to_csv(res_folder+"module_net_decreased_nodes_attribute_"+i+".csv")
+            else:
+                pass
