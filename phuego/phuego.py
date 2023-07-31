@@ -169,33 +169,39 @@ def phuego(support_data_folder, res_folder, test_path,
     
     """
     Module.
-    """
-    if all_nodes_pos:
-           merge_egos(network=network_raw,
-                     kde_cutoff=kde_cutoff,
-                     res_folder=res_folder,
-                     uniprot_to_gene=uniprot_to_gene,
-                     direction="increased",
-                     supernodes=nodes_kde_pos,
-                     all_nodes=all_nodes_pos,
-                     geneset_path=geneset_path,
-                     fisher_geneset=fisher_geneset,
-                     fisher_threshold=fisher_threshold,
-                     )
-           
-    if all_nodes_neg:
-           merge_egos(network=network_raw,
-                     kde_cutoff=kde_cutoff,
-                     res_folder=res_folder,
-                     uniprot_to_gene=uniprot_to_gene,
-                     direction="decreased",
-                     supernodes=nodes_kde_neg,
-                     all_nodes=all_nodes_neg,
-                     geneset_path=geneset_path,
-                     fisher_geneset=fisher_geneset,
-                     fisher_threshold=fisher_threshold,
-                     )
+    """  
+    try:
+       if all_nodes_pos:
+              merge_egos(network=network_raw,
+                            kde_cutoff=kde_cutoff,
+                            res_folder=res_folder,
+                            uniprot_to_gene=uniprot_to_gene,
+                            direction="increased",
+                            supernodes=nodes_kde_pos,
+                            all_nodes=all_nodes_pos,
+                            geneset_path=geneset_path,
+                            fisher_geneset=fisher_geneset,
+                            fisher_threshold=fisher_threshold,
+                            )
+    except NameError:
+       print(f"No node is significantly propagated during rwr of increased seed nodes. To confirm, length of pvalues_pos is {len(pvalues_pos)}")
 
+    try:       
+       if all_nodes_neg:
+              merge_egos(network=network_raw,
+                            kde_cutoff=kde_cutoff,
+                            res_folder=res_folder,
+                            uniprot_to_gene=uniprot_to_gene,
+                            direction="decreased",
+                            supernodes=nodes_kde_neg,
+                            all_nodes=all_nodes_neg,
+                            geneset_path=geneset_path,
+                            fisher_geneset=fisher_geneset,
+                            fisher_threshold=fisher_threshold,
+                            )
+    except NameError:
+       print(f"No node is significantly propagated during rwr of decreased seed nodes. To confirm, length of pvalues_neg is {len(pvalues_neg)}")
+           
     """
     Output CytoScape compatible network files.
     """
