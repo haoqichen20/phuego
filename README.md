@@ -5,7 +5,7 @@
 
 phuego is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
 
-To run phuego, the user can either directly calls the CLI application from command line, or integrate the python functions into their own script. Both methods work equivalently, and it's up to the user to decide which method suits their work.
+To run phuego, the user can either directly calls the [CLI](#using-the-cli) application from command line, or integrate the python functions into their own script. Both methods work equivalently, and it's up to the user to decide which method suits their work.
 
 ## Installation
 
@@ -23,7 +23,9 @@ phuego --help
 The CLI application is an easy way to run phuego on single or a whole batch of dataset directly from the command line. 
 
 ### 1. Downloading supporting dataset.
-When using phuego **for the first time**, a support dataset that contains three files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuego. To download using the CLI application, the user could run the following. Make sure the target disk has at least **20 gb** of free space. 
+When using phuego **for the first time**, a support dataset that contains three zipped files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuego. 
+
+To download using the CLI application, the user could run the following. Make sure the target disk has at least **20 gb** of free space. 
 
 ```bash
 # Download all three dataset, compare md5 checksum, unzip and removed zip files.
@@ -38,18 +40,21 @@ phuego contains a test dataset, which is a list of differentially phosphorylated
 
 To understand the input and output of phuego, the user could perform a test run or a mock run using the test dataset. A test run is a complete run with 1000 propagation on randomized networks, and typically takes > 1hr to finish. A mock run performs 10 propagations and thus isn't sufficient for reliable statistical testing, but it typically finish within a few minutes and can help understand the format of input and output. 
 
-Both test will print the head of the test dataset to standard output (e.g., your screen). To view the full test dataset, see next session "Using the python package: understanding the input data."
+To view the full test dataset, see next session "Using the python package: 2. Understanding the input data."
 
 ```bash
 # Performing a mock run.
-phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -mock True
+phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_mock
+
+# Performing a mock run, with two kde_cutoff and two geneset database for geneset enrichment analysis, and reuse previous results.
+phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_mock -k 0.85 -k 0.9 -fg "K" -fg "B" -ru
 
 # Performing a test run.
-phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -test True
+phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_test
 ```
 
 ### 3. Running your own protein list.
-To run phuego using your own list of protein, the data should be formatted in the same way as the test dataset. For detailed explanation of parameters, see section "Further documentations".
+To run phuego using your own list of protein, the data should be formatted in the same way as the test dataset. See section "Further documentations".
 
 **Important:** the network propagation step (rwr, random walk with restart) is the most time consuming step of phuego. For each protein list and each damping factor, a separate propagation would be run and the result will be stored in the provided result folder (pvalues.txt, rwr_scores.txt, start_seeds.txt). After this, the user can reuse the results (so make sure you don't delete them!) to test different KDE cutoff and perform gene set enrichment analysis with various geneset by setting **-ru True**.
 
