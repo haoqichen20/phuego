@@ -247,6 +247,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 ig.write(module_net,fname,format=net_format)
                 
                 # Create the dataframe for annotated csv output of module network.
+                seed = seeds_increase + seeds_decrease
                 df_module_net_edges, df_module_net_nodes = graph_to_df(module_net, seed, nodes_module)
                 df_module_net_edges.to_csv(res_folder+"module_net_decreased_edgelist_"+i+".csv")
                 df_module_net_nodes.to_csv(res_folder+"module_net_decreased_nodes_attribute_"+i+".csv")
