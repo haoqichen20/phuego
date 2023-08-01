@@ -284,14 +284,17 @@ P32519	-1.0
 
 ### Output
 Phuego output different files generated at each steps of the algorithm, organized into a folder structure. If the user prefer to navigate the files without the folder structure, they could set the flag **--dont_convert2folder**.
+
 In brief, phuego processed the user input in two regulation directions: 
     - increased
     - decreased
+
 In each direction, there are four levels of phuego output: 
     - seeds
     - rwr
     - ego
     - modules
+
 For most users, the most interesting result would be the **module network files**. So we will explain these first:
 
 #### module_net.graphml
