@@ -5,7 +5,7 @@
 
 phuego is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
 
-To run phuego, the user can either directly calls the [CLI](#using-the-cli) application from command line, or integrate the [python functions](#using-the-python-package) into their own script. We recommend the user to use the CLI and submit jobs to a server where possible, due to the time consuming nature of the task.
+To run phuego, the user can either directly calls the [CLI](#using-the-cli) application from command line, or integrate the [python functions](#using-the-python-package) into their own script. We recommend the user to use the CLI and submit jobs to a server where possible, to ensure robust execution of the tasks.
 
 ## Installation
 
@@ -21,6 +21,8 @@ phuego --help
 ## Using the CLI
 
 The CLI application is an easy way to run phuego on single or a whole batch of dataset directly from the command line. 
+
+**Specific note for Windows users**: please provide the paths with forward slash '/' instead of backward slash '\'.
 
 ### 1. Downloading supporting dataset.
 When using phuego **for the first time**, a support dataset that contains three zipped files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuego. 
@@ -261,23 +263,46 @@ To run phuego on your own protein list, simply provide the **test_path** to the 
 
 To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
 
-## Detailed documentations.
+
+## Input and results.
 ### Supporting dataset. 
-#### gic_sim folder, gic_sim_std.txt
-some text
-#### networks folder
-some text
-#### proteome and intact
-some text
-#### uniprot_to_gene.tab
-some text
-#### pfam_domains.txt
-some text
+The supporting datasets contain the base network, randomized network, semantic similarity, geneset database etc. For details, refer to the associated [publication](#citation).
 
 ### Input
-phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column.
+phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column, such as the following. The user can also provide a [.csv](#5-running-phuego-with-removed-network-nodes) file for removed nodes.
+
+```text
+P29317	2.1043
+P00533	1.36255
+P10398	0.7655
+Q9UHY1	0.585
+P53999	-1.3219
+Q96II8	-1.3219
+P17096	-1.0
+P32519	-1.0
+```
 
 ### Output
+Phuego output different files generated at each steps of the algorithm, organized into a folder structure. If the user prefer to navigate the files without the folder structure, they could set the flag **--dont_convert2folder**.
+In brief, phuego processed the user input in two regulation directions: 
+    - increased
+    - decreased
+In each direction, there are four levels of phuego output: 
+    - seeds
+    - rwr
+    - ego
+    - modules
+For most users, the most interesting result would be the **module network files**. So we will explain these first:
+
+#### module_net.graphml
+This is a network output of the igraph package, in an user specified format (**-nf**). It contains information for module annotation, and can be readily imported into other software such as Cytoscape.
+
+#### module_net_edgelist.csv
+
+#### module_net_nodes_attribute.csv
+
+
+
 #### pvalues.txt
 This file contains the pvalues for each node of the network. It is divided in seven columns, the first column refers to the uniprot ids.
 Columns from 2,3,and 4 refers to the pvalues associated with the increased phosphorylation nodes pvalues, of which:
@@ -313,17 +338,6 @@ Rfisher.txt refers to the enriched terms against Reactome when only the leaves a
 RTfisher.txt refers to the enriched terms against Reactome when all the hierarchy is considered
 Dfisher.txt refers to the enriched terms against DisGenenet
 Bfisher.txt refers to the enriched terms against Bioplanet
-
-#### Networks
-The most interesting results that the user should be looking at is: 
-
-### phuego function variables
-#### iteam A
-#### iteam B
-
-### Additional phuego CLI variables
-#### iteam A
-#### iteam B
 
 ## Development
 
