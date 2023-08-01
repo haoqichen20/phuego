@@ -5,7 +5,7 @@
 
 phuego is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
 
-To run phuego, the user can either directly calls the [CLI](#using-the-cli) application from command line, or integrate the [python functions](#using-the-python-package) into their own script. Both methods work equivalently, and it's up to the user to decide which method suits their work.
+To run phuego, the user can either directly calls the [CLI](#using-the-cli) application from command line, or integrate the [python functions](#using-the-python-package) into their own script. We recommend the user to use the CLI and submit jobs to a server where possible, due to the time consuming nature of the task.
 
 ## Installation
 
@@ -36,7 +36,7 @@ phuego -sf "path/to/desired/folder/" --need_networks True --remove_zip_file True
 ```
 
 ### 2. Performing a test/mock run with the phuego test dataset.
-Phuego contains a test dataset, which is a list of differentially phosphorylated proteins between untreated cells and those treated with epidermal growth factor (EGF) (PMID: 19651622). To view the test dataset, see [here](#2-understanding-the-input-data).
+Phuego contains a test dataset, which is a list of differentially phosphorylated proteins between untreated cells and those treated with epidermal growth factor (EGF) (PMID: 19651622). To view the test dataset, see [here](#2-checking-the-input-data).
 
 To understand the [input](#input) and [output](#output) of phuego, the user could either perform a mock run or a test run using the test dataset. A mock run performs 10 propagations on randomized networks, and thus isn't sufficient for reliable statistics, but typically finishs within a few minutes. A test run is a complete run with 1000 propagation on randomized networks, and typically takes > 1hr to finish.
 
@@ -44,24 +44,24 @@ To understand the [input](#input) and [output](#output) of phuego, the user coul
 # Performing a mock run.
 phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_mock
 
-# Performing a mock run, with two kde_cutoff and two geneset database for geneset enrichment analysis, and reuse previous results.
-phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_mock -k 0.85 -k 0.9 -fg "K" -fg "B" -ru
+# Performing a mock run, with two kde_cutoff and two geneset database for geneset enrichment analysis.
+phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_mock -k 0.85 -k 0.9 -fg "K" -fg "B"
 
 # Performing a test run.
 phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_test
 ```
 
-### 3. Running your own protein list.
+### 3. Running your own protein list, reusing rwr results.
 To run phuego using your own list of protein, provide the input file path to phuego.
 
-**Important:** the network propagation step is the most time consuming step of phuego. For each combination of protein list and damping factor, a separate propagation would be run and the result will be stored in the provided result folder (pvalues.txt, rwr_scores.txt, start_seeds.txt). After this, the user can reuse the results (so make sure you don't delete them!) and test other parameters by setting **-ru True**.
+**Important:** the network propagation (rwr) step is the most time consuming step of phuego. For each combination of protein list and damping factor, a separate propagation would be run and the result will be stored in the provided result folder (pvalues.txt, rwr_scores.txt, start_seeds.txt). After this, the user can reuse the results (so make sure you don't delete them!) and test other parameters by providing flag **-ru**.
 
 ```bash
 # Performing a run for the first time. Set damping factor to be 0.85, kde_cutoff to be 0.85, and genesets to be 'KEGG'.
 phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -tpath "path/to/protein_list.txt" -d 0.85 -k 0.85 -fg "K"
 
 # Performing a run reusing network propagation result, testing two different KDE values, and two different gene sets, and export the network in a different format.
-phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -tpath "path/to/protein_list.txt" -ru True -k 0.8 -k 0.9 -fg "C" -fg "B" -nf "edgelist"
+phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -tpath "path/to/protein_list.txt" -ru -k 0.8 -k 0.9 -fg "C" -fg "B" -nf "edgelist"
 ```
 
 ### 4. Batch job submission (LSF cluster).
@@ -136,7 +136,7 @@ phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -
 
 The functions in the phuego package can be imported and used in your own python scripts. This makes it easier for integrating phuego into your own workflow.
 
-### 1. Downloading supporting dataset.
+### 1. Downloading supporting dataset
 
 ```python
 from phuego import dataprep
@@ -153,7 +153,7 @@ dataprep(support_data_folder=support_data_folder,
             remove_zip_file=True)
 ```
 
-### 2. Understanding the input data.
+### 2. Checking the input data
 ```python
 from phuego import load_test_example
 
@@ -162,7 +162,7 @@ test_path, test_df = load_test_example()
 print(test_df)
 ```
 
-### 3. Performing a test/mock run with the phuego test dataset.
+### 3. Performing a test/mock run with the phuego test dataset
 
 Performing a mock run.
 
@@ -177,7 +177,7 @@ res_folder = "path/to/desired_result_folder/"
 test_path, test_df = load_test_example()
 
 # When calling the functions, the user need to manually set all parameters.
-fisher_geneset = ["C","F","D","P","R","K","RT","B"]
+fisher_geneset = ["B"]
 fisher_threshold = 0.05
 fisher_background = "intact"
 ini_pos = ["False"]
@@ -185,6 +185,9 @@ ini_neg = ["False"]
 damping = 0.85
 kde_cutoff = [0.85]
 use_existing_rwr = False
+convert2folder=True
+include_isolated_egos_in_KDE_net=False
+net_format="graphml"
 
 # Run phuego mock.
 print("Run phuego_mock with test dataset, whose first few lines are: \n",test_df.head())
@@ -200,6 +203,9 @@ phuego_mock(
     damping=damping,
     kde_cutoff=kde_cutoff,
     use_existing_rwr=use_existing_rwr,
+    convert2folder=convert2folder,
+    include_isolated_egos_in_KDE_net=include_isolated_egos_in_kde_net,
+    net_format=net_format,
     )
 ```
 
@@ -222,8 +228,12 @@ fisher_background = "intact"
 ini_pos = ["False"]
 ini_neg = ["False"]
 damping = 0.85
+rwr_threshold = 0.05
 kde_cutoff = [0.85]
 use_existing_rwr = False
+convert2folder=True
+include_isolated_egos_in_KDE_net=False
+net_format="graphml"
 
 # Run phuego with test dataset..
 print("Run phuego with test dataset, whose first few lines are: \n",test_df.head())
@@ -237,12 +247,16 @@ phuego(
     ini_pos=ini_pos,
     ini_neg=ini_neg,
     damping=damping,
+    rwr_threshold=rwr_threshold,
     kde_cutoff=kde_cutoff,
     use_existing_rwr=use_existing_rwr,
+    convert2folder=convert2folder,
+    include_isolated_egos_in_KDE_net=include_isolated_egos_in_kde_net,
+    net_format=net_format,
     )
 ```
 
-### 4. Running your own protein list.
+### 4. Running your own protein list
 To run phuego on your own protein list, simply provide the **test_path** to the above code, and remove the **load_test_example()** line. 
 
 To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
