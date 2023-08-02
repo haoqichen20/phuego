@@ -301,16 +301,17 @@ In each direction, there are four levels of phuego output:
 
 For most users, the most interesting result would be the **module network files**. So we will explain these first:
 
-#### module_net.graphml
+##### module_net.graphml
 This is a network output of the igraph package, in an user specified format (**-nf**). It contains information for module annotation, and can be readily imported into other software such as Cytoscape.
 
-#### module_net_edgelist.csv
-
-#### module_net_nodes_attribute.csv
+##### module_net_edgelist.csv
 
 
-### Output: GSEA
-#### Fisher test
+##### module_net_nodes_attribute.csv
+
+
+#### Output: GSEA
+
 Inside the fishers folder 8 files are can be found:
 Pfisher.txt refers to the enriched terms against Gene Ontology biological process
 Ffisher.txt refers to the enriched terms against Gene Ontology functional 
@@ -321,11 +322,11 @@ RTfisher.txt refers to the enriched terms against Reactome when all the hierarch
 Dfisher.txt refers to the enriched terms against DisGenenet
 Bfisher.txt refers to the enriched terms against Bioplanet
 
-### Other output
+#### Other output
 
 
 
-#### pvalues.txt
+##### pvalues.txt
 This file contains the pvalues for each node of the network. It is divided in seven columns, the first column refers to the uniprot ids.
 Columns from 2,3,and 4 refers to the pvalues associated with the increased phosphorylation nodes pvalues, of which:
     -second column refers to the pvalues when increased phosphorilated tyrosine are used as seed nodes 
@@ -338,16 +339,16 @@ Columns from 5,6 and 7 refers to the pvalues associated with the decreased phosp
     -seventh column refers to the pvalues when the decreased phosphorilated substrates are used as seed nodes.
 
 A value greater than 950 indicates a pvalues<0.05 as well as a values greater than 990 indicates a pvalues<0.01
-#### rwr_scores.txt
+##### rwr_scores.txt
 This file has the same format of pvalues.txt with the difference that values indicates rwr scores 
 
-#### start_seeds.txt 
+##### start_seeds.txt 
 First column is uniprot id, second column is phosphorylation LFC (is it exactly the same as the user input?)
 
-#### KDE_egos.txt
+##### KDE_egos.txt
 First column is a seed node, the remaining column are the neighbors associated with the seed nodes. 
 
-#### module_egos.txt
+##### module_egos.txt
 Has the same format of KDE_egos.txt but refers to the module specific nodes associated to the seed nodes.
 
 
