@@ -77,7 +77,7 @@ path/to/protein_list_2.txt
 path/to/protein_list_3.txt
 ```
 
-Then submit your jobs using the following .sh script:
+Then submit your jobs using the following .sh script. The output will be organized into a two-layer folder structure under your specified result_dir. Modify argument value to suit your need.
 
 ```bash
 #!/bin/bash
@@ -266,7 +266,7 @@ To reuse network propagation result and explore different KDE cutoff / genesets,
 
 ## Input and results.
 ### Supporting dataset. 
-The supporting datasets contain the base network, randomized network, semantic similarity, geneset database etc. For details, refer to the associated [publication](#citation).
+The supporting datasets contain the base network, randomized networks, semantic similarity, geneset database etc. For details, refer to the associated [publication](#citation).
 
 ### Input
 phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column, such as the following. The user can also provide a [.csv](#5-running-phuego-with-removed-network-nodes) file for removed nodes.
@@ -282,24 +282,22 @@ P17096	-1.0
 P32519	-1.0
 ```
 
-### Output
-Phuego output different files generated at each steps of the algorithm, organized into a folder structure. If the user prefer to navigate the files without the folder structure, they could set the flag **--dont_convert2folder**.
+### Output, overview:
+Phuego output numerous files generated at each steps of the algorithm, organized into a folder structure. If the user prefer to navigate the files without the folder structure, they could set the flag **--dont_convert2folder**.
 
 In brief, phuego processed the user input in two regulation directions: 
 
     - increased
-
     - decreased
 
 In each direction, there are four levels of phuego output: 
 
     - seeds
-
     - rwr
-    
     - ego
-
     - modules
+
+#### Output: networks
 
 For most users, the most interesting result would be the **module network files**. So we will explain these first:
 
@@ -309,6 +307,21 @@ This is a network output of the igraph package, in an user specified format (**-
 #### module_net_edgelist.csv
 
 #### module_net_nodes_attribute.csv
+
+
+### Output: GSEA
+#### Fisher test
+Inside the fishers folder 8 files are can be found:
+Pfisher.txt refers to the enriched terms against Gene Ontology biological process
+Ffisher.txt refers to the enriched terms against Gene Ontology functional 
+Cfisher.txt refers to the enriched terms against Gene Ontology cellular component
+Kfisher.txt refers to the enriched terms against KEGG
+Rfisher.txt refers to the enriched terms against Reactome when only the leaves are consider as annotation
+RTfisher.txt refers to the enriched terms against Reactome when all the hierarchy is considered
+Dfisher.txt refers to the enriched terms against DisGenenet
+Bfisher.txt refers to the enriched terms against Bioplanet
+
+### Other output
 
 
 
@@ -337,16 +350,7 @@ First column is a seed node, the remaining column are the neighbors associated w
 #### module_egos.txt
 Has the same format of KDE_egos.txt but refers to the module specific nodes associated to the seed nodes.
 
-#### Fisher test
-Inside the fishers folder 8 files are can be found:
-Pfisher.txt refers to the enriched terms against Gene Ontology biological process
-Ffisher.txt refers to the enriched terms against Gene Ontology functional 
-Cfisher.txt refers to the enriched terms against Gene Ontology cellular component
-Kfisher.txt refers to the enriched terms against KEGG
-Rfisher.txt refers to the enriched terms against Reactome when only the leaves are consider as annotation
-RTfisher.txt refers to the enriched terms against Reactome when all the hierarchy is considered
-Dfisher.txt refers to the enriched terms against DisGenenet
-Bfisher.txt refers to the enriched terms against Bioplanet
+
 
 ## Development
 
