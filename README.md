@@ -5,7 +5,7 @@
 
 phuEGO is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
 
-To run phuEGO, the user can either directly calls the [CLI](#using-the-cli) application from command line, or integrate the [python functions](#using-the-python-package) into their own script. We recommend the user to use the CLI and submit jobs to a server where possible, to ensure robust execution of the tasks.
+To run phuEGO, the user can either directly calls the [CLI](#2-using-the-cli) application from command line, or integrate the [python functions](#3-using-the-python-package) into their own script. We recommend the user to use the CLI and submit jobs to a server where possible, to ensure robust execution of the tasks.
 
 ## 1. Installation
 
@@ -40,7 +40,7 @@ phuego -sf "path/to/desired/folder/" --need_networks True --remove_zip_file True
 ### 2). Performing a test/mock run with the phuEGO test dataset
 Phuego contains a test dataset, which is a list of differentially phosphorylated proteins between untreated cells and those treated with epidermal growth factor (EGF) (PMID: 19651622). To view the test dataset, see [here](#2-checking-the-input-data).
 
-To understand the [input](#input) and [output](#output) of phuEGO, the user could either perform a mock run or a test run using the test dataset. A mock run performs 10 propagations on randomized networks, and thus isn't sufficient for reliable statistics, but typically finishs within a few minutes. A test run is a complete run with 1000 propagation on randomized networks, and typically takes > 1hr to finish.
+To understand the [input](#2-input) and [output](#3-output) of phuEGO, the user could either perform a mock run or a test run using the test dataset. A mock run performs 10 propagations on randomized networks, and thus isn't sufficient for reliable statistics, but typically finishs within a few minutes. A test run is a complete run with 1000 propagation on randomized networks, and typically takes > 1hr to finish.
 
 ```bash
 # Performing a mock run.
@@ -269,7 +269,7 @@ To reuse network propagation result and explore different KDE cutoff / genesets,
 The supporting datasets contain the base network, randomized networks, semantic similarity, geneset database etc. For details, refer to the associated [publication](#6-citation).
 
 ### 2). Input
-phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column, such as the following. The user can also provide a [.csv](#5-running-phuEGO-with-removed-network-nodes) file for removed nodes.
+phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column, such as the following. The user can also provide a [.csv](#5-running-phuego-with-removed-network-nodes) file for removed nodes.
 
 ```text
 P29317	2.1043
