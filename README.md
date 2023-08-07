@@ -7,7 +7,7 @@ phuego is a network-based method to reconstruct active signalling pathways from 
 
 To run phuego, the user can either directly calls the [CLI](#using-the-cli) application from command line, or integrate the [python functions](#using-the-python-package) into their own script. We recommend the user to use the CLI and submit jobs to a server where possible, to ensure robust execution of the tasks.
 
-## Installation
+## 1. Installation
 
 ```bash
 # Install phuego in your python environment with 3.13 > python > 3.9
@@ -18,13 +18,13 @@ phuego --version
 phuego --help
 ```
 
-## Using the CLI
+## 2. Using the CLI
 
 The CLI application is an easy way to run phuego on single or a whole batch of dataset directly from the command line. 
 
-**Specific note for Windows users**: please provide the paths with forward slash '/' instead of backward slash '\'.
+**Specific note for Windows users**: please provide the paths with forward slash '/' instead of backward slash '\\'.
 
-### 1. Downloading supporting dataset.
+### 1). Downloading supporting dataset.
 When using phuego **for the first time**, a support dataset that contains three zipped files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuego. 
 
 To download using the CLI application, the user could run the following. Make sure the target disk has at least **20 gb** of free space. 
@@ -37,7 +37,7 @@ phuego -sf "path/to/desired/folder/" --need_fisher True --need_gic_sim True --ne
 phuego -sf "path/to/desired/folder/" --need_networks True --remove_zip_file True
 ```
 
-### 2. Performing a test/mock run with the phuego test dataset.
+### 2). Performing a test/mock run with the phuego test dataset.
 Phuego contains a test dataset, which is a list of differentially phosphorylated proteins between untreated cells and those treated with epidermal growth factor (EGF) (PMID: 19651622). To view the test dataset, see [here](#2-checking-the-input-data).
 
 To understand the [input](#input) and [output](#output) of phuego, the user could either perform a mock run or a test run using the test dataset. A mock run performs 10 propagations on randomized networks, and thus isn't sufficient for reliable statistics, but typically finishs within a few minutes. A test run is a complete run with 1000 propagation on randomized networks, and typically takes > 1hr to finish.
@@ -53,7 +53,7 @@ phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -
 phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_test
 ```
 
-### 3. Running your own protein list, reusing rwr results.
+### 3). Running your own protein list, reusing rwr results.
 To run phuego using your own list of protein, provide the input file path to phuego.
 
 **Important:** the network propagation (rwr) step is the most time consuming step of phuego. For each combination of protein list and damping factor, a separate propagation would be run and the result will be stored in the provided result folder (pvalues.txt, rwr_scores.txt, start_seeds.txt). After this, the user can reuse the results (so make sure you don't delete them!) and test other parameters by providing flag **-ru**.
@@ -66,7 +66,7 @@ phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -
 phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -tpath "path/to/protein_list.txt" -ru -k 0.8 -k 0.9 -fg "C" -fg "B" -nf "edgelist"
 ```
 
-### 4. Batch job submission (LSF cluster).
+### 4). Batch job submission (LSF cluster).
 Each phuego run works with one protein list and one damping factor. If you have multiple protein lists (e.g., from a set of experiment), and/or would like to test multiple damping factors, you could use a .sh script to call phuego multiple times, and submit jobs in batch manner. Below we provide a .sh script for a LSF cluster as an example.
 
 To do so, first create a test_datasets.txt file that store the path to all your protein list files:
@@ -119,7 +119,7 @@ for line in "${datasets[@]}"; do
 done
 ```
 
-### 5. Running phuego with removed network nodes.
+### 5). Running phuego with removed network nodes.
 In a drugging or a knockout experiment, one might want to removed the knocked out targets from the reference network before performing network propagation, assuming that they are no longer functional. To do so, one could specify a .csv file as below, and provide to phuego:
 
 ```text
@@ -134,11 +134,11 @@ Here, row 1 is a list of targets to be removed from the network propagation of u
 phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -tpath "path/to/protein_list.txt" -ipath "path/to/targets_list.csv" -d 0.85 -k 0.85 -fg "K" 
 ```
 
-## Using the python package
+## 3. Using the python package
 
 The functions in the phuego package can be imported and used in your own python scripts. This makes it easier for integrating phuego into your own workflow.
 
-### 1. Downloading supporting dataset
+### 1). Downloading supporting dataset
 
 ```python
 from phuego import dataprep
@@ -155,7 +155,7 @@ dataprep(support_data_folder=support_data_folder,
             remove_zip_file=True)
 ```
 
-### 2. Checking the input data
+### 2). Checking the input data
 ```python
 from phuego import load_test_example
 
@@ -164,7 +164,7 @@ test_path, test_df = load_test_example()
 print(test_df)
 ```
 
-### 3. Performing a test/mock run with the phuego test dataset
+### 3). Performing a test/mock run with the phuego test dataset
 
 Performing a mock run.
 
@@ -258,17 +258,17 @@ phuego(
     )
 ```
 
-### 4. Running your own protein list
+### 4). Running your own protein list
 To run phuego on your own protein list, simply provide the **test_path** to the above code, and remove the **load_test_example()** line. 
 
 To reuse network propagation result and explore different KDE cutoff / genesets, set **use_existing_rwr = True** (also see above).
 
 
-## Input and results.
-### Supporting dataset. 
+## 4. Data and results
+### 1). Supporting dataset. 
 The supporting datasets contain the base network, randomized networks, semantic similarity, geneset database etc. For details, refer to the associated [publication](#citation).
 
-### Input
+### 2). Input
 phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column, such as the following. The user can also provide a [.csv](#5-running-phuego-with-removed-network-nodes) file for removed nodes.
 
 ```text
@@ -282,7 +282,7 @@ P17096	-1.0
 P32519	-1.0
 ```
 
-### Output, overview:
+### 3). Output - overview
 Phuego output numerous files generated at each steps of the algorithm, organized into a folder structure. If the user prefer to navigate the files without the folder structure, they could set the flag **--dont_convert2folder**.
 
 In brief, phuego processed the user input in two regulation directions: 
@@ -297,7 +297,7 @@ In each direction, there are four levels of phuego output:
     - ego
     - modules
 
-#### Output: networks
+### 4). Output - networks
 
 For most users, the most interesting result would be the **module network files**. So we will explain these first:
 
@@ -310,7 +310,7 @@ This is a network output of the igraph package, in an user specified format (**-
 ##### module_net_nodes_attribute.csv
 
 
-#### Output: GSEA
+### 5). Output - GSEA
 
 Inside the fishers folder 8 files are can be found:
 Pfisher.txt refers to the enriched terms against Gene Ontology biological process
@@ -322,9 +322,7 @@ RTfisher.txt refers to the enriched terms against Reactome when all the hierarch
 Dfisher.txt refers to the enriched terms against DisGenenet
 Bfisher.txt refers to the enriched terms against Bioplanet
 
-#### Other output
-
-
+### 6). Output - others
 
 ##### pvalues.txt
 This file contains the pvalues for each node of the network. It is divided in seven columns, the first column refers to the uniprot ids.
@@ -353,18 +351,18 @@ Has the same format of KDE_egos.txt but refers to the module specific nodes asso
 
 
 
-## Development
+## 5. Development
 
 phuego can be integrated into any phosphoproteomics analysis pipeline. It will soon become available through NF-core/Nextflow for easier pipeline integration.
 
-## Citation
+## 6. Citation
 
 Please cite phuego if you use it in your analysis.
 
 ```BibTeX
 ```
 
-## Contributors
+## 7. Contributors
 
 The algorithm and initial scripts of phuego are developed by Girolamo Giudice ([@girolamogiudice](https://github.com/girolamogiudice)) and Evangelia Petsalaki at [@EMBL-EBI] (https://www.ebi.ac.uk/).
 
