@@ -303,7 +303,7 @@ Depending on the levels, three types of files could be provided:
     - networks
     - fisher's exact test results
 
-In brief, a user input protein list (**seeds**) is divided into two directions using the scores (e.g., log2FCs). On each direction, it is expanded through network propagation into a very large list (**rwr**). Then this list is narrowed down (depending on where the user set the KDE_cutoff) by extracting only Ego network of seed nodes (**ego**), and further filtered by keeping inter-linked egos (**modules**). **The modules are considered the final result of phuEGO.** For details, refer to [publication](#6-citation).
+In brief, a user input protein list (seeds) is divided into two directions using the scores (e.g., log2FCs). On each direction, it is expanded through network propagation into a very large list (rwr). Then this list is narrowed down (depending on where the user set the KDE_cutoff) by extracting only Ego network of seed nodes (ego), and further filtered by keeping inter-linked egos (modules). **The [modules](#4-output---module-networks) are considered the final result of phuEGO.** For details, refer to [publication](#6-citation).
 
 ### 4). Output - module networks
 
@@ -319,8 +319,13 @@ Files contains redundant information of the module networks in a more human-read
     - increased/KDE_cutoff/networks/module_net_edgelist.csv
     - increased/KDE_cutoff/networks/module_net_nodes_attribute.csv
 
+The network of the ego is also output at: 
+
+    - decreased/KDE_cutoff/networks/KDE.graphml
+    - increased/KDE_cutoff/networks/KDE.graphml
+
 ### 5). Output - GSEA
-On each level, geneset enrichment analysis (fisher's exact test) are performed on the protein list, against an user specified geneset database. Through this, the user can examine whether phuEGO retrieves a more meaningful protein list from the seeds. The geneset database are part of the supporting database. In total, 8 databases are included, and can be specified by providing abbreviation to the CLI arguments **--fg**. 
+On each level, geneset enrichment analysis (fisher's exact test) are performed on the protein list, against an user specified geneset database. Through this, the user can examine whether phuEGO retrieves a more meaningful protein list from the seeds. The geneset database are part of the supporting database. In total, 8 databases are included, and one or more databases can be specified by providing abbreviation to the CLI arguments **--fg**. 
 
     -P: enrichment against Gene Ontology biological process. Output file: Pfisher.txt
     -F: enrichment against Gene Ontology functional . Output file: Ffisher.txt
@@ -332,17 +337,32 @@ On each level, geneset enrichment analysis (fisher's exact test) are performed o
     -B: enrichment against Bioplanet. Output file: Bfisher.txt
 
 They are distributed across the following paths:
+
     - seeds: decreased/seed_fisher; increased/seed_fisher
     - rwr: decreased/rwr_fisher; increased/rwr_fisher
-    - ego: 
-    - modules (subjected to KDE_cutoff)
+    - ego: decreased/KDE_cutoff/fisher; increased/KDE_cutoff/fisher
+    - modules: decreased/KDE_cutoff/modules/module_N/fisher; increased/KDE_cutoff/modules/module_N/fisher
 
-### 6). Output - rwr
-Three files are stored on the top layers 
+### 6). Output - protein list
+On the ego level, a text file summarize the protein list within ego network of each seed on a separate row. The first column is a seed node, the remaining column are the neighbors associated with the seed nodes. If **-ie** is provided to CLI, then rows with only the seeds will be excluded during network generation.
 
+    - decreased/KDE_cutoff/KDE_egos.txt
+    - increased/KDE_cutoff/KDE_egos.txt
 
-##### pvalues.txt
-This file contains the pvalues for each node of the network. It is divided in seven columns, the first column refers to the uniprot ids.
+On the module level, for each module, a similar text file is generated, containing only module-specific seeds and the associated nodes.
+
+    - decreased/KDE_cutoff/modules/module_N/module_egos.txt
+    - increased/KDE_cutoff/modules/module_N/module_egos.txt
+
+### 7). Output - network propagation results
+Three files are stored on the top layers of the result folder. These files can be reused by phuEGO to save time, when the user provide the flag **-ru** to CLI.
+
+    - pvalues.txt
+    - rwr_scores.txt
+    - start_seeds.txt
+
+The pvalues.txt file contains the pvalues for each node of the network. It is divided in seven columns, the first column refers to the uniprot ids.
+
 Columns from 2,3,and 4 refers to the pvalues associated with the increased phosphorylation nodes pvalues, of which:
     -second column refers to the pvalues when increased phosphorilated tyrosine are used as seed nodes 
     -third column refers to the pvalues when all the other increased phosphorilated kinases are used as seed nodes, 
@@ -353,20 +373,11 @@ Columns from 5,6 and 7 refers to the pvalues associated with the decreased phosp
     -sixt column refers to the pvalues when all the other decreased phosphorilated kinases are used as seed nodes, 
     -seventh column refers to the pvalues when the decreased phosphorilated substrates are used as seed nodes.
 
-A value greater than 950 indicates a pvalues<0.05 as well as a values greater than 990 indicates a pvalues<0.01
-##### rwr_scores.txt
-This file has the same format of pvalues.txt with the difference that values indicates rwr scores 
+A value greater than 950 indicates a pvalues<0.05 as well as a values greater than 990 indicates a pvalues<0.01. 
 
-##### start_seeds.txt 
-First column is uniprot id, second column is phosphorylation LFC (is it exactly the same as the user input?)
+The rwr_scores.txt file has the same format of pvalues.txt with the difference that values indicates rwr scores.
 
-##### KDE_egos.txt
-First column is a seed node, the remaining column are the neighbors associated with the seed nodes. 
-
-##### module_egos.txt
-Has the same format of KDE_egos.txt but refers to the module specific nodes associated to the seed nodes.
-
-
+The start_seeds.txt is basically the same as the user input.
 
 ## 5. Development
 
