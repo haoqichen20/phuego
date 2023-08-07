@@ -392,6 +392,6 @@ Please cite phuEGO if you use it in your analysis.
 
 ## 7. Contributors
 
-The algorithm and initial scripts of phuEGO are developed by Girolamo Giudice ([@girolamogiudice](https://github.com/girolamogiudice)) and Evangelia Petsalaki at ([@EMBL-EBI](https://www.ebi.ac.uk/)).
+The algorithm and initial scripts of phuEGO are developed by Girolamo Giudice ([@girolamogiudice](https://github.com/girolamogiudice)) and Evangelia Petsalaki at [EMBL-EBI](https://www.ebi.ac.uk/).
 
-The Python package and CLI application are developed by Haoqi Chen ([@haoqichen20](https://github.com/haoqichen20)) at ([@EMBL-EBI](https://www.ebi.ac.uk/)).
+The Python package and CLI application are developed by Haoqi Chen ([@haoqichen20](https://github.com/haoqichen20)) at [EMBL-EBI](https://www.ebi.ac.uk/).
