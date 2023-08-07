@@ -269,7 +269,7 @@ To reuse network propagation result and explore different KDE cutoff / genesets,
 The supporting datasets contain the base network, randomized networks, semantic similarity, geneset database etc. For details, refer to the associated [publication](#6-citation).
 
 ### 2). Input
-phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column, such as the following. The user can also provide a [.csv](#5-running-phuego-with-removed-network-nodes) file for removed nodes.
+phuEGO accept in input a .txt file where first column are uniprot Ids and second columns are LFC or values associated to the importance of the protein in the first column, such as the following. The user can also provide a .csv file for removed nodes, as explained [above](#5-running-phuego-with-removed-network-nodes).
 
 ```text
 P29317	2.1043
@@ -283,9 +283,9 @@ P32519	-1.0
 ```
 
 ### 3). Output - overview
-Phuego output numerous files generated at each steps of the algorithm, organized into a folder structure. If the user prefer to navigate the files without the folder structure, they could set the flag **--dont_convert2folder**.
+Phuego output numerous files generated at each steps of the algorithm, organized into a folder structure. If the user prefer to navigate the files without the folder structure, they could set the flag **--dont_convert2folder** when using the CLI, or set **convert2folder=False** when using the python functions.
 
-In brief, phuEGO processed the user input in two regulation directions: 
+phuEGO processed the user input in two regulation directions: 
 
     - increased
     - decreased
@@ -294,35 +294,46 @@ In each direction, there are four levels of phuEGO output:
 
     - seeds
     - rwr
-    - ego
-    - modules
+    - ego (subjected to KDE_cutoff)
+    - modules (subjected to KDE_cutoff)
 
-### 4). Output - networks
+Depending on the levels, three types of files could be provided:
 
-For most users, the most interesting result would be the **module network files**. So we will explain these first:
+    - protein lists
+    - networks
+    - fisher's exact test results
 
-##### module_net.graphml
-This is a network output of the igraph package, in an user specified format (**-nf**). It contains information for module annotation, and can be readily imported into other software such as Cytoscape.
+In brief, a user input protein list (**seeds**) is divided into two directions using the scores (e.g., log2FCs). On each direction, it is expanded through network propagation into a very large list (**rwr**). Then this list is narrowed down (depending on where the user set the KDE_cutoff) by extracting only Ego network of seed nodes (**ego**), and further filtered by keeping inter-linked egos (**modules**). **The modules are considered the final result of phuEGO.** For details, refer to [publication](#6-citation).
 
-##### module_net_edgelist.csv
+### 4). Output - module networks
 
+These are network output of the igraph package, in an user specified format (via CLI parameter **-nf**). The default .graphml format contains information for module annotation, and can be readily imported into other software such as Cytoscape.
 
-##### module_net_nodes_attribute.csv
+    - decreased/KDE_cutoff/networks/module_net.graphml
+    - increased/KDE_cutoff/networks/module_net.graphml
 
+These two files contains redundant information with the network file in a more human-readable format.
+
+    - decreased/KDE_cutoff/networks/module_net_edgelist.csv
+    - decreased/KDE_cutoff/networks/module_net_nodes_attribute.csv
+    - increased/KDE_cutoff/networks/module_net_edgelist.csv
+    - increased/KDE_cutoff/networks/module_net_nodes_attribute.csv
 
 ### 5). Output - GSEA
+On each level, geneset enrichment analysis (fisher's exact test) are performed on the protein list, against an user specified geneset database. Through this, the user can examine whether phuEGO retrieves a more meaningful protein list from the seeds. The geneset database are part of the supporting database. In total, 8 databases are included, and can be specified by providing abbreviation to the CLI arguments **--fg**. 
 
-Inside the fishers folder 8 files are can be found:
-Pfisher.txt refers to the enriched terms against Gene Ontology biological process
-Ffisher.txt refers to the enriched terms against Gene Ontology functional 
-Cfisher.txt refers to the enriched terms against Gene Ontology cellular component
-Kfisher.txt refers to the enriched terms against KEGG
-Rfisher.txt refers to the enriched terms against Reactome when only the leaves are consider as annotation
-RTfisher.txt refers to the enriched terms against Reactome when all the hierarchy is considered
-Dfisher.txt refers to the enriched terms against DisGenenet
-Bfisher.txt refers to the enriched terms against Bioplanet
+    -P: enrichment against Gene Ontology biological process. Output file: Pfisher.txt
+    -F: enrichment against Gene Ontology functional . Output file: Ffisher.txt
+    -C: enrichment against Gene Ontology cellular component. Output file: Cfisher.txt
+    -K: enrichment against KEGG. Output file: Kfisher.txt
+    -R: enrichment against Reactome when only the leaves are consider as annotation. Output file: Rfisher.txt
+    -R: enrichment against Reactome when all the hierarchy is considered. Output file: Rfisher.txt
+    -D: enrichment against DisGenenet. Output file: Dfisher.txt
+    -B: enrichment against Bioplanet. Output file: Bfisher.txt
 
-### 6). Output - others
+### 6). Output - rwr
+Three files are stored on the top layers 
+
 
 ##### pvalues.txt
 This file contains the pvalues for each node of the network. It is divided in seven columns, the first column refers to the uniprot ids.
