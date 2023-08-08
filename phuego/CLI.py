@@ -6,7 +6,7 @@ from .phuego import phuego
 from .phuego_mock import phuego_mock
 import click
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 '''
 This is the CLI tool for phuego.

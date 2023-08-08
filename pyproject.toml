@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "phuego"
-version = "1.0.0"
+version = "1.0.1"
 description = "Propagation of phosphoproteomics signals"
 authors = [
     "Girolamo Giudice <Girolamo.Giudice@gmail.com>",

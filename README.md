@@ -381,7 +381,13 @@ The start_seeds.txt is basically the same as the user input.
 
 ## 5. Development
 
-phuEGO can be integrated into any phosphoproteomics analysis pipeline. It will soon become available through NF-core/Nextflow for easier pipeline integration.
+### Future development
+
+phuEGO can be integrated into any phosphoproteomics analysis pipeline. It will eventually become available through NF-core/Nextflow for easier pipeline integration.
+
+### Changelog
+
+For a detailed history of changes, see the [Changelog](https://github.com/haoqichen20/phuego/blob/master/CHANGELOG.md).
 
 ## 6. Citation
 
