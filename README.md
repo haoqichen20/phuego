@@ -387,16 +387,9 @@ phuEGO can be integrated into any phosphoproteomics analysis pipeline. It will s
 
 Please cite phuEGO if you use it in your analysis.
 
-**Title:** [phuEGO: A network-based method to reconstruct active signalling pathways from phosphoproteomics datasets](https://www.biorxiv.org/content/early/2023/08/07/2023.08.07.552249)
-
-**Authors:** Girolamo Giudice, Haoqi Chen, Evangelia Petsalaki
-
-**Journal:** bioRxiv, 2023
-
-**DOI:** [10.1101/2023.08.07.552249](https://doi.org/10.1101/2023.08.07.552249)
-
-**Note:** [Full PDF](https://www.biorxiv.org/content/early/2023/08/07/2023.08.07.552249.full.pdf)
-
+> **phuEGO: A network-based method to reconstruct active signalling pathways from phosphoproteomics datasets** <br> _Girolamo Giudice, Haoqi Chen, Evangelia Petsalaki_ <br>
+> bioRxiv, 2023 <br>
+> doi: [10.1101/2023.08.07.552249](https://doi.org/10.1101/2023.08.07.552249) <br>
 
 ```BibTeX
 @article{giudice_phuego_2023,
