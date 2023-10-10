@@ -31,10 +31,10 @@ To download using the CLI application, the user could run the following. Make su
 
 ```bash
 # Download all three dataset, compare md5 checksum, unzip and removed zip files.
-phuego -sf "path/to/desired/folder/" --need_fisher True --need_gic_sim True --need_networks True --remove_zip_file True
+phuego -sf "path/to/desired/folder/" --need_fisher --need_gic_sim --need_networks --remove_zip_file
 
 # If one of the file does not successfully download, for example the network file, then rerun above with only the missing file.
-phuego -sf "path/to/desired/folder/" --need_networks True --remove_zip_file True
+phuego -sf "path/to/desired/folder/" --need_networks --remove_zip_file
 ```
 
 ### 2). Performing a test/mock run with the phuEGO test dataset
