@@ -16,6 +16,9 @@ pip install phuego
 phuego --version
 # Check all parameters of CLI application.
 phuego --help
+
+# Install zenodo_get to download the supporting dataset from Zenodo.
+pip install zenodo-get
 ```
 
 ## 2. Using the CLI
@@ -25,16 +28,27 @@ The CLI application is an easy way to run phuEGO on single or a whole batch of d
 **Specific note for Windows users**: please provide the paths with forward slash '/' instead of backward slash '\\'.
 
 ### 1). Downloading supporting dataset
-When using phuEGO **for the first time**, a support dataset that contains three zipped files (https://zenodo.org/record/8094690) need to be downloaded. After that, the user could always refer to the support data folder for running phuEGO. 
-
-To download using the CLI application, the user could run the following. Make sure the target disk has at least **20 gb** of free space. 
+When using phuEGO **for the first time**, a support dataset that contains three zipped files (https://zenodo.org/record/8094690) need to be downloaded. We recommend using the zenodo-get program:
 
 ```bash
-# Download all three dataset, compare md5 checksum, unzip and removed zip files.
-phuego -sf "path/to/desired/folder/" --need_fisher --need_gic_sim --need_networks --remove_zip_file
+cd path/to/desired/folder
+zenodo_get 8094690
+```
 
-# If one of the file does not successfully download, for example the network file, then rerun above with only the missing file.
-phuego -sf "path/to/desired/folder/" --need_networks --remove_zip_file
+Decompressed the files into the support datafolder using the following Python code or other tools, such as tar. **Do not modify the folder structure.**
+
+```python
+import tarfile
+
+support_data_folder = "path/to/desired/folder" #Change this.
+
+def decompress_tar_gz(file_path, output_dir):
+    with tarfile.open(file_path, "r:gz") as tar:
+        tar.extractall(path=output_dir)       
+        
+paths = ["./gic_sim.tar.gz", "./fisher_etc.tar.gz", "./networks.tar.gz"]
+for path in paths:
+    decompress_tar_gz(path, support_data_folder)
 ```
 
 ### 2). Performing a test/mock run with the phuEGO test dataset
