@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from .utils_CLI import load_test_example
-from .utils_CLI import dataprep
 from .phuego import phuego
 from .phuego_mock import phuego_mock
 import click
@@ -23,17 +22,6 @@ This is the CLI tool for phuego.
               help="The path of a csv file, that specify two sets of nodes to be removed from reference network during propagation.")
 @click.option("--convert2folder/--dont_convert2folder", default=True, required=False, 
               help="Should phuego organize result files into a folder structure?")
-
-
-# Support dataset download.
-@click.option("--need_fisher", is_flag=True, required=False,
-              help="Should phuego download the fisher geneset from zenodo?")
-@click.option("--need_gic_sim", is_flag=True, required=False, 
-              help="Should phuego download the semantic similarity from zenodo?")
-@click.option("--need_networks", is_flag=True, required=False, 
-              help="Should phuego download the networks from zenodo?")
-@click.option("--remove_zip_file", is_flag=True, required=False, 
-              help="Should phuego remove the zip files after downloading?")
 
 # Mock/test.
 @click.option("--run_mock", is_flag=True, required=False, 
@@ -75,7 +63,6 @@ This is the CLI tool for phuego.
               help='Print version to stdout')
 
 def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
-         need_fisher, need_gic_sim, need_networks, remove_zip_file,
          damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_path, rwr_threshold, 
          include_isolated_egos_in_kde_net, net_format, version) -> None:
        
@@ -85,20 +72,9 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
         click.echo(f"{bold_package_name} ({__version__})")
         return
 
-    # Download support dataset.
-    if(need_fisher | need_gic_sim | need_networks):
-       dataprep(support_data_folder=support_data_folder, 
-              need_fisher=need_fisher, 
-              need_gic_sim=need_gic_sim, 
-              need_networks=need_networks,
-              remove_zip_file=remove_zip_file)
-       
-
     # Click turns the multiple input into tuple. Make it as list now.
     fisher_geneset = list(fisher_geneset)
     kde_cutoff = list(kde_cutoff)
-    # ini_pos = list(ini_pos)
-    # ini_neg = list(ini_neg)
         
     # Create ini_pos and ini_neg, by default or by reading the ini_path file. 
     if(ini_path == ""):
