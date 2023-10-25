@@ -16,9 +16,6 @@ pip install phuego
 phuego --version
 # Check all parameters of CLI application.
 phuego --help
-
-# Install zenodo_get to download the supporting dataset from Zenodo.
-pip install zenodo-get
 ```
 
 ## 2. Using the CLI
@@ -28,9 +25,11 @@ The CLI application is an easy way to run phuEGO on single or a whole batch of d
 **Specific note for Windows users**: please provide the paths with forward slash '/' instead of backward slash '\\'.
 
 ### 1). Downloading supporting dataset
-When using phuEGO **for the first time**, a support dataset that contains three zipped files (https://zenodo.org/record/8094690) need to be downloaded. We recommend using the zenodo-get program:
+When using phuEGO **for the first time**, a support dataset that contains three zipped files (https://zenodo.org/record/8094690) need to be downloaded. We recommend using the zenodo-get packages:
 
 ```bash
+# Install zenodo_get to download the supporting dataset from Zenodo.
+pip install zenodo-get
 cd path/to/desired/folder
 zenodo_get 8094690
 ```
