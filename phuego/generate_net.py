@@ -213,13 +213,13 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 for i, module in enumerate(modules):
                     module_colors[module] = color_palette[i % len(color_palette)]
                 # Create the ModuleLabel and RGB ModuleColor attribute for each node.
-                for node, data in module_net.nodes(data=True):
+                for node, data in module_net.vs(data=True):
                     modules = [key for key, value in data.items() if "module_" in key and value == 1.0]
-                    module_net.nodes[node]['ModuleLabel'] = "_".join(modules)
+                    module_net.vs[node]['ModuleLabel'] = "_".join(modules)
                     if len(modules) == 1:
-                        module_net.nodes[node]['ModuleColor'] = module_colors[modules[0]]
+                        module_net.vs[node]['ModuleColor'] = module_colors[modules[0]]
                     else:
-                        module_net.nodes[node]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[node]['ModuleColor'] = (255, 255, 255) # White
                 # Write the net.
                 fname = res_folder+"module_net_increased_"+i+"."+net_format
                 ig.write(module_net,fname,format=net_format)
@@ -323,13 +323,13 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 for i, module in enumerate(modules):
                     module_colors[module] = color_palette[i % len(color_palette)]
                 # Create the ModuleLabel and RGB ModuleColor attribute for each node.
-                for node, data in module_net.nodes(data=True):
+                for node, data in module_net.vs(data=True):
                     modules = [key for key, value in data.items() if "module_" in key and value == 1.0]
-                    module_net.nodes[node]['ModuleLabel'] = "_".join(modules)
+                    module_net.vs[node]['ModuleLabel'] = "_".join(modules)
                     if len(modules) == 1:
-                        module_net.nodes[node]['ModuleColor'] = module_colors[modules[0]]
+                        module_net.vs[node]['ModuleColor'] = module_colors[modules[0]]
                     else:
-                        module_net.nodes[node]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[node]['ModuleColor'] = (255, 255, 255) # White
                 # Write the net.                
                 fname = res_folder+"module_net_decreased_"+i+"."+net_format
                 ig.write(module_net,fname,format=net_format)
