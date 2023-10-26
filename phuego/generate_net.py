@@ -3,6 +3,7 @@ import igraph as ig
 import numpy as np
 import pandas as pd
 import os
+import sys
 
 def graph_to_df(module_net, seed, nodes_modules):
     edges = []
@@ -202,9 +203,11 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                     module_identity = [module for module in modules if node[module] == 1.0]
                     module_net.vs[x]['ModuleLabel'] = "_".join(module_identity)
                     if len(module_identity) == 1:
-                        module_net.vs[x]['ModuleColor'] = module_colors[module_identity[0]]
+                        color = module_colors[module_identity[0]]
+                        color_str = f"rgb({color[0]},{color[1]},{color[2]})"
+                        module_net.vs[x]['ModuleColor'] = color_str
                     else:
-                        module_net.vs[x]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[x]['ModuleColor'] = "rgb(255, 255, 255)" # White
                 # Write the net.
                 fname = res_folder+"module_net_increased_"+i+"."+net_format
                 ig.write(module_net,fname,format=net_format)
@@ -297,9 +300,11 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                     module_identity = [module for module in modules if node[module] == 1.0]
                     module_net.vs[x]['ModuleLabel'] = "_".join(module_identity)
                     if len(module_identity) == 1:
-                        module_net.vs[x]['ModuleColor'] = module_colors[module_identity[0]]
+                        color = module_colors[module_identity[0]]
+                        color_str = f"rgb({color[0]},{color[1]},{color[2]})"
+                        module_net.vs[x]['ModuleColor'] = color_str
                     else:
-                        module_net.vs[x]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[x]['ModuleColor'] = "rgb(255, 255, 255)" # White
                 
                 # Write the net.                
                 fname = res_folder+"module_net_decreased_"+i+"."+net_format
