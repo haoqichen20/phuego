@@ -178,21 +178,36 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 module_net=KDE_increased.induced_subgraph(all_nodes)
                 module_net["title"] ="Module_increased_net"
                 # Create composite column for node module identity annotation to facilitate CytoScape visualization.
-                # Predefined color palette (8 colors)
+                # # Predefined color palette (12 colors)
+                # color_palette = [
+                #     (255, 0, 0),    # Red
+                #     (0, 255, 0),    # Green
+                #     (0, 0, 255),    # Blue
+                #     (255, 255, 0),  # Yellow
+                #     (255, 0, 255),  # Magenta
+                #     (0, 255, 255),  # Cyan
+                #     (128, 0, 128),  # Purple
+                #     (255, 165, 0),   # Orange
+                #     (128, 128, 128),  # Gray
+                #     (128, 0, 0),      # Maroon
+                #     (128, 128, 0),    # Olive
+                #     (0, 128, 128)     # Teal
+                # ]
+                # Gentle color palette (12 colors)
                 color_palette = [
-                    (255, 0, 0),    # Red
-                    (0, 255, 0),    # Green
-                    (0, 0, 255),    # Blue
-                    (255, 255, 0),  # Yellow
-                    (255, 0, 255),  # Magenta
-                    (0, 255, 255),  # Cyan
-                    (128, 0, 128),  # Purple
-                    (255, 165, 0),   # Orange
-                    (128, 128, 128),  # Gray
-                    (128, 0, 0),      # Maroon
-                    (128, 128, 0),    # Olive
-                    (0, 128, 128)     # Teal
-                ]
+                    (208, 209, 230),  # Soft Blue
+                    (253, 208, 162),  # Soft Peach
+                    (197, 232, 197),  # Soft Green
+                    (253, 253, 208),  # Soft Yellow
+                    (232, 197, 232),  # Soft Purple
+                    (208, 232, 253),  # Soft Cyan
+                    (253, 197, 197),  # Soft Red
+                    (232, 232, 208),  # Soft Olive
+                    (209, 232, 208),  # Soft Mint
+                    (197, 208, 232),  # Soft Lavender
+                    (232, 208, 232),  # Soft Magenta
+                    (208, 232, 232)   # Soft Teal
+                ]                   
                 # Mapping between module and color palette. If module number exceeds 12, color palette will be cycled.
                 module_colors = {}
                 for i, module in enumerate(modules):
@@ -273,21 +288,36 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 module_net=KDE_decreased.induced_subgraph(all_nodes)
                 module_net["title"] ="Module_decreased_net"
                 # Create composite column for node module identity annotation to facilitate CytoScape visualization.
-                # Predefined color palette (8 colors)
+                # Predefined color palette (12 colors)
+                # color_palette = [
+                #     (255, 0, 0),    # Red
+                #     (0, 255, 0),    # Green
+                #     (0, 0, 255),    # Blue
+                #     (255, 255, 0),  # Yellow
+                #     (255, 0, 255),  # Magenta
+                #     (0, 255, 255),  # Cyan
+                #     (128, 0, 128),  # Purple
+                #     (255, 165, 0),   # Orange
+                #     (128, 128, 128),  # Gray
+                #     (128, 0, 0),      # Maroon
+                #     (128, 128, 0),    # Olive
+                #     (0, 128, 128)     # Teal
+                # ]
+                # Gentle color palette (12 colors)
                 color_palette = [
-                    (255, 0, 0),    # Red
-                    (0, 255, 0),    # Green
-                    (0, 0, 255),    # Blue
-                    (255, 255, 0),  # Yellow
-                    (255, 0, 255),  # Magenta
-                    (0, 255, 255),  # Cyan
-                    (128, 0, 128),  # Purple
-                    (255, 165, 0),   # Orange
-                    (128, 128, 128),  # Gray
-                    (128, 0, 0),      # Maroon
-                    (128, 128, 0),    # Olive
-                    (0, 128, 128)     # Teal
-                ]
+                    (208, 209, 230),  # Soft Blue
+                    (253, 208, 162),  # Soft Peach
+                    (197, 232, 197),  # Soft Green
+                    (253, 253, 208),  # Soft Yellow
+                    (232, 197, 232),  # Soft Purple
+                    (208, 232, 253),  # Soft Cyan
+                    (253, 197, 197),  # Soft Red
+                    (232, 232, 208),  # Soft Olive
+                    (209, 232, 208),  # Soft Mint
+                    (197, 208, 232),  # Soft Lavender
+                    (232, 208, 232),  # Soft Magenta
+                    (208, 232, 232)   # Soft Teal
+                ]                
                 # Mapping between module and color palette. If module number exceeds 12, color palette will be cycled.
                 module_colors = {}
                 for i, module in enumerate(modules):
