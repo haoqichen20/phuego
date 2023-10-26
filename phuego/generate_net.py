@@ -213,13 +213,13 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 for i, module in enumerate(modules):
                     module_colors[module] = color_palette[i % len(color_palette)]
                 # Create the ModuleLabel and RGB ModuleColor attribute for each node.
-                for node, data in module_net.vs(data=True):
-                    modules = [key for key, value in data.items() if "module_" in key and value == 1.0]
-                    module_net.vs[node]['ModuleLabel'] = "_".join(modules)
-                    if len(modules) == 1:
-                        module_net.vs[node]['ModuleColor'] = module_colors[modules[0]]
+                for i, node in enumerate(module_net.vs):
+                    module_identity = [module for module in modules if node[module] == 1.0]
+                    module_net.vs[i]['ModuleLabel'] = "_".join(module_identity)
+                    if len(module_identity) == 1:
+                        module_net.vs[i]['ModuleColor'] = module_colors[module_identity[0]]
                     else:
-                        module_net.vs[node]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[i]['ModuleColor'] = (255, 255, 255) # White
                 # Write the net.
                 fname = res_folder+"module_net_increased_"+i+"."+net_format
                 ig.write(module_net,fname,format=net_format)
@@ -321,15 +321,16 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 # Mapping between module and color palette. If module number exceeds 12, color palette will be cycled.
                 module_colors = {}
                 for i, module in enumerate(modules):
-                    module_colors[module] = color_palette[i % len(color_palette)]
+                    module_colors[module] = color_palette[i % len(color_palette)]             
                 # Create the ModuleLabel and RGB ModuleColor attribute for each node.
-                for node, data in module_net.vs(data=True):
-                    modules = [key for key, value in data.items() if "module_" in key and value == 1.0]
-                    module_net.vs[node]['ModuleLabel'] = "_".join(modules)
-                    if len(modules) == 1:
-                        module_net.vs[node]['ModuleColor'] = module_colors[modules[0]]
+                for i, node in enumerate(module_net.vs):
+                    module_identity = [module for module in modules if node[module] == 1.0]
+                    module_net.vs[i]['ModuleLabel'] = "_".join(module_identity)
+                    if len(module_identity) == 1:
+                        module_net.vs[i]['ModuleColor'] = module_colors[module_identity[0]]
                     else:
-                        module_net.vs[node]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[i]['ModuleColor'] = (255, 255, 255) # White
+                
                 # Write the net.                
                 fname = res_folder+"module_net_decreased_"+i+"."+net_format
                 ig.write(module_net,fname,format=net_format)
