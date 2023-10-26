@@ -178,22 +178,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 module_net=KDE_increased.induced_subgraph(all_nodes)
                 module_net["title"] ="Module_increased_net"
                 # Create composite column for node module identity annotation to facilitate CytoScape visualization.
-                # # Predefined color palette (12 colors)
-                # color_palette = [
-                #     (255, 0, 0),    # Red
-                #     (0, 255, 0),    # Green
-                #     (0, 0, 255),    # Blue
-                #     (255, 255, 0),  # Yellow
-                #     (255, 0, 255),  # Magenta
-                #     (0, 255, 255),  # Cyan
-                #     (128, 0, 128),  # Purple
-                #     (255, 165, 0),   # Orange
-                #     (128, 128, 128),  # Gray
-                #     (128, 0, 0),      # Maroon
-                #     (128, 128, 0),    # Olive
-                #     (0, 128, 128)     # Teal
-                # ]
-                # Gentle color palette (12 colors)
+                # # Predefined gentle color palette (12 colors)
                 color_palette = [
                     (208, 209, 230),  # Soft Blue
                     (253, 208, 162),  # Soft Peach
@@ -210,16 +195,16 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 ]                   
                 # Mapping between module and color palette. If module number exceeds 12, color palette will be cycled.
                 module_colors = {}
-                for i, module in enumerate(modules):
-                    module_colors[module] = color_palette[i % len(color_palette)]
+                for x, module in enumerate(modules):
+                    module_colors[module] = color_palette[x % len(color_palette)]
                 # Create the ModuleLabel and RGB ModuleColor attribute for each node.
-                for i, node in enumerate(module_net.vs):
+                for x, node in enumerate(module_net.vs):
                     module_identity = [module for module in modules if node[module] == 1.0]
-                    module_net.vs[i]['ModuleLabel'] = "_".join(module_identity)
+                    module_net.vs[x]['ModuleLabel'] = "_".join(module_identity)
                     if len(module_identity) == 1:
-                        module_net.vs[i]['ModuleColor'] = module_colors[module_identity[0]]
+                        module_net.vs[x]['ModuleColor'] = module_colors[module_identity[0]]
                     else:
-                        module_net.vs[i]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[x]['ModuleColor'] = (255, 255, 255) # White
                 # Write the net.
                 fname = res_folder+"module_net_increased_"+i+"."+net_format
                 ig.write(module_net,fname,format=net_format)
@@ -288,22 +273,7 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 module_net=KDE_decreased.induced_subgraph(all_nodes)
                 module_net["title"] ="Module_decreased_net"
                 # Create composite column for node module identity annotation to facilitate CytoScape visualization.
-                # Predefined color palette (12 colors)
-                # color_palette = [
-                #     (255, 0, 0),    # Red
-                #     (0, 255, 0),    # Green
-                #     (0, 0, 255),    # Blue
-                #     (255, 255, 0),  # Yellow
-                #     (255, 0, 255),  # Magenta
-                #     (0, 255, 255),  # Cyan
-                #     (128, 0, 128),  # Purple
-                #     (255, 165, 0),   # Orange
-                #     (128, 128, 128),  # Gray
-                #     (128, 0, 0),      # Maroon
-                #     (128, 128, 0),    # Olive
-                #     (0, 128, 128)     # Teal
-                # ]
-                # Gentle color palette (12 colors)
+                # Predefined gentle color palette (12 colors)
                 color_palette = [
                     (208, 209, 230),  # Soft Blue
                     (253, 208, 162),  # Soft Peach
@@ -320,16 +290,16 @@ def generate_nets(res_folder, network, uniprot_to_gene, kde_cutoff, rwr_threshol
                 ]                
                 # Mapping between module and color palette. If module number exceeds 12, color palette will be cycled.
                 module_colors = {}
-                for i, module in enumerate(modules):
-                    module_colors[module] = color_palette[i % len(color_palette)]             
+                for x, module in enumerate(modules):
+                    module_colors[module] = color_palette[x % len(color_palette)]             
                 # Create the ModuleLabel and RGB ModuleColor attribute for each node.
-                for i, node in enumerate(module_net.vs):
+                for x, node in enumerate(module_net.vs):
                     module_identity = [module for module in modules if node[module] == 1.0]
-                    module_net.vs[i]['ModuleLabel'] = "_".join(module_identity)
+                    module_net.vs[x]['ModuleLabel'] = "_".join(module_identity)
                     if len(module_identity) == 1:
-                        module_net.vs[i]['ModuleColor'] = module_colors[module_identity[0]]
+                        module_net.vs[x]['ModuleColor'] = module_colors[module_identity[0]]
                     else:
-                        module_net.vs[i]['ModuleColor'] = (255, 255, 255) # White
+                        module_net.vs[x]['ModuleColor'] = (255, 255, 255) # White
                 
                 # Write the net.                
                 fname = res_folder+"module_net_decreased_"+i+"."+net_format
