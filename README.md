@@ -345,7 +345,7 @@ On each level, geneset enrichment analysis (fisher's exact test) are performed o
     -C: enrichment against Gene Ontology cellular component. Output file: Cfisher.txt
     -K: enrichment against KEGG. Output file: Kfisher.txt
     -R: enrichment against Reactome when only the leaves are consider as annotation. Output file: Rfisher.txt
-    -R: enrichment against Reactome when all the hierarchy is considered. Output file: Rfisher.txt
+    -RT: enrichment against Reactome when all the hierarchy is considered. Output file: RTfisher.txt
     -D: enrichment against DisGenenet. Output file: Dfisher.txt
     -B: enrichment against Bioplanet. Output file: Bfisher.txt
 
