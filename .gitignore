@@ -3,6 +3,7 @@
 phuego/__pycache__/
 phuego/temp/
 /history_dist
+/docs/build
 
 err_ph.txt
 log_ph.txt
