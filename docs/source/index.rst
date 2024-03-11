@@ -28,7 +28,6 @@ Documentation
    input_preparation
    usage_cli
    output
-   usage_api
 
 
 Changelog
