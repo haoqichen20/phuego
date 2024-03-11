@@ -1,4 +1,4 @@
-Welcome to phuego's documentation!
+Welcome to phuEGO's documentation!
 ==================================
 
 **phuEGO** is a network-based method to reconstruct active signalling
