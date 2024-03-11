@@ -38,7 +38,7 @@ For a detailed history of changes, see the
 `Changelog <https://github.com/haoqichen20/phuego/blob/master/CHANGELOG.md>`__.
 
 
-.. _publication:
+.. _citation:
 
 Citation
 --------
