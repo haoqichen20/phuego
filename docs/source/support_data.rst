@@ -15,8 +15,8 @@ a `Nextflow pipeline <https://url_to_be_added>`__ provided separately.
 
 .. _download:
 
-Downloading pre-made supporting data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Downloading the pre-made supporting dataset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container::
 
@@ -53,8 +53,8 @@ Downloading pre-made supporting data
 
 .. _create:
 
-Creating your own reference network
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creating supporting dataset with customized reference network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This will be updated once the `Nextflow pipeline <https://url_to_be_added>`__ 
 is ready and online.
