@@ -42,8 +42,19 @@ Documentation
 .. toctree::
    :maxdepth: 2
 
-   usage
+   support_data
+   mock_test_run
+   input_preparation
+   usage_cli
    output
+   usage_api
+
+Abbreviation
+------------
+
+CLI: command line interface
+
+semsim: semantic similarity
 
 
 Citation
