@@ -3,7 +3,7 @@ Running phuEGO
 
 The main analysis of phuEGO is implemented by the CLI. Paths for the supporting 
 dataset, input data, and the desired result folder should be provided, along with
-other parameters. These can be either directly provided using command 
+other parameters. These can either be directly provided using command 
 line flags, or aggregated in a text file (hence **argument file**) for clarity. 
 
 The flags and arguments for the command line interface can be divided into two sets.
@@ -15,6 +15,9 @@ For an overview of CLI arguments, use:
 
    phuego --help
 
+
+
+.. _CLI:
 
 Command line interface
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -38,6 +41,9 @@ kde_cutoff of 0.85, and geneset of "KEGG".
    instead of backward slash ‘\\’.
 
 
+
+.. _argument_file:
+
 Argument file
 ~~~~~~~~~~~~~
 
@@ -54,6 +60,9 @@ Using the argument file:
 
    TODO
 
+
+
+.. _reuse:
 
 Re-using network propagation results
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,6 +92,8 @@ different parameters (e.g., different kde_cutoff) conveniently.
        -nf "edgelist"
 
 
+.. _user_defined_layers:
+
 User defined layers
 ~~~~~~~~~~~~~~~~~~~
 
@@ -102,6 +113,7 @@ And it can be run with the following:
 .. code-block:: bash
 
    TODO
+
 
 
 .. _remove_perturbed_node:
@@ -136,6 +148,9 @@ provided as following:
     -fg "K" 
 
 
+
+.. _batch_job:
+
 Batch job submission
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -148,7 +163,7 @@ provide a .sh script for a LSF cluster as an example.
 To do so, first create a test_datasets.txt file that store the path to
 all your protein list files:
 
-.. code-block:: text
+.. code-block::
 
    path/to/protein_list_1.txt
    path/to/protein_list_2.txt
