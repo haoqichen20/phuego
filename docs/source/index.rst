@@ -57,8 +57,25 @@ CLI: command line interface
 semsim: semantic similarity
 
 
-Citation
+Development
 -----------
+
+Future development
+~~~~~~~~~~~~~~~~~~
+
+phuEGO can be integrated into any phosphoproteomics analysis pipeline.
+It will eventually become available through NF-core/Nextflow for easier
+pipeline integration.
+
+Changelog
+~~~~~~~~~
+
+For a detailed history of changes, see the
+`Changelog <https://github.com/haoqichen20/phuego/blob/master/CHANGELOG.md>`__.
+
+
+Citation
+--------
 
 Please cite phuEGO if you use it in your analysis.
 

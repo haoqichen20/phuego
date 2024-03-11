@@ -1,6 +1,11 @@
 Preparing supporting data
 =========================
 
+The supporting datasets contain the base network, randomized networks,
+semantic similarity, geneset database etc. For details, refer to the
+associated `publication <#6-citation>`__.
+
+
 Download reference network with semsim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
