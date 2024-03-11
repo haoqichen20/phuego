@@ -4,11 +4,11 @@ Preparing supporting dataset
 After :doc:`installation <installation>`, a supporting dataset need to be prepared. This 
 contains the base and randomized networks populated with pre-calculated protein-protein 
 semantic similarity (semsim), as well as various genesets for enrichment analysis.
-For details, refer to the associated :ref:`publication <citation>`.
+For details, refer to the :ref:`publication <citation>`.
 
 The supporting dataset for human (ID 9606) with a full 
 `IntAct <https://www.ebi.ac.uk/intact/home>`__ network can be 
-directly :ref:`downloaded <download>`. Alternatively, the users can :ref:`create <create>` 
+directly :ref:`downloaded <download>`. **Alternatively**, the users can :ref:`create <create>` 
 customized reference networks (e.g., for other species or networks) using 
 a `Nextflow pipeline <https://url_to_be_added>`__ provided separately.
 

@@ -1,11 +1,21 @@
 Running phuEGO
 ==============
 
-The CLI application is an easy way to run phuEGO on single or a whole
-batch of dataset directly from the command line.
+The main analysis of phuEGO is implemented by the CLI. 
+Three paths should be provided to the CLI, as well as a number of arguments.
+These can be either directly provided using command line flags, or aggregated
+in a text file (hence **argument file**) for clarity. 
+To get an overview of the CLI arguments, use:
 
-**Specific note for Windows users**: please provide the paths with
-forward slash ‘/’ instead of backward slash ‘\\’.
+.. code-block:: bash
+
+   phuego --help
+
+.. warning::
+
+   For Windows users, please provide the paths with forward slash ‘/’ 
+   instead of backward slash ‘\\’.
+
 
 Running for the first time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,6 +106,13 @@ result_dir. Modify argument value to suit your need.
        done
    done
 
+
+Using 
+
+
+
+
+
 .. _remove_perturbed_node:
 
 Remove perturbation target nodes from reference network
@@ -120,3 +137,7 @@ provided as following:
 
    # Performing a run for the first time. Set damping factor to be 0.85, kde_cutoff to be 0.85, and genesets to be 'KEGG'.
    phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" -tpath "path/to/protein_list.txt" -ipath "path/to/targets_list.csv" -d 0.85 -k 0.85 -fg "K" 
+
+
+Run phuEGO with user defined layers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
