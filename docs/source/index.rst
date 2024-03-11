@@ -9,32 +9,12 @@ the signal-to-noise ratio from global phosphoproteomics datasets,
 enriches the resulting networks for functional phosphosites and allows
 the improved comparison and integration across datasets.
 
-The Python package offers a command line interface (CLI) that implement 
-the methods. To run phuEGO, the user can either directly calls the
-`CLI <#2-using-the-cli>`__ application from command line, or integrate
-the `python functions <#3-using-the-python-package>`__ into their own
-script. We recommend the user to use the CLI and submit jobs to a server
-where possible, to ensure robust execution of the tasks.
+The Python package offers a command line interface (CLI) that implement
+the method. Please follow the :ref:`documentation` below **step-by-step** for
+setting up and running your analysis.
 
 
-Installation
-------------
-
-.. container::
-
-   phuEGO require python version 3.9 - 3.13.
-
-      .. code-block:: bash
-
-         pip install phuego
-
-   Check version and parameters of CLI:
-
-      .. code-block:: bash
-         
-         phuego --version
-         phuego --help
-
+.. _documentation:
 
 Documentation
 -------------
@@ -42,6 +22,7 @@ Documentation
 .. toctree::
    :maxdepth: 2
 
+   installation
    support_data
    mock_test_run
    input_preparation
@@ -49,26 +30,9 @@ Documentation
    output
    usage_api
 
-Abbreviation
-------------
-
-CLI: command line interface
-
-semsim: semantic similarity
-
-
-Development
------------
-
-Future development
-~~~~~~~~~~~~~~~~~~
-
-phuEGO can be integrated into any phosphoproteomics analysis pipeline.
-It will eventually become available through NF-core/Nextflow for easier
-pipeline integration.
 
 Changelog
-~~~~~~~~~
+---------
 
 For a detailed history of changes, see the
 `Changelog <https://github.com/haoqichen20/phuego/blob/master/CHANGELOG.md>`__.
@@ -100,7 +64,7 @@ Please cite phuEGO if you use it in your analysis.
 
 
 Contributors
----------------
+------------
 
 The algorithm and initial scripts of phuEGO are developed by Girolamo
 Giudice (`@girolamogiudice <https://github.com/girolamogiudice>`__) and
