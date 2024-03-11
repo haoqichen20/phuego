@@ -1,8 +1,11 @@
 Testing the package
 ===================
 
+.. _example_input:
+
 The phuEGO package contains a test dataset, which is a list of differentially
-phosphorylated proteins (after phosphosite aggregation) between untreated cells 
+phosphorylated proteins (after :ref:`phosphosite aggregation <aggregation>`) 
+between untreated cells 
 and those treated with epidermal growth factor (EGF) (PMID: 19651622). 
 To view the test dataset, open a Jupyter notebook and run the following:
 

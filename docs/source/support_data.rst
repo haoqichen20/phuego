@@ -1,7 +1,7 @@
-Preparing supporting data
-=========================
+Preparing supporting dataset
+============================
 
-After :doc:`installation`, a supporting dataset need to be prepared. This 
+After :doc:`installation <installation>`, a supporting dataset need to be prepared. This 
 contains the base and randomized networks populated with pre-calculated protein-protein 
 semantic similarity (semsim), as well as various genesets for enrichment analysis.
 For details, refer to the associated :ref:`publication <citation>`.
@@ -15,8 +15,8 @@ a `Nextflow pipeline <https://url_to_be_added>`__ provided separately.
 
 .. _download:
 
-Downloading the pre-made supporting dataset
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Downloading the pre-made dataset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. container::
 
@@ -54,8 +54,8 @@ Downloading the pre-made supporting dataset
 
 .. _create:
 
-Creating supporting dataset with customized reference network
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creating dataset with customized reference network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This will be updated once the `Nextflow pipeline <https://url_to_be_added>`__ 
 is ready and online.
