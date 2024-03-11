@@ -21,8 +21,9 @@ Downloading the pre-made supporting dataset
 .. container::
 
     The pre-made supporting data is deposited on 
-    `Zenodo <https://zenodo.org/record/8094690>`. We recommend using the 
-    zenodo-get packages for downloading:
+    `Zenodo <https://zenodo.org/record/8094690>`__. We recommend using the 
+    zenodo-get packages for downloading. Note that the dataset require 
+    ~15G storage.
 
     .. code-block:: bash
 

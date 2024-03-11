@@ -25,16 +25,7 @@ own workflow.
                need_networks=True,
                remove_zip_file=True)
 
-2). Checking the input data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: python
-
-   from phuego import load_test_example
-
-   # The function return the absolute path of the test dataset, and the dataset itself as a dataframe.
-   test_path, test_df = load_test_example()
-   print(test_df)
 
 .. _performing-a-testmock-run-with-the-phuego-test-dataset-1:
 

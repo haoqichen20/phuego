@@ -1,23 +1,29 @@
 Testing the package
 ===================
 
+The phuEGO package contains a test dataset, which is a list of differentially
+phosphorylated proteins (after phosphosite aggregation) between untreated cells 
+and those treated with epidermal growth factor (EGF) (PMID: 19651622). 
+To view the test dataset, open a Jupyter notebook and run the following:
+
+.. code-block:: python
+
+   from phuego import load_test_example
+
+   # Path and a dataframe of the test dataset.
+   test_path, test_df = load_test_example()
+   print(test_path) #user can use this to access the file.
+   print(test_df)
+
+
 Mock run
 ~~~~~~~~
 
-Phuego contains a test dataset, which is a list of differentially
-phosphorylated proteins between untreated cells and those treated with
-epidermal growth factor (EGF) (PMID: 19651622). To view the test
-dataset, see `here <#2-checking-the-input-data>`__.
+A mock run performs 10 network propagations on the randomized networks using 
+the test dataset as input, which isn't sufficient for reliable statistics. But 
+as it typically finishes within minutes, it can help understanding the package.
 
-To understand the `input <#2-input>`__ and `output <#3-output>`__ of
-phuEGO, the user could either perform a mock run or a test run using the
-test dataset. A mock run performs 10 propagations on randomized
-networks, and thus isn’t sufficient for reliable statistics, but
-typically finishs within a few minutes. A test run is a complete run
-with 1000 propagation on randomized networks, and typically takes > 1hr
-to finish.
-
-.. code:: bash
+.. code-block:: bash
 
    # Performing a mock run.
    phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_mock
@@ -25,10 +31,14 @@ to finish.
    # Performing a mock run, with two kde_cutoff and two geneset database for geneset enrichment analysis.
    phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_mock -k 0.85 -k 0.9 -fg "K" -fg "B"
 
-   # Performing a test run.
-   phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_test
-
 
 Test run
 ~~~~~~~~
 
+A test run is similar to the mock run, but performs a complete analysis with 
+1000 propagation on randomized networks. It takes longer to finish.
+
+.. code-block:: bash
+
+   # Performing a test run.
+   phuego -sf "path/to/support_data_folder/" -rf "path/to/desired_result_folder/" --run_test
