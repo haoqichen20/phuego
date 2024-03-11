@@ -1,13 +1,22 @@
 Preparing supporting data
 =========================
 
-The supporting datasets contain the base network, randomized networks,
-semantic similarity, geneset database etc. For details, refer to the
-associated `publication <#6-citation>`__.
+After :doc:`installation`, a supporting dataset need to be prepared. This 
+contains the base and randomized networks populated with pre-calculated protein-protein 
+semantic similarity (semsim), as well as various genesets for enrichment analysis.
+For details, refer to the associated :ref:`publication`.
+
+The supporting dataset for human (ID 9606) with a full 
+`IntAct <https://www.ebi.ac.uk/intact/home>`__ network can be 
+directly :ref:`downloaded <download>`. Alternatively, the users can :ref:`create <create>` 
+customized reference networks (e.g., for other species or networks) using 
+a `Nextflow pipeline <https://url_to_be_added>`__ provided separately.
 
 
-Download reference network with semsim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. _download:
+
+Downloading the human IntAct reference network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When using phuEGO **for the first time**, a support dataset that
 contains three zipped files (https://zenodo.org/record/8094690) need to
@@ -38,6 +47,8 @@ structure.**
    for path in paths:
        decompress_tar_gz(path, support_data_folder)
 
+.. _create:
 
 Creating your own reference network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
