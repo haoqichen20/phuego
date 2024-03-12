@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from .utils_CLI import load_test_example
+from .utils_CLI import PythonLiteralOption
 from .phuego import phuego
 from .phuego_mock import phuego_mock
 import click
 
+
 __version__ = "1.1.0"
+
 
 '''
 This is the CLI tool for phuego.
 '''
-@click.command()
+
+# changes the default parameters to -h and --help instead of just --help
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+
+@click.command(context_settings=CONTEXT_SETTINGS)
 # Folders.
 @click.option("--support_data_folder", "-sf", type=str, required=False, 
               help="Folder that stored support data. Directories separated by /")
@@ -22,14 +29,11 @@ This is the CLI tool for phuego.
               help="The path of a csv file, that specify two sets of nodes to be removed from reference network during propagation.")
 @click.option("--convert2folder/--dont_convert2folder", default=True, required=False, 
               help="Should phuego organize result files into a folder structure?")
-
 # Mock/test.
 @click.option("--run_mock", is_flag=True, required=False, 
               help="Should phuego perform a mock test run using test data? If defined, -test and -tpath would be ignored.")
 @click.option("--run_test", is_flag=True, required=False, 
               help="Should phuego perform a full test run using test data? If defined, -tpath would be ignored.")
-
-
 # network propagation parameters.
 @click.option("--use_existing_rwr", "-ru", is_flag=True, required=False, 
               help="Should phuego reuse existing network propagation results?")
@@ -37,14 +41,21 @@ This is the CLI tool for phuego.
               help="Damping factor for random walk with restart algorithm. Float number within range [0.5, 0.95]")
 @click.option("--rwr_threshold", "-rt", default=0.05, type=float, required=False, 
               help="Threshold of significance for propagated nodes. Float number within range [0.01, 0.1]")
-
 # ego propagation and fisher test.
-@click.option("--kde_cutoff", "-k", default=[0.85], type=float, multiple=True,
-              required=False, 
-              help="KDE cutoff value for removing less similar nodes in ego network. A float number within range [0.5, 0.95]. Multiple numbers can be provided at the same time by reusing the argument flag.")
-@click.option("--fisher_geneset", "-fg", default=["K"], type=str, multiple=True,
-              required=False, 
-              help="Abbreviation of genesets to be tested when annotating modules of propagation, can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the argument flag. Refer to documents to learn what each abbreviation stands for.")
+@click.option("--kde_cutoff", "-k", cls=PythonLiteralOption, default="[0.85]", 
+               help=("KDE cutoff value for removing less similar nodes in ego network."
+                     " A float number within range [0.5, 0.95]."
+                     " Multiple numbers can be provided at the same time by reusing the argument flag."))
+@click.option("--fisher_geneset", "-fg", cls=PythonLiteralOption, default="['K']", 
+               help=("Abbreviation of genesets to be tested when annotating modules of propagation,"
+                     " can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the argument flag."
+                     " Refer to documents to learn what each abbreviation stands for."))
+# @click.option("--kde_cutoff", "-k", default=[0.85], type=float, multiple=True,
+#               required=False, 
+#               help="KDE cutoff value for removing less similar nodes in ego network. A float number within range [0.5, 0.95]. Multiple numbers can be provided at the same time by reusing the argument flag.")
+# @click.option("--fisher_geneset", "-fg", default=["K"], type=str, multiple=True,
+#               required=False, 
+#               help="Abbreviation of genesets to be tested when annotating modules of propagation, can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the argument flag. Refer to documents to learn what each abbreviation stands for.")
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float, 
               required=False, 
               help="Threshold of significance of geneset enrichment analysis") 
@@ -57,11 +68,9 @@ This is the CLI tool for phuego.
               help="Should we include isolated nodes in the output network?") 
 @click.option("--net_format", "-nf", default="graphml", type=str, required=False, 
               help="file format of output network. Can be one of 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'")
-
 # Versioning.
 @click.option('--version', '-v', is_flag=True, 
               help='Print version to stdout')
-
 def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
          damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_path, rwr_threshold, 
          include_isolated_egos_in_kde_net, net_format, version) -> None:
