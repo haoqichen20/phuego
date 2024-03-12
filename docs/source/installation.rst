@@ -3,7 +3,7 @@ Installation
 
 .. container::
 
-   phuEGO require python version 3.9 - 3.13.
+   phuEGO require python version 3.8 - 3.13.
 
       .. code-block:: bash
 
