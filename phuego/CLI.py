@@ -67,27 +67,32 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
          damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_path, rwr_threshold, 
          include_isolated_egos_in_kde_net, net_format, version) -> None:
        
-    # Print the version number.
+    """ 
+    Print the version number.
+    """
     if version:
         bold_package_name = click.style("phuego", bold=True)
         click.echo(f"{bold_package_name} ({__version__})")
         return
 
-   # Assert that kde_cutoff is a list and contains only floats.
-   assert (
-      isinstance(kde_cutoff, list) and all(isinstance(item, float) for item in kde_cutoff)
-   ), (
-      "kde_cutoff must be a list of floats.")
 
-   # Assert that fisher_geneset is a list and contains only the allowed geneset label.
-   allowed_labels = {"C", "F", "D", "P", "R", "K", "RT", "B"}
-   assert (
-      isinstance(fisher_geneset, list) and all(item in allowed_labels for item in fisher_geneset)
-   ), (
-      "Variable must be a list containing only specific strings: C, F, D, P, R, K, RT, B"
-      )
+    """
+    User input formatting and assertion.
+    """
+    # Assert that kde_cutoff is a list and contains only floats.
+    assert (
+       isinstance(kde_cutoff, list) and all(isinstance(item, float) for item in kde_cutoff)
+    ), (
+       "kde_cutoff must be a list of floats.")
+ 
+    # Assert that fisher_geneset is a list and contains only the allowed geneset label.
+    allowed_labels = {"C", "F", "D", "P", "R", "K", "RT", "B"}
+    assert (
+       isinstance(fisher_geneset, list) and all(item in allowed_labels for item in fisher_geneset)
+    ), (
+       "Variable must be a list containing only specific strings: C, F, D, P, R, K, RT, B"
+       )
 
-        
     # Create ini_pos and ini_neg, by default or by reading the ini_path file. 
     if(ini_path == ""):
        ini_pos = ["False"]
@@ -99,7 +104,10 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
        ini_neg = f1.readline().strip()
        ini_neg = ini_neg.split(",")
 
-    # Run phuego.
+
+    """
+    Run phuego.
+    """
     if(run_mock):
            test_path, test_df = load_test_example()
            print("Run phuego_mock with test dataset, whose first few lines are: \n",test_df.head())
