@@ -26,45 +26,62 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.option("--test_path", "-tpath", default="", type=str, 
               help="The path of user input test file. If defined, -mock and -test should not be used.")
 @click.option("--ini_path", "-ipath", default="", type=str, 
-              help="The path of a csv file, that specify two sets of nodes to be removed from reference network during propagation.")
+              help="The path of a csv file, that specify two sets of nodes to be"
+                   " removed from reference network during propagation.")
 @click.option("--convert2folder/--dont_convert2folder", default=True, 
               help="Should phuego organize result files into a folder structure?")
 # Mock/test.
 @click.option("--run_mock", is_flag=True, 
-              help="Should phuego perform a mock test run using test data? If defined, -test and -tpath would be ignored.")
+              help=("Should phuego perform a mock test run using test data?"
+                    " If defined, -test and -tpath would be ignored."))
 @click.option("--run_test", is_flag=True, 
-              help="Should phuego perform a full test run using test data? If defined, -tpath would be ignored.")
+              help=("Should phuego perform a full test run using test data?"
+                    " If defined, -tpath would be ignored."))
 # network propagation parameters.
 @click.option("--use_existing_rwr", "-ru", is_flag=True, 
               help="Should phuego reuse existing network propagation results?")
-@click.option("--damping", "-d", default=0.85, type=float, 
-              help="Damping factor for random walk with restart algorithm. Float number within range [0.5, 0.95]")
+@click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
+              help=("Damping factor of pagerank algorithm for seeds propagation,"
+                    " Float number within range [0.5, 0.95]"))
 @click.option("--rwr_threshold", "-rt", default=0.05, type=float, 
-              help="Threshold of significance for propagated nodes. Float number within range [0.01, 0.1]")
+              help=("Threshold of significance for propagated nodes."
+                    " Float number within range [0.01, 0.1]"))
 # ego propagation and fisher test.
+@click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
+              help=("Damping factor of pagerank algorithm for ego decomposition,"
+                    " Float number within range [0.5, 0.95]"))
+@click.option("--damping_module_detection", "-dm", default=0.85, type=float,
+              help=("Damping factor of pagerank algorithm for module detection,"
+                    " Float number within page [0.5, 0.95]"))
 @click.option("--kde_cutoff", "-k", cls=PythonLiteralOption, default="[0.85]", 
-               help=("KDE cutoff value for removing less similar nodes in ego network."
-                     " A float number within range [0.5, 0.95]."
-                     " Multiple numbers can be provided at the same time by reusing the argument flag."))
+               help=("KDE cutoff value for removing nodes in ego network that are less similar to seed."
+                     " Provided as a list of float number(s), within range [0.5,0.95] (do not add space!)"))
 @click.option("--fisher_geneset", "-fg", cls=PythonLiteralOption, default="['K']", 
-               help=("Abbreviation of genesets to be tested when annotating modules of propagation,"
-                     " can be one of 'C,F,D,P,R,K,RT,B'. Multiple genesets can be provided at the same time by reusing the argument flag."
-                     " Refer to documents to learn what each abbreviation stands for."))
+               help=("Genesets to be tested when annotating modules of propagation."
+                     " Provided as a list of quoted string(s), such as ['C','F'] (do not add space!)"
+                     " Can be any subset of 'C,F,D,P,R,K,RT,B'."
+                     " Refer to documentation to learn about the geneset abbreviation."))
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float,
               help="Threshold of significance of geneset enrichment analysis") 
 @click.option("--fisher_background", "-fb", default="intact", type=str,
               help="Geneset background of geneset enrichment analysis") 
-
 # network output
 @click.option("--include_isolated_egos_in_kde_net", "-ie", is_flag=True, 
               help="Should we include isolated nodes in the output network?") 
 @click.option("--net_format", "-nf", default="graphml", type=str, 
-              help="file format of output network. Can be one of 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'")
+              help=("file format of output network. Can be one of"
+                    " 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'"))
 # Versioning.
 @click.option('--version', '-v', is_flag=True, 
               help='Print version to stdout')
+
+# damping_seed_propagation
+# damping_ego_decomposition
+# damping_module_detection
+
 def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
-         damping, fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_path, rwr_threshold, 
+         damping_seed_propagation, damping_ego_decomposition, damping_module_detection, 
+         fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_path, rwr_threshold, 
          include_isolated_egos_in_kde_net, net_format, version) -> None:
        
     """ 
@@ -120,7 +137,9 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               fisher_background=fisher_background,
               ini_pos=ini_pos,
               ini_neg=ini_neg,
-              damping=damping,
+              damping_seed_propagation=damping_seed_propagation,
+              damping_ego_decomposition=damping_ego_decomposition,
+              damping_module_detection=damping_module_detection,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
               convert2folder=convert2folder,
@@ -139,7 +158,9 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               fisher_background=fisher_background,
               ini_pos=ini_pos,
               ini_neg=ini_neg,
-              damping=damping,
+              damping_seed_propagation=damping_seed_propagation,
+              damping_ego_decomposition=damping_ego_decomposition,
+              damping_module_detection=damping_module_detection,
               rwr_threshold=rwr_threshold,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
@@ -158,7 +179,9 @@ def main(support_data_folder, res_folder, test_path, convert2folder, use_existin
               fisher_background=fisher_background,
               ini_pos=ini_pos,
               ini_neg=ini_neg,
-              damping=damping,
+              damping_seed_propagation=damping_seed_propagation,
+              damping_ego_decomposition=damping_ego_decomposition,
+              damping_module_detection=damping_module_detection,
               rwr_threshold=rwr_threshold,
               kde_cutoff=kde_cutoff,
               use_existing_rwr=use_existing_rwr,
