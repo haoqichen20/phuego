@@ -74,19 +74,17 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 # Versioning.
 @click.option('--version', '-v', is_flag=True, 
               help='Print version to stdout')
-
-# damping_seed_propagation
-# damping_ego_decomposition
-# damping_module_detection
-
 def main(support_data_folder, res_folder, test_path, convert2folder, use_existing_rwr, run_test, run_mock, 
          damping_seed_propagation, damping_ego_decomposition, damping_module_detection, 
          fisher_geneset, fisher_threshold, fisher_background, kde_cutoff, ini_path, rwr_threshold, 
          include_isolated_egos_in_kde_net, net_format, version) -> None:
-       
-    """ 
-    Print the version number.
     """
+    phuEGO documentation: https://phuego.readthedocs.io/en/latest/index.html
+    """
+
+    """
+    Print the version number.
+    """  
     if version:
         bold_package_name = click.style("phuego", bold=True)
         click.echo(f"{bold_package_name} ({__version__})")
