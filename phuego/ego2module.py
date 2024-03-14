@@ -11,7 +11,7 @@ from scipy.spatial.distance import jensenshannon
 
 def merge_egos(network, kde_cutoff, res_folder, uniprot_to_gene,
                   supernodes,all_nodes,direction,geneset_path,fisher_geneset, 
-                  fisher_threshold,):
+                  fisher_threshold, damping_module_detection):
     for kde in kde_cutoff:        
         kde_net=network.induced_subgraph(network.vs.select(name_in=all_nodes[kde]),implementation='copy_and_delete')
         supernodes_net=ig.Graph()
@@ -28,11 +28,11 @@ def merge_egos(network, kde_cutoff, res_folder, uniprot_to_gene,
             if i[0] in index_net and i[1] in index_net and components.membership[index_net[i[0]]]==components.membership[index_net[i[1]]]:
                 reset_vertex=np.zeros(n_nodes)
                 reset_vertex[index_net[i[0]]]=1.0
-                pagerankA=np.array(subnet.personalized_pagerank(reset=reset_vertex,directed=False, damping=0.85, weights='weight',implementation='prpack'))
+                pagerankA=np.array(subnet.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_module_detection, weights='weight',implementation='prpack'))
 
                 reset_vertex=np.zeros(n_nodes)
                 reset_vertex[index_net[i[1]]]=1.0
-                pagerankB=np.array(subnet.personalized_pagerank(reset=reset_vertex,directed=False, damping=0.85, weights='weight',implementation='prpack'))
+                pagerankB=np.array(subnet.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_module_detection, weights='weight',implementation='prpack'))
                 js_dist=jensenshannon(pagerankA,pagerankB)
 
                 if js_dist>0:

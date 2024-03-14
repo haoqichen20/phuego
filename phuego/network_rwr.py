@@ -5,7 +5,7 @@ import igraph as ig
 from .utils import fisher_test
 
 def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos, 
-               seeds_neg, network_path, network_random_path, damping, res_folder):
+               seeds_neg, network_path, network_random_path, damping_seed_propagation, res_folder):
     
     number_of_nodes=network.vcount()
     empirical_rwr=np.zeros((6,number_of_nodes),dtype=float)
@@ -48,7 +48,7 @@ def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
                     reset_vertex[j.index]=seeds_pos[j["name"]]
                 else:
                     reset_vertex[j.index]=seeds_neg[j["name"]]
-            pagerank=np.array(network.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping, weights='weight',implementation='prpack'))
+            pagerank=np.array(network.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_seed_propagation, weights='weight',implementation='prpack'))
             if flag_pos==1 and i[0]<=2:
                 for j in to_delete:
                     pagerank=np.concatenate((pagerank[:j], [0], pagerank[j:]))
@@ -107,7 +107,7 @@ def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
                         reset_vertex[j.index]=seeds_pos[j["name"]]
                     else:
                         reset_vertex[j.index]=seeds_neg[j["name"]]
-                prandom=np.array(network_random.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping, weights='weight',implementation='prpack'))
+                prandom=np.array(network_random.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_seed_propagation, weights='weight',implementation='prpack'))
 
                 if flag_pos==1 and jj[0]<=2:
                     for j in to_delete:

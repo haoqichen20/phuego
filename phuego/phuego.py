@@ -17,7 +17,9 @@ from .generate_net import generate_nets
 # one liner function of phuego package.
 def phuego(support_data_folder, res_folder, test_path, 
            fisher_geneset, fisher_threshold, fisher_background,
-           ini_pos, ini_neg, damping, kde_cutoff,rwr_threshold,
+           ini_pos, ini_neg, damping_seed_propagation, damping_ego_decomposition, 
+           damping_module_detection,
+           kde_cutoff,rwr_threshold,
            use_existing_rwr = False, convert2folder = False, 
            include_isolated_egos_in_KDE_net=False,
            net_format="ncol",):
@@ -29,11 +31,11 @@ def phuego(support_data_folder, res_folder, test_path,
     support_data_folder = add_trailing_slash(support_data_folder)
     res_folder = add_trailing_slash(res_folder)
         
-    # Force damping to be [0.5, 0.95]
-    if type(damping) is not float:
-           sys.exit("damping should be a float number within range [0.5, 0.95]")
-    if damping < 0.5 or damping > 0.95:
-           sys.exit("damping should be a float number within range [0.5, 0.95]")
+#     # Force damping to be [0.5, 0.95]
+#     if type(damping) is not float:
+#            sys.exit("damping should be a float number within range [0.5, 0.95]")
+#     if damping < 0.5 or damping > 0.95:
+#            sys.exit("damping should be a float number within range [0.5, 0.95]")
     # Force rwr_threshold to be [0.01, 0.1]
     if type(rwr_threshold) is not float:
            sys.exit("rwr_threshold should be a float number within range [0.01, 0.1]")
@@ -117,7 +119,7 @@ def phuego(support_data_folder, res_folder, test_path,
                       seeds_neg=seeds_neg,
                       network_path=network_path,
                       network_random_path=network_random_path,
-                      damping=damping,
+                      damping_seed_propagation=damping_seed_propagation,
                       res_folder=res_folder,
                      )
     
@@ -151,6 +153,7 @@ def phuego(support_data_folder, res_folder, test_path,
                                    geneset_path=geneset_path,
                                    fisher_geneset=fisher_geneset,
                                    fisher_threshold=fisher_threshold,
+                                   damping_ego_decomposition=damping_ego_decomposition,
                                    )
     if pvalues_neg:
            nodes_kde_neg, all_nodes_neg = ego_filtering(network=network,
@@ -165,6 +168,7 @@ def phuego(support_data_folder, res_folder, test_path,
                                    geneset_path=geneset_path,
                                    fisher_geneset=fisher_geneset,
                                    fisher_threshold=fisher_threshold,
+                                   damping_ego_decomposition=damping_ego_decomposition,
                                    )
     
     """
@@ -182,6 +186,7 @@ def phuego(support_data_folder, res_folder, test_path,
                             geneset_path=geneset_path,
                             fisher_geneset=fisher_geneset,
                             fisher_threshold=fisher_threshold,
+                            damping_module_detection=damping_module_detection,
                             )
     except NameError:
        print(f"No node is significantly propagated during rwr of increased seed nodes. To confirm, length of pvalues_pos is {len(pvalues_pos)}")
@@ -198,6 +203,7 @@ def phuego(support_data_folder, res_folder, test_path,
                             geneset_path=geneset_path,
                             fisher_geneset=fisher_geneset,
                             fisher_threshold=fisher_threshold,
+                            damping_module_detection=damping_module_detection,
                             )
     except NameError:
        print(f"No node is significantly propagated during rwr of decreased seed nodes. To confirm, length of pvalues_neg is {len(pvalues_neg)}")

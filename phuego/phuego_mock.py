@@ -18,8 +18,9 @@ from .generate_net import graph_to_df
 # one liner function of phuego package.
 def phuego_mock(support_data_folder, res_folder, test_path, 
            fisher_geneset, fisher_threshold, fisher_background,
-           ini_pos, ini_neg, damping, kde_cutoff,
-           use_existing_rwr = False, convert2folder=False,
+           ini_pos, ini_neg, damping_seed_propagation, damping_ego_decomposition, 
+           damping_module_detection, 
+           kde_cutoff, use_existing_rwr = False, convert2folder=False,
            include_isolated_egos_in_KDE_net=False,
            net_format="ncol",):
     """
@@ -29,11 +30,11 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     support_data_folder = add_trailing_slash(support_data_folder)
     res_folder = add_trailing_slash(res_folder)
         
-    # Force damping to be [0.5, 0.95]
-    if type(damping) is not float:
-           sys.exit("damping should be a float number within range [0.5, 0.95]")
-    if damping < 0.5 or damping > 0.95:
-           sys.exit("damping should be a float number within range [0.5, 0.95]")
+#     # Force damping to be [0.5, 0.95]
+#     if type(damping) is not float:
+#            sys.exit("damping should be a float number within range [0.5, 0.95]")
+#     if damping < 0.5 or damping > 0.95:
+#            sys.exit("damping should be a float number within range [0.5, 0.95]")
     
     # Force kde_cutoff input to be list and within [0.5, 0.95]
     if type(kde_cutoff) is not list:
@@ -112,7 +113,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
                       seeds_neg=seeds_neg,
                       network_path=network_path,
                       network_random_path=network_random_path,
-                      damping=damping,
+                      damping_seed_propagation=damping_seed_propagation,
                       res_folder=res_folder,
                      )
     
@@ -145,6 +146,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
                                    geneset_path=geneset_path,
                                    fisher_geneset=fisher_geneset,
                                    fisher_threshold=fisher_threshold,
+                                   damping_ego_decomposition=damping_ego_decomposition,
                                    )
     if pvalues_neg:
            nodes_kde_neg, all_nodes_neg = ego_filtering(network=network,
@@ -159,6 +161,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
                                    geneset_path=geneset_path,
                                    fisher_geneset=fisher_geneset,
                                    fisher_threshold=fisher_threshold,
+                                   damping_ego_decomposition=damping_ego_decomposition,
                                    )
     
     """
@@ -175,6 +178,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
                      geneset_path=geneset_path,
                      fisher_geneset=fisher_geneset,
                      fisher_threshold=fisher_threshold,
+                     damping_module_detection=damping_module_detection,
                      )
            
     if all_nodes_neg:
@@ -188,6 +192,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
                      geneset_path=geneset_path,
                      fisher_geneset=fisher_geneset,
                      fisher_threshold=fisher_threshold,
+                     damping_module_detection=damping_module_detection,
                      )
 
     """
@@ -211,7 +216,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
 
 
 def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos, 
-               seeds_neg, network_path, network_random_path, damping, res_folder):
+               seeds_neg, network_path, network_random_path, damping_seed_propagation, res_folder):
     
        number_of_nodes=network.vcount()
        empirical_rwr=np.zeros((6,number_of_nodes),dtype=float)
@@ -254,7 +259,7 @@ def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
                                    reset_vertex[j.index]=seeds_pos[j["name"]]
                             else:
                                    reset_vertex[j.index]=seeds_neg[j["name"]]
-                     pagerank=np.array(network.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping, weights='weight',implementation='prpack'))
+                     pagerank=np.array(network.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_seed_propagation, weights='weight',implementation='prpack'))
                      if flag_pos==1 and i[0]<=2:
                             for j in to_delete:
                                    pagerank=np.concatenate((pagerank[:j], [0], pagerank[j:]))
@@ -313,7 +318,7 @@ def rwr_values_mock(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
                                           reset_vertex[j.index]=seeds_pos[j["name"]]
                                    else:
                                           reset_vertex[j.index]=seeds_neg[j["name"]]
-                            prandom=np.array(network_random.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping, weights='weight',implementation='prpack'))
+                            prandom=np.array(network_random.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_seed_propagation, weights='weight',implementation='prpack'))
 
                             if flag_pos==1 and jj[0]<=2:
                                    for j in to_delete:

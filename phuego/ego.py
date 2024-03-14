@@ -9,7 +9,7 @@ from scipy.spatial.distance import jensenshannon
 
 def ego_filtering(network, pval, seeds, sim, zscores_global, kde_cutoff, 
                   direction, uniprot_to_gene, res_folder,
-                  geneset_path, fisher_geneset, fisher_threshold, ):
+                  geneset_path, fisher_geneset, fisher_threshold, damping_ego_decomposition):
     # Below: only add kde_cutoff to ego_friends input.
     subnet = network.induced_subgraph(list(network.vs.select(name_in=pval)),implementation='create_from_scratch')
     subnet.vs.select(_degree=0).delete()
@@ -23,6 +23,7 @@ def ego_filtering(network, pval, seeds, sim, zscores_global, kde_cutoff,
                           sim=sim,
                           zscores=zscores_global,
                           kde_cutoff=kde_cutoff,
+                          damping_ego_decomposition=damping_ego_decomposition,
                           )
     
     # Fisher test and write results.
@@ -38,7 +39,7 @@ def ego_filtering(network, pval, seeds, sim, zscores_global, kde_cutoff,
                                        )
     return supernodes,all_nodes
 
-def ego_friends(subnet,position_nodes,seed_nodes,sim,zscores,kde_cutoff):
+def ego_friends(subnet,position_nodes,seed_nodes,sim,zscores,kde_cutoff,damping_ego_decomposition):
 
     nodes_kde={}
     for i in kde_cutoff:
@@ -98,14 +99,14 @@ def ego_friends(subnet,position_nodes,seed_nodes,sim,zscores,kde_cutoff):
 
                 reset_vertex=np.zeros(n_nodes)
                 reset_vertex[position_ego[i[1]]]=1.0
-                ego_rwr=np.array(ego.personalized_pagerank(reset=reset_vertex,directed=False, damping=0.85, weights='weight',implementation='prpack'))
+                ego_rwr=np.array(ego.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_ego_decomposition, weights='weight', implementation='prpack'))
                 ssim=[]
                 dist=[]
 
                 for j in ego.vs:
                     reset_vertex=np.zeros(n_nodes)
                     reset_vertex[j.index]=1.0
-                    ego_node=np.array(ego.personalized_pagerank(reset=reset_vertex,directed=False, damping=0.85,implementation='prpack',weights='weight'))
+                    ego_node=np.array(ego.personalized_pagerank(reset=reset_vertex,directed=False, damping=damping_ego_decomposition, implementation='prpack',weights='weight'))
                     if i[1]==j["name"]:
                         dist.append(1.0)
                     else:
