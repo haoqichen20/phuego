@@ -55,11 +55,12 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
                     " Float number within page [0.5, 0.95]"))
 @click.option("--kde_cutoff", "-k", cls=PythonLiteralOption, default="[0.85]", 
                help=("KDE cutoff value for removing nodes in ego network that are less similar to seed."
-                     " Provided as a list of float number(s), within range [0.5,0.95] (do not add space!)"))
+                     " Provided as a double quoted list of float number(s). Example: -k \"[0.5, 0.75]\"."
+                     " Value should be within range [0.5,0.95]"))
 @click.option("--fisher_geneset", "-fg", cls=PythonLiteralOption, default="['K']", 
                help=("Genesets to be tested when annotating modules of propagation."
-                     " Provided as a list of quoted string(s), such as ['C','F'] (do not add space!)"
-                     " Can be any subset of 'C,F,D,P,R,K,RT,B'."
+                     " Provided as a quoted list of string(s). Example: -fg \"['C','F']\"."
+                     " Value should be a subset of 'C,F,D,P,R,K,RT,B'."
                      " Refer to documentation to learn about the geneset abbreviation."))
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float,
               help="Threshold of significance of geneset enrichment analysis") 
