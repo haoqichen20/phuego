@@ -35,4 +35,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-phuego = "phuego.CLI:main"
+phuego = "phuego.CLI:cli"
