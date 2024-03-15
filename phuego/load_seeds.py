@@ -2,6 +2,7 @@
 
 import numpy as np
 
+# phuego run-phos; phuego run-mock; phuego run-test.
 def kinase_classification(pfam_domain_path):
     tyr_kinase=[]
     st_kinase=[]
@@ -74,3 +75,82 @@ def load_seeds(pfam_domain_path, sim_mean_std_path, sim_all_folder_path,
     Output.
     '''
     return seeds_pos,seeds_neg,seeds,zscores_global,ssim
+
+
+# phuego run-sc.
+def rc_tf_classification(receptor_tf_path):
+    receptor=[]
+    tf=[]
+    # f1=open("../data/receptor_tf.txt")
+    f1=open(receptor_tf_path)
+    seq=f1.readline()
+    seq=seq.strip().split("\t")
+    receptor=seq[1:] #Girolamo used receptor.extend(seq[1:])
+    seq=f1.readline()
+    seq=seq.strip().split("\t")
+    tf=seq[1:] #Girolamo used tf.extend(seq[1:])
+    return receptor,tf
+    
+def load_seeds_sc(receptor_tf_path, sim_mean_std_path, sim_all_folder_path, 
+               test_path, graph_nodes):
+    '''
+    Loading seed nodes.
+    '''
+    # zscores_global.
+    f1 = open(sim_mean_std_path)
+    seq=f1.readline()
+    seq=f1.readline()
+    zscores_global={}
+    while(seq!=""):
+        seq=seq.strip().split("\t")
+        zscores_global[seq[0]]=np.array(seq[1].split("|"),dtype=float)
+        seq=f1.readline()
+
+    # seed nodes.
+    f1 = open(test_path) 
+    seq=f1.readline()
+    ssim={}
+    seeds_pos={}
+    seeds_neg={}
+    while(seq!=""):
+        seq= seq.strip().split("\t")
+        seq[1]=float(seq[1])
+        if seq[1]>0.0:
+            seeds_pos[seq[0]]=seq[1]
+        if seq[1]<-0.0:
+            seeds_neg[seq[0]]=-seq[1]
+        seq=f1.readline()
+    
+    '''
+    Classification and semantic similarity.
+    '''
+    # Seed node classification.
+    receptor,tf=rc_tf_classification(receptor_tf_path)
+    receptor_pos=list((set(receptor).intersection(seeds_pos.keys())).intersection(set(graph_nodes)))
+    receptor_neg=list((set(receptor).intersection(seeds_neg.keys())).intersection(set(graph_nodes)))
+    tf_pos= list((set(tf).intersection(seeds_pos.keys())).intersection(set(graph_nodes)))
+    tf_neg=list((set(tf).intersection(seeds_neg.keys())).intersection(set(graph_nodes)))
+    all_the_rest_pos=list((set(seeds_pos.keys()).difference(set(receptor_pos+tf_pos))).intersection(set(graph_nodes)))
+    all_the_rest_neg=list((set(seeds_neg.keys()).difference(set(receptor_neg+tf_neg))).intersection(set(graph_nodes)))
+    seeds=[receptor_pos,tf_pos,all_the_rest_pos,receptor_neg,tf_neg,all_the_rest_neg]
+
+    # Semantic similarity for each seed node.
+    ssim={}
+    for i in list(set(receptor_pos+receptor_neg+tf_pos+tf_neg+all_the_rest_pos+all_the_rest_neg)):
+        ssim[i]={}
+        fsim=open(sim_all_folder_path+'/'+i+"_all.txt")
+        # The first readline trim away the header.
+        seq_sim=fsim.readline()
+        seq_sim=fsim.readline()
+        while(seq_sim!=""):
+            seq_sim=seq_sim.strip().split("\t")
+            ssim[i][seq_sim[1]]=float(seq_sim[2])
+            seq_sim=fsim.readline()
+            
+    '''
+    Output.
+    '''
+    return seeds_pos,seeds_neg,seeds,zscores_global,ssim
+
+
+# phuego run-custom.
