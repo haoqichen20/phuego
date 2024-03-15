@@ -81,14 +81,13 @@ def load_seeds(pfam_domain_path, sim_mean_std_path, sim_all_folder_path,
 def rc_tf_classification(receptor_tf_path):
     receptor=[]
     tf=[]
-    # f1=open("../data/receptor_tf.txt")
     f1=open(receptor_tf_path)
     seq=f1.readline()
     seq=seq.strip().split("\t")
-    receptor=seq[1:] #Girolamo used receptor.extend(seq[1:])
+    receptor.extend(seq[1:])
     seq=f1.readline()
     seq=seq.strip().split("\t")
-    tf=seq[1:] #Girolamo used tf.extend(seq[1:])
+    tf.extend(seq[1:])
     return receptor,tf
     
 def load_seeds_sc(receptor_tf_path, sim_mean_std_path, sim_all_folder_path, 
