@@ -43,43 +43,53 @@ def grouped_options(**groups):
 )
 # Paths.
 @click.option("--support_data_folder", "-sf", type=str, 
-              help="Folder that stored support data. Directories separated by /")
+              help="Folder that stored support data.")
 @click.option("--res_folder", "-rf", type=str, 
-              help="Folder that stored output result. Directories separated by /")
+              help="Folder that stored output result.")
 # Seed propagation.
 @click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
               help=("Damping factor of pagerank algorithm for seeds propagation,"
-                    " Float number within range [0.5, 0.95]"))
+                    " Float number within range [0.5, 0.95]"
+                    " [Default: 0.85]"))
 @click.option("--rwr_threshold", "-rt", default=0.05, type=float, 
               help=("Threshold of significance for propagated nodes."
-                    " Float number within range [0.01, 0.1]"))
+                    " Float number within range [0.01, 0.1]"
+                    " [Default: 0.05]"))
 # Ego decomposition and clustering.
 @click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for ego decomposition,"
-                    " Float number within range [0.5, 0.95]"))
+                    " Float number within range [0.5, 0.95]"
+                    " [Default: 0.85]"))
 @click.option("--kde_cutoff", "-k", cls=PythonLiteralOption, default="[0.85]", 
                help=("KDE cutoff value for removing nodes in ego network that are less similar to seed."
                      " Provided as a double quoted list of float number(s). Example: -k \"[0.5, 0.75]\"."
-                     " Value should be within range [0.5,0.95]"))
+                     " Value should be within range [0.5,0.95]"
+                     " [Default: [0.85]]"))
 @click.option("--damping_module_detection", "-dm", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for module detection,"
-                    " Float number within page [0.5, 0.95]"))
+                    " Float number within page [0.5, 0.95]"
+                    " [Default: 0.85]"))
 # Fisher test.
 @click.option("--fisher_geneset", "-fg", cls=PythonLiteralOption, default="['K']", 
                help=("Genesets to be tested when annotating modules of propagation."
                      " Provided as a quoted list of string(s). Example: -fg \"['C','F']\"."
                      " Value should be a subset of 'C,F,D,P,R,K,RT,B'."
-                     " Refer to documentation to learn about the geneset abbreviation."))
+                     " Refer to documentation to learn about the geneset abbreviation."
+                     " [Default: \"['K']\"]"))
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float,
-              help="Threshold of significance of geneset enrichment analysis") 
+              help=("Threshold of significance of geneset enrichment analysis"
+                    " [Default: 0.05]")) 
 @click.option("--fisher_background", "-fb", default="intact", type=str,
-              help="Geneset background of geneset enrichment analysis") 
+              help=("Geneset background of geneset enrichment analysis"
+                    " [Default: 'intact']"))
 # Output configuration.
 @click.option("--net_format", "-nf", default="graphml", type=str, 
               help=("file format of output network. Can be one of"
-                    " 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'"))
+                    " 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'"
+                    " [Default: 'graphml']"))
 @click.option("--convert2folder/--dont_convert2folder", default=True, 
-              help="Should phuego organize result files into a folder structure?")
+              help=("Should phuego organize result files into a folder structure?"
+                    " [Default: --convert2folder]"))
 def run_mock(support_data_folder, res_folder, 
     damping_seed_propagation, rwr_threshold, 
     damping_ego_decomposition, kde_cutoff, damping_module_detection, 
@@ -132,45 +142,56 @@ def run_mock(support_data_folder, res_folder,
 )
 # Paths.
 @click.option("--support_data_folder", "-sf", type=str, 
-              help="Folder that stored support data. Directories separated by /")
+              help="Folder that stored support data.")
 @click.option("--res_folder", "-rf", type=str, 
-              help="Folder that stored output result. Directories separated by /")
+              help="Folder that stored output result.")
 # Seed propagation.
 @click.option("--use_existing_rwr", "-ru", is_flag=True, 
-              help="Should phuego reuse existing network propagation results?")
+              help=("Should phuego reuse existing network propagation results?"
+                    " [Flag option. If unused, default is False]"))
 @click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
               help=("Damping factor of pagerank algorithm for seeds propagation,"
-                    " Float number within range [0.5, 0.95]"))
+                    " Float number within range [0.5, 0.95]"
+                    " [Default: 0.85]"))
 @click.option("--rwr_threshold", "-rt", default=0.05, type=float, 
               help=("Threshold of significance for propagated nodes."
-                    " Float number within range [0.01, 0.1]"))
+                    " Float number within range [0.01, 0.1]"
+                    " [Default: 0.05]"))
 # Ego decomposition and clustering.
 @click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for ego decomposition,"
-                    " Float number within range [0.5, 0.95]"))
+                    " Float number within range [0.5, 0.95]"
+                    " [Default: 0.85]"))
 @click.option("--kde_cutoff", "-k", cls=PythonLiteralOption, default="[0.85]", 
                help=("KDE cutoff value for removing nodes in ego network that are less similar to seed."
                      " Provided as a double quoted list of float number(s). Example: -k \"[0.5, 0.75]\"."
-                     " Value should be within range [0.5,0.95]"))
+                     " Value should be within range [0.5,0.95]"
+                     " [Default: [0.85]]"))
 @click.option("--damping_module_detection", "-dm", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for module detection,"
-                    " Float number within page [0.5, 0.95]"))
+                    " Float number within page [0.5, 0.95]"
+                    " [Default: 0.85]"))
 # Fisher test.
 @click.option("--fisher_geneset", "-fg", cls=PythonLiteralOption, default="['K']", 
                help=("Genesets to be tested when annotating modules of propagation."
                      " Provided as a quoted list of string(s). Example: -fg \"['C','F']\"."
                      " Value should be a subset of 'C,F,D,P,R,K,RT,B'."
-                     " Refer to documentation to learn about the geneset abbreviation."))
+                     " Refer to documentation to learn about the geneset abbreviation."
+                     " [Default: \"['K']\"]"))
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float,
-              help="Threshold of significance of geneset enrichment analysis") 
+              help=("Threshold of significance of geneset enrichment analysis"
+                    " [Default: 0.05]")) 
 @click.option("--fisher_background", "-fb", default="intact", type=str,
-              help="Geneset background of geneset enrichment analysis") 
+              help=("Geneset background of geneset enrichment analysis"
+                    " [Default: 'intact']"))
 # Output configuration.
 @click.option("--net_format", "-nf", default="graphml", type=str, 
               help=("file format of output network. Can be one of"
-                    " 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'"))
+                    " 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'"
+                    " [Default: 'graphml']"))
 @click.option("--convert2folder/--dont_convert2folder", default=True, 
-              help="Should phuego organize result files into a folder structure?")
+              help=("Should phuego organize result files into a folder structure?"
+                    " [Default: --convert2folder]"))
 def run_test(support_data_folder, res_folder, 
     damping_seed_propagation, rwr_threshold, use_existing_rwr,
     damping_ego_decomposition, kde_cutoff, damping_module_detection, 
@@ -221,52 +242,64 @@ def run_test(support_data_folder, res_folder,
 )
 # Paths.
 @click.option("--support_data_folder", "-sf", type=str, 
-              help="Folder that stored support data. Directories separated by /")
+              help="Folder that stored support data.")
 @click.option("--res_folder", "-rf", type=str, 
-              help="Folder that stored output result. Directories separated by /")
-@click.option("--test_path", "-tpath", default="", type=str, 
+              help="Folder that stored output result.")
+@click.option("--test_path", "-tpath", type=str, 
               help="Path to user test file")
 @click.option("--ini_path", "-ipath", default="", type=str, 
               help="The path of a csv file, that specify two sets of nodes to be"
                    " removed from reference network during propagation.")
 # Seed propagation.
 @click.option("--use_existing_rwr", "-ru", is_flag=True, 
-              help="Should phuego reuse existing network propagation results?")
+              help=("Should phuego reuse existing network propagation results?"
+                    " [Flag option. If unused, default is False]"))
 @click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
               help=("Damping factor of pagerank algorithm for seeds propagation,"
-                    " Float number within range [0.5, 0.95]"))
+                    " Float number within range [0.5, 0.95]"
+                    " [Default: 0.85]"))
 @click.option("--rwr_threshold", "-rt", default=0.05, type=float, 
               help=("Threshold of significance for propagated nodes."
-                    " Float number within range [0.01, 0.1]"))
+                    " Float number within range [0.01, 0.1]"
+                    " [Default: 0.05]"))
 # Ego decomposition and clustering.
 @click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for ego decomposition,"
-                    " Float number within range [0.5, 0.95]"))
+                    " Float number within range [0.5, 0.95]"
+                    " [Default: 0.85]"))
 @click.option("--kde_cutoff", "-k", cls=PythonLiteralOption, default="[0.85]", 
                help=("KDE cutoff value for removing nodes in ego network that are less similar to seed."
                      " Provided as a double quoted list of float number(s). Example: -k \"[0.5, 0.75]\"."
-                     " Value should be within range [0.5,0.95]"))
+                     " Value should be within range [0.5,0.95]"
+                     " [Default: [0.85]]"))
 @click.option("--damping_module_detection", "-dm", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for module detection,"
-                    " Float number within page [0.5, 0.95]"))
+                    " Float number within page [0.5, 0.95]"
+                    " [Default: 0.85]"))
 # Fisher test.
 @click.option("--fisher_geneset", "-fg", cls=PythonLiteralOption, default="['K']", 
                help=("Genesets to be tested when annotating modules of propagation."
                      " Provided as a quoted list of string(s). Example: -fg \"['C','F']\"."
                      " Value should be a subset of 'C,F,D,P,R,K,RT,B'."
-                     " Refer to documentation to learn about the geneset abbreviation."))
+                     " Refer to documentation to learn about the geneset abbreviation."
+                     " [Default: \"['K']\"]"))
 @click.option("--fisher_threshold", "-ft", default=0.05, type=float,
-              help="Threshold of significance of geneset enrichment analysis") 
+              help=("Threshold of significance of geneset enrichment analysis"
+                    " [Default: 0.05]")) 
 @click.option("--fisher_background", "-fb", default="intact", type=str,
-              help="Geneset background of geneset enrichment analysis") 
+              help=("Geneset background of geneset enrichment analysis"
+                    " [Default: 'intact']"))
 # Output configuration.
 @click.option("--net_format", "-nf", default="graphml", type=str, 
               help=("file format of output network. Can be one of"
-                    " 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'"))
+                    " 'edgelist', 'pajek', 'ncol', 'lgl', 'graphml', 'dimacs', 'gml', 'dot', 'leda'"
+                    " [Default: 'graphml']"))
 @click.option("--convert2folder/--dont_convert2folder", default=True, 
-              help="Should phuego organize result files into a folder structure?")
+              help=("Should phuego organize result files into a folder structure?"
+                    " [Default: --convert2folder]"))
 @click.option("--include_isolated_egos_in_kde_net", "-ie", is_flag=True, 
-              help="Should we include isolated nodes in the output network?") 
+              help=("Should we include isolated nodes in the output network?"
+                    " [Flag option. If unused, default is False]")) 
 def run_phos(support_data_folder, res_folder, test_path, ini_path,
     damping_seed_propagation, rwr_threshold, use_existing_rwr,
     damping_ego_decomposition, kde_cutoff, damping_module_detection, 
