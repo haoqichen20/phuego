@@ -4,7 +4,7 @@ from .utils_CLI import load_test_example
 from .utils_CLI import PythonLiteralOption
 from .utils_CLI import GroupedOptions
 from .phuego import phuego
-from .phuego import phuego_sc
+from .phuego_sc import phuego_sc
 from .phuego_mock import phuego_mock
 import click
 
@@ -239,7 +239,7 @@ def run_test(support_data_folder, res_folder,
     SEED_PROPAGATION=['use_existing_rwr','damping_seed_propagation','rwr_threshold'],
     EGO_DECOMPOSITION_CLUSTERING=['damping_ego_decomposition','kde_cutoff', 'damping_module_detection'],
     FISHER_TEST=['fisher_geneset', 'fisher_threshold', 'fisher_background'],
-    OUTPUT=['net_format', 'convert2folder']
+    OUTPUT=['net_format', 'convert2folder', 'include_isolated_egos_in_kde_net']
 )
 # Paths.
 @click.option("--support_data_folder", "-sf", type=str, 
@@ -366,7 +366,7 @@ def run_phos(support_data_folder, res_folder, test_path, ini_path,
     SEED_PROPAGATION=['use_existing_rwr','damping_seed_propagation','rwr_threshold'],
     EGO_DECOMPOSITION_CLUSTERING=['damping_ego_decomposition','kde_cutoff', 'damping_module_detection'],
     FISHER_TEST=['fisher_geneset', 'fisher_threshold', 'fisher_background'],
-    OUTPUT=['net_format', 'convert2folder']
+    OUTPUT=['net_format', 'convert2folder', 'include_isolated_egos_in_kde_net']
 )
 # Paths.
 @click.option("--support_data_folder", "-sf", type=str, 

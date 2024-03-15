@@ -5,7 +5,7 @@ import sys
 from .utils import load_gene_names
 from .utils import add_trailing_slash
 from .utils import convert_result
-from .load_seeds_sc import load_seeds_sc
+from .load_seeds import load_seeds_sc
 from .network_rwr import rwr_values
 from .network_rwr import pvalue_split
 from .ego import ego_filtering
