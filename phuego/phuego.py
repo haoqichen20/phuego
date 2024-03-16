@@ -17,6 +17,7 @@ from .generate_net import generate_nets
 # one liner function of phuego package.
 def phuego(support_data_folder, res_folder, test_path, 
            fisher_geneset, fisher_threshold, fisher_background,
+           layer_division, layer_definition_path,
            ini_pos, ini_neg, damping_seed_propagation, damping_ego_decomposition, 
            damping_module_detection,
            kde_cutoff,rwr_threshold,
@@ -63,8 +64,14 @@ def phuego(support_data_folder, res_folder, test_path,
     network_path = support_data_folder + "networks/gic.txt"
     network_raw_path = support_data_folder + "networks/gic_raw.txt"
     network_random_path = support_data_folder + "networks/gic_random/"
-    # Protein annotation, ID mapping
-    pfam_domain_path = support_data_folder + "pfam_domains.txt"
+    # Protein annotation
+    if(layer_division == "phos"):
+       layer_path = support_data_folder + "pfam_domains.txt"
+    elif(layer_division == "sc"):
+       layer_path = support_data_folder + "receptor_tf.txt"
+    elif(layer_division == "custom"):
+       layer_path = layer_definition_path
+    # ID mapping
     uniprot_to_gene_path = support_data_folder + "uniprot_to_gene.tab"
     # Semantic similarity
     sim_mean_std_path = support_data_folder + "gic_mean_std.txt"
@@ -95,7 +102,7 @@ def phuego(support_data_folder, res_folder, test_path,
     load seeds.
     """
     seeds_pos,seeds_neg,seeds,layer1_name,layer2_name,zscores_global,ssim = load_seeds(
-                     pfam_domain_path=pfam_domain_path,
+                     layer_path=layer_path,
                      sim_mean_std_path=sim_mean_std_path,
                      sim_all_folder_path=sim_all_folder_path,
                      test_path=test_path,
