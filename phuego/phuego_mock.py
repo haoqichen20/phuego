@@ -88,7 +88,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     """
     load seeds.
     """
-    seeds_pos,seeds_neg,seeds,zscores_global,ssim = load_seeds(
+    seeds_pos,seeds_neg,seeds,layer1_name,layer2_name,zscores_global,ssim = load_seeds(
                      layer_path=layer_path,
                      sim_mean_std_path=sim_mean_std_path,
                      sim_all_folder_path=sim_all_folder_path,
