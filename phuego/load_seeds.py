@@ -65,14 +65,14 @@ def load_seeds(layer_path, sim_mean_std_path, sim_all_folder_path,
     if not layer1_name:
         all_the_rest_pos=list(set(seeds_pos.keys()).intersection(set(graph_nodes)))
         all_the_rest_neg=list(set(seeds_neg.keys()).intersection(set(graph_nodes)))
-        seeds=[[""],[""],[""],[""],all_the_rest_pos,all_the_rest_neg]
+        seeds=[[""],[""],all_the_rest_pos,[""],[""],all_the_rest_neg]
         print("Input is retained as 1 layer.")
     elif not layer2_name:
         layer1_pos=list((set(layer1).intersection(seeds_pos.keys())).intersection(set(graph_nodes)))
         layer1_neg=list((set(layer1).intersection(seeds_neg.keys())).intersection(set(graph_nodes)))
         all_the_rest_pos=list((set(seeds_pos.keys()).difference(set(layer1_pos))).intersection(set(graph_nodes)))
         all_the_rest_neg=list((set(seeds_neg.keys()).difference(set(layer1_neg))).intersection(set(graph_nodes)))
-        seeds=[layer1_pos,layer1_neg,[""],[""],all_the_rest_pos,all_the_rest_neg]
+        seeds=[layer1_pos,[""],all_the_rest_pos,layer1_neg,[""],all_the_rest_neg]
         print(f"Input is divided into 2 layers: {layer1_name} and all the rest.")
     else:
         layer1_pos=list((set(layer1).intersection(seeds_pos.keys())).intersection(set(graph_nodes)))
@@ -81,7 +81,7 @@ def load_seeds(layer_path, sim_mean_std_path, sim_all_folder_path,
         layer2_neg=list((set(layer2).intersection(seeds_neg.keys())).intersection(set(graph_nodes)))
         all_the_rest_pos=list((set(seeds_pos.keys()).difference(set(layer1_pos+layer2_pos))).intersection(set(graph_nodes)))
         all_the_rest_neg=list((set(seeds_neg.keys()).difference(set(layer1_neg+layer2_neg))).intersection(set(graph_nodes)))
-        seeds=[layer1_pos,layer1_neg,layer2_pos,layer2_neg,all_the_rest_pos,all_the_rest_neg]
+        seeds=[layer1_pos,layer2_pos,all_the_rest_pos,layer1_neg,layer2_neg,all_the_rest_neg]
         print(f"Input is divided into 3 layers: {layer1_name}, {layer2_name}, and all the rest.")
 
     # Semantic similarity for each seed node.
