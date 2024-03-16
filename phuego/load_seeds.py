@@ -100,4 +100,4 @@ def load_seeds(layer_path, sim_mean_std_path, sim_all_folder_path,
     '''
     Output.
     '''
-    return seeds_pos,seeds_neg,seeds,zscores_global,ssim
+    return seeds_pos,seeds_neg,seeds,layer1_name,layer2_name,zscores_global,ssim

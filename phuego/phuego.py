@@ -94,7 +94,7 @@ def phuego(support_data_folder, res_folder, test_path,
     """
     load seeds.
     """
-    seeds_pos,seeds_neg,seeds,zscores_global,ssim = load_seeds(
+    seeds_pos,seeds_neg,seeds,layer1_name,layer2_name,zscores_global,ssim = load_seeds(
                      pfam_domain_path=pfam_domain_path,
                      sim_mean_std_path=sim_mean_std_path,
                      sim_all_folder_path=sim_all_folder_path,
@@ -115,6 +115,8 @@ def phuego(support_data_folder, res_folder, test_path,
                       ini_pos=ini_pos,
                       ini_neg=ini_neg,
                       seeds=seeds,
+                      layer1_name=layer1_name,
+                      layer2_name=layer2_name,
                       seeds_pos=seeds_pos,
                       seeds_neg=seeds_neg,
                       network_path=network_path,

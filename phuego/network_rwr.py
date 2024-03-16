@@ -4,7 +4,7 @@ import numpy as np
 import igraph as ig
 from .utils import fisher_test
 
-def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos, 
+def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, layer1_name, layer2_name, seeds_pos, 
                seeds_neg, network_path, network_random_path, damping_seed_propagation, res_folder):
     
     """
@@ -161,13 +161,18 @@ def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
      '''
     #writing the results for global propagation
     f1=open(res_folder+"rwr_scores.txt","w")
-    f1.write('uniprotid\tincreased_tyr\tincreased_kinases\tincreased_substrates\tdecreased_tyr\tdecreased_kinases\tdecreased_substrates\n')
+    title = (
+        f"uniprotid\t"
+        f"increased_{layer1_name}\tincreased_{layer2_name}\tincreased_other\t"
+        f"decreased_{layer1_name}\tdecreased_{layer2_name}\tdecreased_other\n"
+    )
+    f1.write(title)
     for i in empirical_values:
         f1.write(i+"\t"+"\t".join(map(str,empirical_values[i]))+"\n")
     f1.close()
     
     f1=open(res_folder+"pvalues.txt","w")
-    f1.write('uniprotid\tincreased_tyr\tincreased_kinases\tincreased_substrates\tdecreased_tyr\tdecreased_kinases\tdecreased_substrates\n')
+    f1.write(title)
     for i in pvalues:
         f1.write(i+"\t"+"\t".join(map(str,pvalues[i]))+"\n")
     f1.close()
@@ -180,9 +185,6 @@ def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
     for i in seeds[3]+seeds[4]+seeds[5]:
         f1.write(i+"\t"+str(-seeds_neg[i])+"\n")
     f1.close()
- 
-    # # Returned variables.
-    # return empirical_values,pvalues
 
 
 # Obtain the significant rwr nodes according to pvalues.txt, and split into increased/decreased nodes.
