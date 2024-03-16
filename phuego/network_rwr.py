@@ -7,15 +7,26 @@ from .utils import fisher_test
 def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos, 
                seeds_neg, network_path, network_random_path, damping_seed_propagation, res_folder):
     
+    """
+    Initilize data structure for storing rwr results.
+    """
+    # empirical_rwr: [2-dim array] raw pagerank values, in all 6 layers for all nodes.
+    # empirical_values: [dictionary] raw pagerank values, in all 6 layers for each node.
+    # pvalues: [dictionary] rank of raw pagerank values against all randomized network, in all 6 layers for each node.
     number_of_nodes=network.vcount()
     empirical_rwr=np.zeros((6,number_of_nodes),dtype=float)
-
     empirical_values={}
     pvalues={}
     for i in network.vs:
         pvalues[i["name"]]=np.zeros(6,dtype=int)
         empirical_values[i["name"]]=np.zeros(6,dtype=float)
 
+    """
+    Perform raw pagerank on the reference network.
+    """
+    # Compile node list for deletion from reference network.
+    # This code is buggy as ini_neg will overwrite the to_delete of ini_pos.
+    # Will be updated to retain only one to_delete list and deleted from both pos/neg.
     pos=False
     if ini_pos[0]!="False":
         pos=True
@@ -29,6 +40,8 @@ def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
         to_delete=[]
         for j in network.vs.select(name_in=ini_neg):
             to_delete.append(j.index)
+
+    # Delete nodes and run pagerank.
     flag_pos=0
     flag_neg=0
     for i in enumerate(seeds):
@@ -65,31 +78,40 @@ def rwr_values(network, graph_nodes, ini_pos, ini_neg, seeds, seeds_pos,
             flag_pos=0
             to_delete=[]
 
-
+    # Populate array-format result into dict-format result.
     for i in enumerate(empirical_rwr.T):
         empirical_values[graph_nodes[i[0]]]=i[1]
 
+    
+    """
+    Perform pageranks on the randomised network.
+    """
     for ii in range(1000):
+
+        # Initialize data structure for storing randomised-network pagerank values.
         network_random = ig.Graph.Read_Ncol(network_random_path+str(ii)+".txt", weights=True, directed=False)
         nodes=network_random.vs["name"]
         number_of_nodes=network_random.vcount()
         random_rwr=np.zeros((6,number_of_nodes),dtype=float)
+
+        # Compile node list for deletion from randomised network.
         pos=False
         if ini_pos[0]!="False":
+            pos=True
             to_delete=[]
             for j in network_random.vs.select(name_in=ini_pos):
-
                 to_delete.append(j.index)
-            pos=True
+            
         neg=False
         if ini_neg[0]!="False":
+            neg=True
             to_delete=[]
             for j in network_random.vs.select(name_in=ini_neg):
                 to_delete.append(j.index)
-            neg=True
+                
+        # Delete nodes and run pagerank.
         flag_pos=0
         flag_neg=0
-
         for jj in enumerate(seeds):
             if len(jj[1])>0:
                 if pos==True and flag_pos==0 and jj[0]<=2:
