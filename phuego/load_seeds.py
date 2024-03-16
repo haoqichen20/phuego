@@ -86,7 +86,7 @@ def load_seeds(layer_path, sim_mean_std_path, sim_all_folder_path,
 
     # Semantic similarity for each seed node.
     ssim={}
-    for i in list(set(seeds_pos+seeds_neg)):
+    for i in list(set([node for _layer in seeds for node in _layer])):
         ssim[i]={}
         fsim=open(sim_all_folder_path+'/'+i+"_all.txt")
         # The first readline trim away the header.
