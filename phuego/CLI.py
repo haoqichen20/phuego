@@ -4,7 +4,6 @@ from .utils_CLI import load_test_example
 from .utils_CLI import PythonLiteralOption
 from .utils_CLI import GroupedOptions
 from .phuego import phuego
-from .phuego_sc import phuego_sc
 from .phuego_mock import phuego_mock
 import click
 
@@ -97,8 +96,7 @@ def mock(support_data_folder, res_folder,
     fisher_geneset, fisher_threshold, fisher_background, 
     net_format, convert2folder):
     """
-    Perform a mock run with test dataset.
-    p-value of seed propagation is estimated against 10 randomisation thus unreliable.
+    Perform a mock run with test dataset. p value of seed propagation is estimated against 10 randomisation thus unreliable.
     """
     test_path, test_df = load_test_example()
     print("Run phuego_mock with test dataset, whose first few lines are: \n",test_df.head())
@@ -209,6 +207,9 @@ def test(support_data_folder, res_folder,
     ini_neg = ["False"]
     # Test run does not allow excluding isolated egos.
     include_isolated_egos_in_kde_net = True
+    # Test run does not allow defining layers.
+    layer_division = "phos"
+    layer_def_path = ""
     
     phuego(
         support_data_folder=support_data_folder,
@@ -217,6 +218,8 @@ def test(support_data_folder, res_folder,
         fisher_geneset=fisher_geneset,
         fisher_threshold=fisher_threshold,
         fisher_background=fisher_background,
+        layer_division=layer_division,
+        layer_definition_path=layer_def_path,
         ini_pos=ini_pos,
         ini_neg=ini_neg,
         damping_seed_propagation=damping_seed_propagation,
@@ -235,8 +238,8 @@ def test(support_data_folder, res_folder,
 @register_command
 @click.command(cls=GroupedOptions)
 @grouped_options(
-    PATHS=['support_data_folder','res_folder','test_path','ini_path'],
-    SEED_PROPAGATION=['use_existing_rwr','damping_seed_propagation','rwr_threshold'],
+    PATHS=['support_data_folder','res_folder','test_path'],
+    SEED_PROPAGATION=['layer_division','layer_def_path','ini_path','use_existing_rwr','damping_seed_propagation','rwr_threshold'],
     EGO_DECOMPOSITION_CLUSTERING=['damping_ego_decomposition','kde_cutoff', 'damping_module_detection'],
     FISHER_TEST=['fisher_geneset', 'fisher_threshold', 'fisher_background'],
     OUTPUT=['net_format', 'convert2folder', 'include_isolated_egos_in_kde_net']
@@ -255,8 +258,9 @@ def test(support_data_folder, res_folder,
                     " 'sc': divide seed nodes into receptor, transcription factors and others;"
                     " 'custom': use -ldpath to provide a text file with user-defined layer division."
                     " [Default: \"phos\"]"))
-@click.option("--layer_definition_path", "-ldpath", default="", type=str,
+@click.option("--layer_def_path", "-ldpath", default="", type=str,
               help=("A text file with user-defined layer division."
+                    " Required if -ld == \"custom\"."
                     " Refer to documentation to learn about formatting."))
 @click.option("--ini_path", "-ipath", default="", type=str, 
               help=("The path of a csv file, that specify two sets of nodes to be"
@@ -312,14 +316,13 @@ def test(support_data_folder, res_folder,
               help=("Should we include isolated nodes in the output network?"
                     " [Flag option. If unused, default is False]")) 
 def main(support_data_folder, res_folder, test_path, 
-    layer_division, layer_definition_path, ini_path, damping_seed_propagation, 
+    layer_division, layer_def_path, ini_path, damping_seed_propagation, 
     rwr_threshold, use_existing_rwr,
     damping_ego_decomposition, kde_cutoff, damping_module_detection, 
     fisher_geneset, fisher_threshold, fisher_background, 
     net_format, convert2folder, include_isolated_egos_in_kde_net):
     """
-    Run phuEGO by dividing input into three layers: tyrosine kinases, ser/thr kinases, other proteins. 
-    Recommended for phosphoproteomics dataset.
+    Run phuEGO with user input.
     """
     print("Run phuEGO with user input dataset")
 
@@ -334,7 +337,7 @@ def main(support_data_folder, res_folder, test_path,
        ini_neg = f1.readline().strip()
        ini_neg = ini_neg.split(",")
 
-    # Assert if the layer_division and the layer_definition_path is provided properly. 
+    # Assert if the layer_division and the layer_def_path is provided properly. 
     # Including checkin g if the file exist (can be accessed).
 
 
@@ -346,7 +349,7 @@ def main(support_data_folder, res_folder, test_path,
         fisher_threshold=fisher_threshold,
         fisher_background=fisher_background,
         layer_division=layer_division,
-        layer_definition_path=layer_definition_path,
+        layer_definition_path=layer_def_path,
         ini_pos=ini_pos,
         ini_neg=ini_neg,
         damping_seed_propagation=damping_seed_propagation,
