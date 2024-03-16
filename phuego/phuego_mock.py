@@ -58,7 +58,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     network_raw_path = support_data_folder + "networks/gic_raw.txt"
     network_random_path = support_data_folder + "networks/gic_random/"
     # Protein annotation, ID mapping
-    pfam_domain_path = support_data_folder + "pfam_domains.txt"
+    layer_path = support_data_folder + "pfam_domains.txt"
     uniprot_to_gene_path = support_data_folder + "uniprot_to_gene.tab"
     # Semantic similarity
     sim_mean_std_path = support_data_folder + "gic_mean_std.txt"
@@ -89,7 +89,7 @@ def phuego_mock(support_data_folder, res_folder, test_path,
     load seeds.
     """
     seeds_pos,seeds_neg,seeds,zscores_global,ssim = load_seeds(
-                     pfam_domain_path=pfam_domain_path,
+                     layer_path=layer_path,
                      sim_mean_std_path=sim_mean_std_path,
                      sim_all_folder_path=sim_all_folder_path,
                      test_path=test_path,
