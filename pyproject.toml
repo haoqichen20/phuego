@@ -14,6 +14,7 @@ maintainers = [
     "Girolamo Giudice <Girolamo.Giudice@gmail.com>",
 ]
 repository = "https://github.com/haoqichen20/phuego"
+documentation = "https://phuego.readthedocs.io/en/latest/index.html"
 keywords = ["Phosphoproteomics", "network propagation"]
 packages = [{include = "phuego"},]
 include = [{path = "phuego/data/*.txt"}]
