@@ -11,7 +11,7 @@ def layer_classification(layer_path):
     seq=f1.readline()
     # If not defined, return two empty layers.
     if not seq:
-        return "",[""],"",[""]
+        return "",[],"",[]
     seq=seq.strip().split("\t")
     layer1_name = seq[0]
     layer1.extend(seq[1:])
@@ -20,7 +20,7 @@ def layer_classification(layer_path):
     seq=f1.readline()
     # If not defined, return layer1 and empty layer2.
     if not seq:
-        return layer1_name, layer1, "", [""]
+        return layer1_name, layer1, "", []
     seq=seq.strip().split("\t")
     layer2_name = seq[0]
     layer2.extend(seq[1:])
@@ -65,14 +65,14 @@ def load_seeds(layer_path, sim_mean_std_path, sim_all_folder_path,
     if not layer1_name:
         all_the_rest_pos=list(set(seeds_pos.keys()).intersection(set(graph_nodes)))
         all_the_rest_neg=list(set(seeds_neg.keys()).intersection(set(graph_nodes)))
-        seeds=[[""],[""],all_the_rest_pos,[""],[""],all_the_rest_neg]
+        seeds=[[],[],all_the_rest_pos,[],[],all_the_rest_neg]
         print("Input is retained as 1 layer.")
     elif not layer2_name:
         layer1_pos=list((set(layer1).intersection(seeds_pos.keys())).intersection(set(graph_nodes)))
         layer1_neg=list((set(layer1).intersection(seeds_neg.keys())).intersection(set(graph_nodes)))
         all_the_rest_pos=list((set(seeds_pos.keys()).difference(set(layer1_pos))).intersection(set(graph_nodes)))
         all_the_rest_neg=list((set(seeds_neg.keys()).difference(set(layer1_neg))).intersection(set(graph_nodes)))
-        seeds=[layer1_pos,[""],all_the_rest_pos,layer1_neg,[""],all_the_rest_neg]
+        seeds=[layer1_pos,[],all_the_rest_pos,layer1_neg,[],all_the_rest_neg]
         print(f"Input is divided into 2 layers: {layer1_name} and all the rest.")
     else:
         layer1_pos=list((set(layer1).intersection(seeds_pos.keys())).intersection(set(graph_nodes)))
