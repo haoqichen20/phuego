@@ -69,6 +69,8 @@ def phuego(support_data_folder, res_folder, test_path,
        layer_path = support_data_folder + "pfam_domains.txt"
     elif(layer_division == "sc"):
        layer_path = support_data_folder + "receptor_tf.txt"
+    elif(layer_division == "one"):
+       layer_path = support_data_folder + "empty.txt"
     elif(layer_division == "custom"):
        layer_path = layer_definition_path
     # ID mapping

@@ -256,7 +256,8 @@ def test(support_data_folder, res_folder,
               help=("How to divide the seed nodes into layers"
                     " 'phos': divide seed nodes into tyrosine kinases, ser/thr kinases and others;"
                     " 'sc': divide seed nodes into receptor, transcription factors and others;"
-                    " 'custom': use -ldpath to provide a text file with user-defined layer division."
+                    " 'custom': use -ldpath to provide a text file with user-defined layer division;"
+                    " 'one': analyze the input data without layer division."
                     " [Default: \"phos\"]"))
 @click.option("--layer_def_path", "-ldpath", default="", type=str,
               help=("A text file with user-defined layer division."
