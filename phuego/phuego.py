@@ -20,7 +20,7 @@ def phuego(support_data_folder, res_folder, test_path,
            layer_division, layer_definition_path,
            ini_pos, ini_neg, damping_seed_propagation, damping_ego_decomposition, 
            damping_module_detection,
-           kde_cutoff,rwr_threshold,
+           kde_cutoff,rwr_threshold,semsim,
            use_existing_rwr = False, convert2folder = False, 
            include_isolated_egos_in_KDE_net=False,
            net_format="ncol",):
@@ -60,10 +60,8 @@ def phuego(support_data_folder, res_folder, test_path,
     """
     Create support data paths.
     """       
-    # Networks
-    network_path = support_data_folder + "networks/gic.txt"
-    network_raw_path = support_data_folder + "networks/gic_raw.txt"
-    network_random_path = support_data_folder + "networks/gic_random/"
+    # ID mapping
+    uniprot_to_gene_path = support_data_folder + "uniprot_to_gene.tab"
     # Protein annotation
     if(layer_division == "phos"):
        layer_path = support_data_folder + "pfam_domains.txt"
@@ -73,11 +71,13 @@ def phuego(support_data_folder, res_folder, test_path,
        layer_path = support_data_folder + "empty.txt"
     elif(layer_division == "custom"):
        layer_path = layer_definition_path
-    # ID mapping
-    uniprot_to_gene_path = support_data_folder + "uniprot_to_gene.tab"
+    # Networks
+    network_path = support_data_folder + f"networks/{semsim}.txt"
+    network_raw_path = support_data_folder + f"networks/{semsim}_raw.txt"
+    network_random_path = support_data_folder + f"networks/{semsim}_random/"
     # Semantic similarity
-    sim_mean_std_path = support_data_folder + "gic_mean_std.txt"
-    sim_all_folder_path = support_data_folder + "gic_sim/"
+    sim_mean_std_path = support_data_folder + f"{semsim}_mean_std.txt"
+    sim_all_folder_path = support_data_folder + f"{semsim}_sim/"
     # Genesets.
     if(fisher_background == "proteome"):
        geneset_path = support_data_folder + "proteome/"

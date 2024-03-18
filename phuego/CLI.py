@@ -210,6 +210,8 @@ def test(support_data_folder, res_folder,
     # Test run does not allow defining layers.
     layer_division = "phos"
     layer_def_path = ""
+    # Test run does not allow defining other semantic similarity.
+    semsim = "gic"
     
     phuego(
         support_data_folder=support_data_folder,
@@ -226,6 +228,7 @@ def test(support_data_folder, res_folder,
         damping_ego_decomposition=damping_ego_decomposition,
         damping_module_detection=damping_module_detection,
         rwr_threshold=rwr_threshold,
+        semsim=semsim,
         kde_cutoff=kde_cutoff,
         use_existing_rwr=use_existing_rwr,
         convert2folder=convert2folder,
@@ -239,7 +242,7 @@ def test(support_data_folder, res_folder,
 @click.command(cls=GroupedOptions)
 @grouped_options(
     PATHS=['support_data_folder','res_folder','test_path'],
-    SEED_PROPAGATION=['layer_division','layer_def_path','ini_path','use_existing_rwr','damping_seed_propagation','rwr_threshold'],
+    SEED_PROPAGATION=['layer_division','layer_def_path','ini_path','use_existing_rwr','damping_seed_propagation','rwr_threshold','semsim'],
     EGO_DECOMPOSITION_CLUSTERING=['damping_ego_decomposition','kde_cutoff', 'damping_module_detection'],
     FISHER_TEST=['fisher_geneset', 'fisher_threshold', 'fisher_background'],
     OUTPUT=['net_format', 'convert2folder', 'include_isolated_egos_in_kde_net']
@@ -268,7 +271,7 @@ def test(support_data_folder, res_folder,
                     " removed from reference network during propagation."
                     " [Default: empty]"))
 @click.option("--use_existing_rwr", "-ru", is_flag=True, 
-              help=("Should phuego reuse existing network propagation results?"
+              help=("Should phuego reuse existing seeds network propagation results?"
                     " [Flag option. If unused, default is False]"))
 @click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
               help=("Damping factor of pagerank algorithm for seeds propagation,"
@@ -278,6 +281,10 @@ def test(support_data_folder, res_folder,
               help=("Threshold of significance for propagated nodes."
                     " Float number within range [0.01, 0.1]"
                     " [Default: 0.05]"))
+@click.option("--semsim", "-ss", default="gic", type=str, 
+              help=("The type of semantic similarity to use. If using premade supporting dataset,"
+                    " can be one of 'gic', 'tcss', 'resnikbma'"
+                    " [Default: \"gic\"]"))
 # Ego decomposition and clustering.
 @click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for ego decomposition,"
@@ -318,7 +325,7 @@ def test(support_data_folder, res_folder,
                     " [Flag option. If unused, default is False]")) 
 def main(support_data_folder, res_folder, test_path, 
     layer_division, layer_def_path, ini_path, damping_seed_propagation, 
-    rwr_threshold, use_existing_rwr,
+    rwr_threshold, use_existing_rwr, semsim,
     damping_ego_decomposition, kde_cutoff, damping_module_detection, 
     fisher_geneset, fisher_threshold, fisher_background, 
     net_format, convert2folder, include_isolated_egos_in_kde_net):
@@ -357,6 +364,7 @@ def main(support_data_folder, res_folder, test_path,
         damping_ego_decomposition=damping_ego_decomposition,
         damping_module_detection=damping_module_detection,
         rwr_threshold=rwr_threshold,
+        semsim=semsim,
         kde_cutoff=kde_cutoff,
         use_existing_rwr=use_existing_rwr,
         convert2folder=convert2folder,

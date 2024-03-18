@@ -4,7 +4,6 @@
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/phuego)](https://pypi.org/project/phuego/)
 
 # phuEGO: a network-based method to reconstruct active signalling pathways
----
 
 phuEGO is a network-based method to reconstruct active signalling pathways from phosphoproteomics datasets. It combines three-layer network propagation with ego network decomposition to provide small networks comprising active functional signalling modules. PhuEGO boosts the signal-to-noise ratio from global phosphoproteomics datasets, enriches the resulting networks for functional phosphosites and allows the improved comparison and integration across datasets.
 
