@@ -35,19 +35,19 @@ def grouped_options(**groups):
 @register_command
 @click.command(cls=GroupedOptions)
 @grouped_options(
-    PATHS=['support_data_folder','res_folder'],
-    SEED_PROPAGATION=['damping_seed_propagation','rwr_threshold'],
-    EGO_DECOMPOSITION_CLUSTERING=['damping_ego_decomposition','kde_cutoff', 'damping_module_detection'],
+    PATHS=['support_folder','result_folder'],
+    SEED_PROPAGATION=['damping_seed','rwr_threshold'],
+    EGO_DECOMPOSITION_CLUSTERING=['damping_ego','kde_cutoff', 'damping_module'],
     FISHER_TEST=['fisher_geneset', 'fisher_threshold', 'fisher_background'],
     OUTPUT=['net_format', 'convert2folder']
 )
 # Input/Output.
-@click.option("--support_data_folder", "-sf", type=str, 
-              help="Folder that stored support data.")
-@click.option("--res_folder", "-rf", type=str, 
-              help="Folder that stored output result.")
+@click.option("--support_folder", "-sf", type=str, 
+              help="Folder that stores support data.")
+@click.option("--result_folder", "-rf", type=str, 
+              help="Folder that stores phuEGO result.")
 # Seed propagation.
-@click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
+@click.option("--damping_seed", "-ds", default=0.85, type=float, 
               help=("Damping factor of pagerank algorithm for seeds propagation,"
                     " Float number within range [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -56,7 +56,7 @@ def grouped_options(**groups):
                     " Float number within range [0.01, 0.1]"
                     " [Default: 0.05]"))
 # Ego decomposition and clustering.
-@click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
+@click.option("--damping_ego", "-de", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for ego decomposition,"
                     " Float number within range [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -65,7 +65,7 @@ def grouped_options(**groups):
                      " Provided as a double quoted list of float number(s). Example: -k \"[0.5, 0.75]\"."
                      " Value should be within range [0.5,0.95]"
                      " [Default: [0.85]]"))
-@click.option("--damping_module_detection", "-dm", default=0.85, type=float,
+@click.option("--damping_module", "-dm", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for module detection,"
                     " Float number within page [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -90,9 +90,9 @@ def grouped_options(**groups):
 @click.option("--convert2folder/--dont_convert2folder", default=True, 
               help=("Should phuego organize result files into a folder structure?"
                     " [Default: --convert2folder]"))
-def mock(support_data_folder, res_folder, 
-    damping_seed_propagation, rwr_threshold, 
-    damping_ego_decomposition, kde_cutoff, damping_module_detection, 
+def mock(support_folder, result_folder, 
+    damping_seed, rwr_threshold, 
+    damping_ego, kde_cutoff, damping_module, 
     fisher_geneset, fisher_threshold, fisher_background, 
     net_format, convert2folder):
     """
@@ -110,17 +110,17 @@ def mock(support_data_folder, res_folder,
     include_isolated_egos_in_kde_net = True
 
     phuego_mock(
-        support_data_folder=support_data_folder,
-        res_folder=res_folder,
+        support_data_folder=support_folder,
+        res_folder=result_folder,
         test_path=test_path,
         fisher_geneset=fisher_geneset,
         fisher_threshold=fisher_threshold,
         fisher_background=fisher_background,
         ini_pos=ini_pos,
         ini_neg=ini_neg,
-        damping_seed_propagation=damping_seed_propagation,
-        damping_ego_decomposition=damping_ego_decomposition,
-        damping_module_detection=damping_module_detection,
+        damping_seed_propagation=damping_seed,
+        damping_ego_decomposition=damping_ego,
+        damping_module_detection=damping_module,
         kde_cutoff=kde_cutoff,
         use_existing_rwr=use_existing_rwr,
         convert2folder=convert2folder,
@@ -133,22 +133,22 @@ def mock(support_data_folder, res_folder,
 @register_command
 @click.command(cls=GroupedOptions)
 @grouped_options(
-    PATHS=['support_data_folder','res_folder'],
-    SEED_PROPAGATION=['use_existing_rwr','damping_seed_propagation','rwr_threshold'],
-    EGO_DECOMPOSITION_CLUSTERING=['damping_ego_decomposition','kde_cutoff', 'damping_module_detection'],
+    PATHS=['support_folder','result_folder'],
+    SEED_PROPAGATION=['use_existing_rwr','damping_seed','rwr_threshold'],
+    EGO_DECOMPOSITION_CLUSTERING=['damping_ego','kde_cutoff', 'damping_module'],
     FISHER_TEST=['fisher_geneset', 'fisher_threshold', 'fisher_background'],
     OUTPUT=['net_format', 'convert2folder']
 )
 # Input/Output.
-@click.option("--support_data_folder", "-sf", type=str, 
-              help="Folder that stored support data.")
-@click.option("--res_folder", "-rf", type=str, 
-              help="Folder that stored output result.")
+@click.option("--support_folder", "-sf", type=str, 
+              help="Folder that stores support data.")
+@click.option("--result_folder", "-rf", type=str, 
+              help="Folder that stores phuEGO result.")
 # Seed propagation.
 @click.option("--use_existing_rwr", "-ru", is_flag=True, 
               help=("Should phuego reuse existing network propagation results?"
                     " [Flag option. If unused, default is False]"))
-@click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
+@click.option("--damping_seed", "-ds", default=0.85, type=float, 
               help=("Damping factor of pagerank algorithm for seeds propagation,"
                     " Float number within range [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -157,7 +157,7 @@ def mock(support_data_folder, res_folder,
                     " Float number within range [0.01, 0.1]"
                     " [Default: 0.05]"))
 # Ego decomposition and clustering.
-@click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
+@click.option("--damping_ego", "-de", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for ego decomposition,"
                     " Float number within range [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -166,7 +166,7 @@ def mock(support_data_folder, res_folder,
                      " Provided as a double quoted list of float number(s). Example: -k \"[0.5, 0.75]\"."
                      " Value should be within range [0.5,0.95]"
                      " [Default: [0.85]]"))
-@click.option("--damping_module_detection", "-dm", default=0.85, type=float,
+@click.option("--damping_module", "-dm", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for module detection,"
                     " Float number within page [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -191,9 +191,9 @@ def mock(support_data_folder, res_folder,
 @click.option("--convert2folder/--dont_convert2folder", default=True, 
               help=("Should phuego organize result files into a folder structure?"
                     " [Default: --convert2folder]"))
-def test(support_data_folder, res_folder, 
-    damping_seed_propagation, rwr_threshold, use_existing_rwr,
-    damping_ego_decomposition, kde_cutoff, damping_module_detection, 
+def test(support_folder, result_folder, 
+    damping_seed, rwr_threshold, use_existing_rwr,
+    damping_ego, kde_cutoff, damping_module, 
     fisher_geneset, fisher_threshold, fisher_background, 
     net_format, convert2folder):
     """
@@ -214,8 +214,8 @@ def test(support_data_folder, res_folder,
     semsim = "gic"
     
     phuego(
-        support_data_folder=support_data_folder,
-        res_folder=res_folder,
+        support_data_folder=support_folder,
+        res_folder=result_folder,
         test_path=test_path,
         fisher_geneset=fisher_geneset,
         fisher_threshold=fisher_threshold,
@@ -224,9 +224,9 @@ def test(support_data_folder, res_folder,
         layer_definition_path=layer_def_path,
         ini_pos=ini_pos,
         ini_neg=ini_neg,
-        damping_seed_propagation=damping_seed_propagation,
-        damping_ego_decomposition=damping_ego_decomposition,
-        damping_module_detection=damping_module_detection,
+        damping_seed_propagation=damping_seed,
+        damping_ego_decomposition=damping_ego,
+        damping_module_detection=damping_module,
         rwr_threshold=rwr_threshold,
         semsim=semsim,
         kde_cutoff=kde_cutoff,
@@ -241,39 +241,39 @@ def test(support_data_folder, res_folder,
 @register_command
 @click.command(cls=GroupedOptions)
 @grouped_options(
-    PATHS=['support_data_folder','res_folder','test_path'],
-    SEED_PROPAGATION=['layer_division','layer_def_path','ini_path','use_existing_rwr','damping_seed_propagation','rwr_threshold','semsim'],
-    EGO_DECOMPOSITION_CLUSTERING=['damping_ego_decomposition','kde_cutoff', 'damping_module_detection'],
+    PATHS=['support_folder','result_folder','test_path'],
+    SEED_PROPAGATION=['layer_division','layer_def_path','ini_path','use_existing_rwr','damping_seed','rwr_threshold','semsim'],
+    EGO_DECOMPOSITION_CLUSTERING=['damping_ego','kde_cutoff', 'damping_module'],
     FISHER_TEST=['fisher_geneset', 'fisher_threshold', 'fisher_background'],
     OUTPUT=['net_format', 'convert2folder', 'include_isolated_egos_in_kde_net']
 )
 # Input/Output.
-@click.option("--support_data_folder", "-sf", type=str, 
-              help="Folder that stored support data.")
-@click.option("--res_folder", "-rf", type=str, 
-              help="Folder that stored output result.")
+@click.option("--support_folder", "-sf", type=str, 
+              help="Folder that stores support data.")
+@click.option("--result_folder", "-rf", type=str, 
+              help="Folder that stores phuEGO result.")
 @click.option("--test_path", "-tpath", type=str, 
               help="Path to user test file")
 # Seed propagation.
 @click.option("--layer_division","-ld", default="phos", type=str,
-              help=("How to divide the seed nodes into layers"
-                    " 'phos': divide seed nodes into tyrosine kinases, ser/thr kinases and others;"
-                    " 'sc': divide seed nodes into receptor, transcription factors and others;"
-                    " 'custom': use -ldpath to provide a text file with user-defined layer division;"
-                    " 'one': analyze the input data without layer division."
-                    " [Default: \"phos\"]"))
+              help=("""How to divide the seed nodes into layers.
+                     \b\n'phos': divide seed nodes into tyrosine kinases, ser/thr kinases and others;
+                     \b\n'sc': divide seed nodes into receptor, transcription factors and others;
+                     \b\n'custom': use -ldpath to provide a text file with user-defined layer division;
+                     \b\n'one': analyze the input data without layer division. [Default: \"phos\"]"""))
 @click.option("--layer_def_path", "-ldpath", default="", type=str,
               help=("A text file with user-defined layer division."
                     " Required if -ld == \"custom\"."
-                    " Refer to documentation to learn about formatting."))
+                    " Refer to documentation to learn about formatting."
+                    " [Default: \"\"]"))
 @click.option("--ini_path", "-ipath", default="", type=str, 
               help=("The path of a csv file, that specify two sets of nodes to be"
                     " removed from reference network during propagation."
-                    " [Default: empty]"))
+                    " [Default: \"\"]"))
 @click.option("--use_existing_rwr", "-ru", is_flag=True, 
               help=("Should phuego reuse existing seeds network propagation results?"
                     " [Flag option. If unused, default is False]"))
-@click.option("--damping_seed_propagation", "-ds", default=0.85, type=float, 
+@click.option("--damping_seed", "-ds", default=0.85, type=float, 
               help=("Damping factor of pagerank algorithm for seeds propagation,"
                     " Float number within range [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -286,7 +286,7 @@ def test(support_data_folder, res_folder,
                     " can be one of 'gic', 'tcss', 'resnikbma'"
                     " [Default: \"gic\"]"))
 # Ego decomposition and clustering.
-@click.option("--damping_ego_decomposition", "-de", default=0.85, type=float,
+@click.option("--damping_ego", "-de", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for ego decomposition,"
                     " Float number within range [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -295,7 +295,7 @@ def test(support_data_folder, res_folder,
                      " Provided as a double quoted list of float number(s). Example: -k \"[0.5, 0.75]\"."
                      " Value should be within range [0.5,0.95]"
                      " [Default: [0.85]]"))
-@click.option("--damping_module_detection", "-dm", default=0.85, type=float,
+@click.option("--damping_module", "-dm", default=0.85, type=float,
               help=("Damping factor of pagerank algorithm for module detection,"
                     " Float number within page [0.5, 0.95]"
                     " [Default: 0.85]"))
@@ -323,10 +323,10 @@ def test(support_data_folder, res_folder,
 @click.option("--include_isolated_egos_in_kde_net", "-ie", is_flag=True, 
               help=("Should we include isolated nodes in the output network?"
                     " [Flag option. If unused, default is False]")) 
-def main(support_data_folder, res_folder, test_path, 
-    layer_division, layer_def_path, ini_path, damping_seed_propagation, 
+def main(support_folder, result_folder, test_path, 
+    layer_division, layer_def_path, ini_path, damping_seed, 
     rwr_threshold, use_existing_rwr, semsim,
-    damping_ego_decomposition, kde_cutoff, damping_module_detection, 
+    damping_ego, kde_cutoff, damping_module, 
     fisher_geneset, fisher_threshold, fisher_background, 
     net_format, convert2folder, include_isolated_egos_in_kde_net):
     """
@@ -350,8 +350,8 @@ def main(support_data_folder, res_folder, test_path,
 
 
     phuego(
-        support_data_folder=support_data_folder,
-        res_folder=res_folder,
+        support_data_folder=support_folder,
+        res_folder=result_folder,
         test_path=test_path,
         fisher_geneset=fisher_geneset,
         fisher_threshold=fisher_threshold,
@@ -360,9 +360,9 @@ def main(support_data_folder, res_folder, test_path,
         layer_definition_path=layer_def_path,
         ini_pos=ini_pos,
         ini_neg=ini_neg,
-        damping_seed_propagation=damping_seed_propagation,
-        damping_ego_decomposition=damping_ego_decomposition,
-        damping_module_detection=damping_module_detection,
+        damping_seed_propagation=damping_seed,
+        damping_ego_decomposition=damping_ego,
+        damping_module_detection=damping_module,
         rwr_threshold=rwr_threshold,
         semsim=semsim,
         kde_cutoff=kde_cutoff,
