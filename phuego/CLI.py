@@ -7,7 +7,7 @@ from .phuego import phuego
 from .phuego_mock import phuego_mock
 import click
 
-VERSION = '1.1.0'
+VERSION = '1.2.0'
 
 # changes the default parameters to -h and --help instead of just --help
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -258,7 +258,6 @@ def test(support_folder, result_folder,
 @click.option("--layer_division","-ld", default="phos", type=str,
               help=("""How to divide the seed nodes into layers.
                      \b\n'phos': divide seed nodes into tyrosine kinases, ser/thr kinases and others;
-                     \b\n'sc': divide seed nodes into receptor, transcription factors and others;
                      \b\n'custom': use -ldpath to provide a text file with user-defined layer division;
                      \b\n'one': analyze the input data without layer division. [Default: \"phos\"]"""))
 @click.option("--layer_def_path", "-ldpath", default="", type=str,
