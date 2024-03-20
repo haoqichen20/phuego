@@ -281,8 +281,8 @@ def test(support_folder, result_folder,
                     " Float number within range [0.01, 0.1]"
                     " [Default: 0.05]"))
 @click.option("--semsim", "-ss", default="gic", type=str, 
-              help=("The type of semantic similarity to use. If using premade supporting dataset,"
-                    " can be one of 'gic', 'tcss', 'resnikbma'"
+              help=("The type of semantic similarity to use. If using slim version"
+                    " of premade supporting dataset, only \"gic\" is available."
                     " [Default: \"gic\"]"))
 # Ego decomposition and clustering.
 @click.option("--damping_ego", "-de", default=0.85, type=float,
