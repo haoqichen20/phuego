@@ -9,7 +9,7 @@
 project = 'phuego'
 copyright = '2024, Girolamo Giudice, Haoqi Chen, Thodoris Koutsandreas, Evangelia Petsalaki'
 author = 'Girolamo Giudice, Haoqi Chen, Thodoris Koutsandreas, Evangelia Petsalaki'
-release = '1.1.0'
+release = '1.2.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
