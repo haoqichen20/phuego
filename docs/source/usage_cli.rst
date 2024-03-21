@@ -1,71 +1,92 @@
 Running phuEGO
 ==============
 
-The main analysis of phuEGO is implemented by the CLI. Paths for the supporting 
-dataset, input data, and the desired result folder should be provided, along with
-other parameters. These can either be directly provided using command 
-line flags, or aggregated in a text file (hence **argument file**) for clarity. 
-
-The flags and arguments for the command line interface can be divided into two sets.
-The first set includes parameters of the methods. 
-The second set controls the execution of the program.
-For an overview of CLI arguments, use:
+The main analysis of phuEGO is implemented by the command line interface (CLI). 
+Paths for the supporting dataset, input data, and the desired result folder 
+should be provided, along with other parameters. Check all parameters of the CLI with:
 
 .. code-block:: bash
 
-   phuego --help
+   phuego main -h
 
-
+Most parameters have default values assigned. The parameters are divided into 
+several groups for clarity, following the flow of the analysis. 
+Below, we showcase the usage of the software with a few examples.
 
 .. _CLI:
 
-Command line interface
-~~~~~~~~~~~~~~~~~~~~~~
+Analysis with default parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Analyzing an input data named protein_list.txt, with damping factor of 0.85, 
-kde_cutoff of 0.85, and geneset of "KEGG".
+Analyzing an input data named protein_list.txt.
 
 .. code-block:: bash
 
-   phuego\
+   phuego main\
     -sf "path/to/support_data_folder/"\
     -rf "path/to/desired_result_folder/"\
-    -tpath "path/to/protein_list.txt"\
-    -d 0.85\
-    -k 0.85\
-    -fg "K"
-
+    -tpath "path/to/protein_list.txt"
 
 
 .. _reuse:
 
-Re-using network propagation results
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reusing seed propagation results, kde_cutoff
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As the network propagation step is the most time consuming step, phuEGO save
+As the seed_propagation step is the most time consuming step, phuEGO save
 the intermediate result in three files
 (start_seeds.txt, rwr_scores.txt, pvalues.txt).
-The user can reuse them on the same input data with the same damping factor,
+The user can reuse them to skip the seed propagation step
 by providing flag **-ru**. This allows testing downstream steps with
-different parameters (e.g., different kde_cutoff) conveniently.
+different parameters conveniently.
+
+The parameter **-k** is a threshold that dictates the signal contraction steps (ego_decomposition), 
+and has the most influence on the results. Larger kde_cutoff results in smaller networks. phuEGO allows
+testing various cutoff values in one execution.
 
 .. container::
    
    Analyzing the same input data while re-using network propagation result.
-   Testing two different KDE_cutoff values, two different genesets, 
-   and export the network in a different format.
+   Testing three different KDE_cutoff values, perform over-representation analysis
+   against different genesets, and export the network in a different format.
 
    .. code-block:: bash
    
-      phuego\
+      phuego main\
        -sf "path/to/support_data_folder/"\
        -rf "path/to/desired_result_folder/"\
        -tpath "path/to/protein_list.txt"\
        -ru\
-       -k 0.8 -k 0.9\
-       -fg "C" -fg "B"\
-       -nf "edgelist"
+       -k "[0.5, 0.7, 0.85]"\
+       -fg "['K', 'R', 'B']"\
+       -nf "ncol"
 
+
+.. _damping:
+
+Damping factors
+~~~~~~~~~~~~~~~
+
+Damping factor dictates the behaviour of the random walk with restart process, 
+which is implemented by the 
+`personalized_pagerank <https://igraph.org/python/doc/api/igraph._igraph.GraphBase.html#personalized_pagerank>`
+algorithm. Specifically, at every step of the random walk, there is a probability of **1 - damping** of restarting.
+Since the personalized_pagerank algorithm is used in three steps of phuEGO, there are three parameters for this. 
+These parameters have limited influence of the final results. 
+We suggest keeping all damping factors at default value of 0.85, following the original pagerank implementation, 
+or testing a couple of values for damping_seed only, which has the most influence (albeit still limited) of the three.
+Analysis with different damping factor values need to be submitted as separate jobs.
+
+.. container::
+
+   .. code-block:: bash
+   
+      phuego main\
+       -sf "path/to/support_data_folder/"\
+       -rf "path/to/desired_result_folder/"\
+       -tpath "path/to/protein_list.txt"\
+       -ds 0.7\
+       -k "[0.5, 0.7, 0.85]"\
 
 .. _user_defined_layers:
 
@@ -77,17 +98,22 @@ serine/threonine kinases, and others, and perform random-walk-with-restart
 (pagerank) within each layers. Users can provide their own definition of layers,
 as well as running the method with one or two layers where they see fit. 
 
-The layers can be defined as below:
+The layers can be defined as a tab-delimited text file, with row1 as layer1 and row2 
+as layer2, and the layer name in the first column. Uniprot ID of proteins should be used.
 
-..code-block::
+For three layer classification, define two layers and other proteins will be classify as a third layer. 
+If one layer is provided, a two layer classification will be made. 
 
-   TODO
+.. code-block::
+
+   layer1_name uniprotID_1 uniprotID_2 uniprotID_3 
+   layer2_name uniprotID_4 uniprotID_5 uniprotID_5
 
 And it can be run with the following:
 
 .. code-block:: bash
 
-   TODO
+   
 
 
 
