@@ -35,31 +35,6 @@ kde_cutoff of 0.85, and geneset of "KEGG".
     -k 0.85\
     -fg "K"
 
-.. warning::
-
-   For Windows users, please provide the paths with forward slash ‘/’ 
-   instead of backward slash ‘\\’.
-
-
-
-.. _argument_file:
-
-Argument file
-~~~~~~~~~~~~~
-
-Example of an argument file:
-
-.. code-block::
-
-   TODO
-
-
-Using the argument file:
-
-.. code-block:: bash
-
-   TODO
-
 
 
 .. _reuse:

@@ -1,24 +1,23 @@
 Installation
 ============
 
-.. container::
+phuEGO require python version 3.8 - 3.13.
 
-   phuEGO require python version 3.8 - 3.13.
+   .. code-block:: bash
 
-      .. code-block:: bash
+      pip install phuego
 
-         pip install phuego
+Check version and commands of CLI:
 
-   Check version and commands of CLI:
+   .. code-block:: bash
+      
+      phuego --version
+      phuego --help
 
-      .. code-block:: bash
-         
-         phuego --version
-         phuego --help
+The CLI currently offers three commands: mock, test and main. 
+The mock and test are for testing/tutorial purposes (see :doc:`Testing the package <mock_test_run>`).
+Users can check the parameters for each command separately. For example:
 
-   The CLI currently offers three commands: mock, test and main. 
-   The mock and test are for testing/tutorial purposes (see :doc:`Testing the package <Testing the package>`).
-   Users can check the parameters for each command separately. For example:
-   
-      .. code-block:: bash
-         phuego main -h
+   .. code-block:: bash
+
+      phuego main -h

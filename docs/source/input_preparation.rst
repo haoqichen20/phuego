@@ -10,34 +10,21 @@ within the same layer. User can :ref:`view the example input data <example_input
 
 .. _aggregation:
 
-Aggregating phosphosites
-~~~~~~~~~~~~~~~~~~~~~~~~
+Aggregating phosphosites (**Active development**)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A phosphoproteomics experiment typically produced a list of phosphosites with 
 LFC between test and control samples. To perform network propagation
 using protein-protein interaction network, the phosphosites need to be aggregated
-into a protein list. In the :ref:`publication <citation>`, this is done with the 
-following function:
+into a protein list. In the :ref:`publication <citation>`, this is performed by
+filtering phosphosites on `functional scores <https://www.nature.com/articles/s41587-019-0344-3>`__, 
+and aggregating using maximal LFC. 
 
+The authors of phuEGO are currently developing additional functions for this step, which will be released
+in near-future update of the package. Besides functional score, 
+predicted signs of regulation of the phosphosites on protein functions will also be used for aggregation.
 
-.. container::
-
-   The package provides the following Python function to perform this step:
-
-      .. code-block:: python
-
-         pass
-
-
-Phosphosite functional score and SELPHI2.0 sign prediction (**Beta**)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-How phosphosrylation regulate protein function is a topic being actively studied.
-Signs of LFC of phosphosites does not always correponds to signs of
-regulation. On the other hand, some phosphorylation sites play a more important
-role than others. To take these into consideration, the users can make use of 
-`functional score predictions <url_to_Ochoa_paper>`__ and 
-`signs predictions <url_to_SELPHI2.0_paper>`__ for phosphosite integration.
+The users can also develop their own method of phosphosite aggregation.
 
 .. container::
 
