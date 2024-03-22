@@ -74,7 +74,7 @@ algorithm. Specifically, at every step of the random walk, there is a probabilit
 Since the personalized_pagerank algorithm is used in three steps of phuEGO, there are three parameters for this. 
 These parameters have limited influence of the final results. 
 We suggest keeping all damping factors at default value of 0.85, following the original pagerank implementation, 
-or testing a couple of values for damping_seed only, which has the most influence (albeit still limited) of the three.
+or testing a couple of values for damping_seed only, which has the most influence of the three.
 Analysis with different damping factor values need to be submitted as separate jobs.
 
 .. container::
@@ -98,23 +98,37 @@ serine/threonine kinases, and others, and perform random-walk-with-restart
 (pagerank) within each layers. Users can provide their own definition of layers,
 as well as running the method with one or two layers where they see fit. 
 
-The layers can be defined as a tab-delimited text file, with row1 as layer1 and row2 
-as layer2, and the layer name in the first column. Uniprot ID of proteins should be used.
-
+The customized layer definition can be provided as a tab-delimited text file, with the first row as layer1 and 
+the second row as layer2, and the layer namesin the first column. Uniprot ID of proteins should be used. 
 For three layer classification, define two layers and other proteins will be classify as a third layer. 
-If one layer is provided, a two layer classification will be made. 
+For two layer classification, define one layer only. If the user wish to test the list as one layer, this is 
+available through the -ld parameter.
+
+Format of layer definition:
 
 .. code-block::
 
    layer1_name uniprotID_1 uniprotID_2 uniprotID_3 
    layer2_name uniprotID_4 uniprotID_5 uniprotID_5
 
-And it can be run with the following:
+Example code:
 
 .. code-block:: bash
 
-   
+   # Run with customized layers
+   phuego main\
+    -sf "path/to/support_data_folder/"\
+    -rf "path/to/desired_result_folder/"\
+    -tpath "path/to/protein_list.txt"\
+    -ld "custom"\
+    -ldpath "path/to/layer_definition.txt"
 
+   # Run as one layer.
+   phuego main\
+    -sf "path/to/support_data_folder/"\
+    -rf "path/to/desired_result_folder/"\
+    -tpath "path/to/protein_list.txt"\
+    -ld "one"
 
 
 .. _remove_perturbed_node:
@@ -139,14 +153,11 @@ provided as following:
 
 .. code:: bash
 
-   phuego\
+   phuego main\
     -sf "path/to/support_data_folder/"\
     -rf "path/to/desired_result_folder/"\
     -tpath "path/to/protein_list.txt"\
-    -ipath "path/to/targets_list.csv"\
-    -d 0.85\
-    -k 0.85\
-    -fg "K" 
+    -ipath "path/to/targets_list.csv"
 
 
 
@@ -155,10 +166,9 @@ provided as following:
 Batch job submission
 ~~~~~~~~~~~~~~~~~~~~
 
-Each phuEGO run works with one protein list and one damping factor. If
+Each phuEGO run works with one protein list and one set of damping factors. If
 you have multiple protein lists (e.g., from a set of experiment), and/or
-would like to test multiple damping factors, you could use a .sh script
-to call phuEGO multiple times, and submit jobs in batch manner. Below we
+would like to test multiple damping factors, you could submit a job batch. Below we
 provide a .sh script for a LSF cluster as an example.
 
 To do so, first create a test_datasets.txt file that store the path to
@@ -206,16 +216,12 @@ result_dir. Modify argument value to suit your need.
            damping_dir="$exp_dir/$damping"
            mkdir -p $damping_dir
 
-           # Run phuEGO with this damping factor, intact background and two kde_cutoff. 
-           # Run with 4 cores to increase the speed.
+           # Use 4 cores to accelerate.
            bsub -n 4 -M 4096 -R "rusage[mem=4096]" -o log.txt -e err.txt -J "$job_name" \
-           phuego\
+           phuego main\
             -sf "Path/to/support_data/"\
             -rf "$damping_dir"\
             -tpath "$line"\
-            -d $damping\
-            -k 0.85 -k 0.9\
-            -fg "B" -fg "K"\
-            -nf "graphml"
+            -d $damping
        done
    done

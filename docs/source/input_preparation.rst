@@ -12,13 +12,13 @@ User can :ref:`view the example input data <example_input>`.
 
 .. _aggregation:
 
-Aggregating phosphosites (**Active development**)
+Aggregating phosphosites (**active development**)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A phosphoproteomics experiment typically produced a list of phosphosites with 
 LFC between test and control samples. To perform network propagation
 using protein-protein interaction network, the phosphosites need to be aggregated
-into a protein list. In the main analysis of :ref:`publication <citation>`, this is performed by
+into a protein list. In the main analysis of the :ref:`publication <citation>`, this is performed by
 filtering phosphosites on `functional scores <https://www.nature.com/articles/s41587-019-0344-3>`__, 
 and aggregating using maximal LFC. The users can follow the same practice, or adjust it where they deem appropriate.
 
