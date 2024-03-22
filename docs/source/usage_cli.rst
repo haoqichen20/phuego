@@ -30,8 +30,8 @@ Analyzing an input data named protein_list.txt.
 
 .. _reuse:
 
-Reusing seed propagation results, kde_cutoff
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reusing seed propagation results, kde_cutoff and Fisher test
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As the seed_propagation step is the most time consuming step, phuEGO save
 the intermediate result in three files
@@ -43,6 +43,12 @@ different parameters conveniently.
 The parameter **-k** is a threshold that dictates the signal contraction steps (ego_decomposition), 
 and has the most influence on the results. Larger kde_cutoff results in smaller networks. phuEGO allows
 testing various cutoff values in one execution.
+
+phuEGO has built in list of genesets, for geneset over-representation analysis (Fisher's exact test) 
+of the seed nodes, nodes of the final network modules, and intermediate steps. Testing all these lists 
+help determine the effect of signal expansion and contraction steps. For interpretation of results, the user 
+would be most interested in the modules. The Fisher genesets are provided through the parameter **-fg**, 
+as a list of quoted strings. See :doc:`output` for more details.
 
 .. container::
    
