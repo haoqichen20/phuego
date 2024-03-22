@@ -30,8 +30,8 @@ Analyzing an input data named protein_list.txt.
 
 .. _reuse:
 
-Reusing seed propagation results, kde_cutoff and Fisher test
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reusing seed propagation results, kde_cutoff and genesets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As the seed_propagation step is the most time consuming step, phuEGO save
 the intermediate result in three files
