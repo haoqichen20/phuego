@@ -9,7 +9,7 @@ phuEGO is a network-based method to reconstruct active signalling pathways from 
 
 Refer to [documentation](https://phuego.readthedocs.io/en/latest/) for details on installation and executation.
 The package is currently distributed with [PyPI](https://pypi.org/project/phuego/). 
-Check the [Zenodo](https://zenodo.org/records/8094690) page for the premade support dataset, which contains processed reference network with semantic similarity,
+Check the [Zenodo](https://zenodo.org/records/10839901) page for the premade support dataset, which contains processed reference network with semantic similarity,
 or the [Nextflow pipeline](https://github.com/haoqichen20/phuego_support) to generate your customized support dataset.
 
 
